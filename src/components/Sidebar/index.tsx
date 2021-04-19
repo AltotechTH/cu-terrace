@@ -10,6 +10,7 @@ import { Nav, NavIcon, SidebarNav, SidebarWrap, LabelName, NavItems } from './Si
 import Avatar from '@material-ui/core/Avatar';
 import Badge from '@material-ui/core/Badge';
 import MailIcon from '@material-ui/icons/Mail';
+import SearchIcon from '@material-ui/icons/Search';
 
 const Sidebar: FC = () => {
   const [sidebar, setSidebar] = useState(false);
@@ -32,10 +33,20 @@ const Sidebar: FC = () => {
           </p>
         </LabelName>
         <NavItems>
-          <Badge badgeContent={4} color="secondary">
-            <MailIcon />
-          </Badge>
-          <Avatar alt="Remy Sharp" src="/altotech.png" />
+          <div className='spacing'>
+            <SearchIcon />
+          </div>
+          <div className='spacing'>
+            <Badge badgeContent={4} color="secondary">
+              <MailIcon />
+            </Badge>
+          </div>
+
+          <div className='spacing'>
+            <Avatar alt="Remy Sharp" src="/altotech.png" />
+          </div>
+
+
         </NavItems>
 
       </Nav>

@@ -18,3 +18,8 @@ body {
   color: #000000;
   height: 90vh;
 }
+
+.spacing {
+  padding: 0px 15px 0px 15px;
+  cursor: pointer;
+}

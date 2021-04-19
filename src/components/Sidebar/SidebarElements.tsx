@@ -14,7 +14,7 @@ export const SidebarNav = styled.div<{ sidebar: boolean }>`
     height: 100vh;
     background-color: #ffff;
     position: fixed;
-    top: 0;
+    top: 5rem;
     left: ${({ sidebar }) => (sidebar ? '0' : '-100%')};
     transition: 350ms;
 `;
@@ -36,6 +36,7 @@ export const LabelName = styled.div`
     font-size: 1.3rem;
     margin-left: 2rem;
     color: black;
+    width: 100%;
 `
 
 export const NavItems = styled.div`
