@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import './App.css';
 import Sidebar from './components/Sidebar';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import {
   Configurations,
   History,
@@ -22,6 +22,7 @@ const App: FC = () => {
         <Route path="/floor-usage" component={FloorUsage} exact></Route>
         <Route path="/report" component={History} exact></Route>
         <Route path="/bill" component={Configurations} exact></Route>
+        <Redirect to='/dashboard' />
       </Switch>
     </Router>
   );

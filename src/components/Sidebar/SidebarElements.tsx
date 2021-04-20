@@ -17,6 +17,7 @@ export const SidebarNav = styled.div<{ sidebar: boolean }>`
     top: 5rem;
     left: ${({ sidebar }) => (sidebar ? '0' : '-100%')};
     transition: 350ms;
+    z-index: 999;
 `;
 
 export const NavIcon = styled(Link) <any>`
