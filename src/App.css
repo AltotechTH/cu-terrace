@@ -7,7 +7,7 @@
 html,
 body {
   color: #ffff;
-  background-color: #e1ebf3;
+  background-color: #f1f4f7;
 }
 
 .overview {
@@ -22,4 +22,13 @@ body {
 .spacing {
   padding: 0px 15px 0px 15px;
   cursor: pointer;
+}
+
+.content {
+  top: 5rem;
+  margin: 1rem;
+  height: 90vh;
+}
+.label-top {
+  transform: translateY(-10px);
 }
