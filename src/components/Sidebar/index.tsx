@@ -21,7 +21,7 @@ const Sidebar: FC = () => {
       <Nav>
         <NavIcon to="#" onClick={showSidebar}>
           {/* <AiOutlineMenu /> */}
-          <img src='/altotech.png' alt="description of image" width={60} />
+          <img src='/assets/img/altotech.png' alt="description of image" width={60} />
         </NavIcon>
         <LabelName>
           <small style={{ fontSize: '15px', color: 'grey' }}>
@@ -41,12 +41,9 @@ const Sidebar: FC = () => {
               <MailIcon />
             </Badge>
           </div>
-
           <div className='spacing'>
-            <Avatar alt="Remy Sharp" src="/altotech.png" />
+            <Avatar alt="Remy Sharp" src="/assets/img/altotech.png" />
           </div>
-
-
         </NavItems>
 
       </Nav>
