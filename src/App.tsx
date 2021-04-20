@@ -9,6 +9,7 @@ import {
   Overview,
   // Revenue, Users
 } from './pages/Overview';
+import { Dashboard } from 'pages/Dashboard'
 import { FloorUsage } from 'pages/FloorUsage';
 
 const App: FC = () => {
@@ -16,7 +17,7 @@ const App: FC = () => {
     <Router>
       <Sidebar />
       <Switch>
-        <Route path="/dashboard" component={Overview} exact></Route>
+        <Route path="/dashboard" component={Dashboard} exact></Route>
         {/* <Route path="/floor-usage" component={Users} exact></Route>
         <Route path="/overview/revenue" component={Revenue} exact></Route> */}
         <Route path="/floor-usage" component={FloorUsage} exact></Route>

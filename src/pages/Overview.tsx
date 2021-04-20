@@ -166,13 +166,7 @@ export const Overview: FC = () => {
     axios.get(
       "https://min-api.cryptocompare.com/data/histoday?fsym=BTC&tsym=USD&limit=50&aggregate=3&e=Kraken"
     )
-      .then(res => {
-        setData({ data: res.data["Data"] });
 
-      })
-      .catch(error => {
-        console.log(error);
-      });
   }, [])
 
 
@@ -325,16 +319,6 @@ export const Overview: FC = () => {
 
             {/* </div> */}
           </Paper>
-
-
-
-
-
-
-
-
-
-
         </Grid>
         <Grid item xs={6}>
           {/* <Paper className={classes.paper}> */}
