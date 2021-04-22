@@ -5,11 +5,13 @@ const RoomColor = styled.div<any>`
   width: 100%;
   height: 35px;
   background-color: ${(props) => props.code};
+  cursor: pointer;
 `;
 
 const RoomNumber = styled.p`
   margin: 5px 0px;
   font-size: 14px;
+  cursor: pointer;
 `;
 
 type floorTabsProps = {
@@ -46,8 +48,9 @@ export const FloorTabs = ({ floorValue }: floorTabsProps) => {
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
-            margin: '20px 0px',
+            margin: '25px 0px',
           }}
+          key={value.room}
         >
           <RoomColor code={converter(value.value)} />
           <RoomNumber>{value.room}</RoomNumber>
