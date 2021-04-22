@@ -2,22 +2,17 @@ import styled from 'styled-components';
 import { useSpring, animated } from 'react-spring';
 // import CuTerrace from 'assets/images/cuterrace.svg';
 import './style.css';
-import { Cuterrace } from './Cuterrace';
-import { Cuihouse } from './Cuihouse';
+import { CuiHouse } from './CuiHouse';
+import { CuTerrace } from './CuTerrace';
 
 const Building = styled.div`
-  margin: 5px;
+  margin: 5px 20px;
   position: relative;
   display: flex;
   height: 100%;
   cursor: pointer;
-
-  :first-child {
-    justify-content: flex-start;
-  }
-  :last-child {
-    justify-content: flex-end;
-  }
+  justify-content: center;
+  align-items: flex-end;
 `;
 
 const BuildingName = styled.p`
@@ -26,29 +21,58 @@ const BuildingName = styled.p`
   bottom: 0px;
   width: 200px;
   font-weight: bold;
+  text-align: center;
 `;
 
-export const Buildings = ({ isFirstBuilding, onSelectedFloor, onMouseMove }: any) => {
+export const Buildings = ({
+  isFirstBuilding,
+  onSelectedFloor,
+  onMouseMove,
+  opacityStateTerrace,
+  opacityStateiHouse,
+  onMouseLeave,
+  selectedFloorYTerrace,
+  selectedFloorYiHouse,
+}: any) => {
   const AnimatedBuilding = animated(Building);
 
   const buildingAProps = useSpring({
-    from: { width: '20%' },
-    width: isFirstBuilding ? '80%' : '20%',
+    from: { width: '30%' },
+    width: isFirstBuilding ? '70%' : '30%',
   });
 
   const buildingBProps = useSpring({
-    from: { width: '80%' },
-    width: isFirstBuilding ? '20%' : '80%',
+    from: { width: '70%' },
+    width: isFirstBuilding ? '30%' : '70%',
   });
   return (
     <>
       <AnimatedBuilding style={buildingAProps}>
-        <Cuterrace onClick={onSelectedFloor} onMouseMove={onMouseMove} />
-        <BuildingName>Building : CU Terrace</BuildingName>
+        <CuTerrace
+          onClick={onSelectedFloor}
+          onMouseMove={onMouseMove}
+          opacityStateTerrace={opacityStateTerrace}
+          onMouseLeave={onMouseLeave}
+          selectedFloorY={selectedFloorYTerrace}
+        />
+        <BuildingName>
+          Building <br />
+          CU Terrace
+        </BuildingName>
       </AnimatedBuilding>
       <AnimatedBuilding style={buildingBProps}>
-        <Cuihouse onClick={onSelectedFloor} onMouseMove={onMouseMove} />
-        <BuildingName>Building : CU iHouse</BuildingName>
+        <CuiHouse
+          onClick={onSelectedFloor}
+          onMouseMove={onMouseMove}
+          opacityStateiHouse={opacityStateiHouse}
+          onMouseLeave={onMouseLeave}
+          selectedFloorY={selectedFloorYiHouse}
+        />
+        <BuildingName>
+          Building
+          <br />
+          CU iHouse
+        </BuildingName>
       </AnimatedBuilding>
     </>
   );

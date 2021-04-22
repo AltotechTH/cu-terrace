@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Grid, Paper } from '@material-ui/core';
 import { makeStyles, createStyles, Theme, withStyles } from '@material-ui/core/styles';
 import { CardHeader } from 'components/CardHeader';
 import { Buildings } from './Buildings';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
 import { SummaryTabs } from './SummaryTabs';
 import { RangeTabs } from './RangeTabs';
+import { EventTabs } from './EventTabs';
 import { FloorTabs } from './FloorTabs';
+import { Tabs, Tab } from 'components/StyledTabs/StyledTabs';
+import { EnergyConsumptionButton } from './EnergyConsumptionButton';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -30,7 +31,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const data = [
+const energyData = [
   { name: 'Energy Consumption', value: 125, unit: 'kWh' },
   {
     name: 'Predicted Cost',
@@ -49,12 +50,23 @@ const data = [
   },
 ];
 
-const tabsData = [
-  { code: 'rgb(215, 245, 228)', range: '0-10 kWh' },
-  { code: 'rgb(200, 231, 253)', range: '10-20 kWh' },
-  { code: 'rgb(73, 161, 248)', range: '20-30 kWh' },
-  { code: 'rgb(57, 124, 221)', range: '30-40 kWh' },
-  { code: 'rgb(32, 77, 141)', range: '40-50 kWh' },
+const eventData = [
+  { name: 'Total Room', value: 125, unit: 'unit' },
+  {
+    name: 'IoT Disconnected',
+    value: 1,
+    unit: 'unit',
+  },
+  {
+    name: 'Anomaly Event',
+    value: 3,
+    unit: 'unit',
+  },
+  {
+    name: 'Tenant Request',
+    value: 1,
+    unit: 'unit',
+  },
 ];
 
 const roomsData = [
@@ -93,14 +105,24 @@ const roomsData = [
 export const FloorUsage = () => {
   const [isFirstBuilding, setIsFirstBuilding] = useState(false);
   const [selectedFloor, setSelectedFloor] = useState('06');
-  const [mode, setMode] = useState('Energy');
+  const [selectedTab, setSelectedTab] = useState('Energy');
+  const [opacityStateTerrace, setOpacityStateTerrace] = useState(0);
+  const [opacityStateiHouse, setOpacityStateiHouse] = useState(0);
+  const [selectedFloorYTerrace, setSelectedFloorYTerrace] = useState<string>('0');
+  const [selectedFloorYiHouse, setSelectedFloorYiHouse] = useState<string>('0');
+  const [summaryData, setSummaryData] = useState(energyData);
+  const [selectedGraph, setSelectedGraph] = useState(false);
 
   const classes = useStyles();
 
-  const [tabValue, setTabValue] = useState(1);
-
-  const handleChange = (event: React.ChangeEvent<{}>, newValue: number) => {
-    setTabValue(newValue);
+  const handleChangeTab = (value: string) => {
+    setSelectedTab(value);
+    if (value === 'Energy') {
+      setSummaryData(energyData);
+    }
+    if (value === 'Event') {
+      setSummaryData(eventData);
+    }
   };
 
   const onSelectedFloor = (e: any) => {
@@ -111,10 +133,30 @@ export const FloorUsage = () => {
 
   const onMouseMove = (e: any) => {
     if (e.target.getAttribute('class') !== null && e.target.getAttribute('class').split('_')[0]) {
-      setSelectedFloor(
-        e.target.getAttribute('class').split('_')[0] + e.target.getAttribute('class').split('_')[1]
-      );
+      let classAttr = e.target.getAttribute('class').split('_');
+      setSelectedFloor(classAttr[0] + classAttr[1]);
+      if (classAttr[0] === 'iHouse') {
+        setOpacityStateiHouse(0.5);
+        setSelectedFloorYiHouse((24.6 * classAttr[1] - 24.6).toString());
+      }
+      if (classAttr[0] === 'Terrace') {
+        setOpacityStateTerrace(0.5);
+        setSelectedFloorYTerrace((24.6 * classAttr[1] - 24.6).toString());
+      }
     }
+  };
+
+  const onMouseLeave = () => {
+    setOpacityStateiHouse(0);
+    setOpacityStateTerrace(0);
+  };
+
+  const closeModal = () => {
+    setSelectedGraph(false);
+  };
+
+  const openModal = () => {
+    setSelectedGraph(true);
   };
 
   return (
@@ -131,14 +173,19 @@ export const FloorUsage = () => {
             display: 'flex',
             flexDirection: 'row',
             height: '800px',
-            padding: '20px 80px 20px 80px',
-            marginTop: '-80px',
+            padding: '20px 30px 20px 50px',
+            marginTop: '-10px',
           }}
         >
           <Buildings
             isFirstBuilding={isFirstBuilding}
             onSelectedFloor={onSelectedFloor}
             onMouseMove={onMouseMove}
+            opacityStateiHouse={opacityStateiHouse}
+            opacityStateTerrace={opacityStateTerrace}
+            onMouseLeave={onMouseLeave}
+            selectedFloorYiHouse={selectedFloorYiHouse}
+            selectedFloorYTerrace={selectedFloorYTerrace}
           />
         </Grid>
         <Grid item xs={12} sm={7}>
@@ -150,16 +197,9 @@ export const FloorUsage = () => {
               </h2>
             </Grid>
             <Grid item xs={12}>
-              <Tabs
-                value={tabValue}
-                indicatorColor="primary"
-                textColor="primary"
-                onChange={handleChange}
-                aria-label="disabled tabs example"
-                // TabIndicatorProps={{ style: { background: '#000000' } }}
-              >
-                <Tab label="Event" />
-                <Tab label="Energy" />
+              <Tabs>
+                <Tab defaultValue={'Energy'} selectedTab={selectedTab} onClick={handleChangeTab} />
+                <Tab defaultValue={'Event'} selectedTab={selectedTab} onClick={handleChangeTab} />
               </Tabs>
             </Grid>
             <Grid item xs={12}>
@@ -170,7 +210,7 @@ export const FloorUsage = () => {
                     xs={12}
                     style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center' }}
                   >
-                    <SummaryTabs summaryData={data} />
+                    <SummaryTabs summaryData={summaryData} />
                   </Grid>
                   <Grid
                     item
@@ -180,9 +220,20 @@ export const FloorUsage = () => {
                       flexDirection: 'row',
                       justifyContent: 'center',
                       borderBottom: '1px solid #ededed',
+                      padding: '0px 15px 10px 15px',
                     }}
                   >
-                    <RangeTabs RangeData={tabsData} />
+                    {selectedTab === 'Energy' && (
+                      <>
+                        <RangeTabs />
+                        <EnergyConsumptionButton
+                          openModal={openModal}
+                          selectedGraph={selectedGraph}
+                          closeModal={closeModal}
+                        />
+                      </>
+                    )}
+                    {selectedTab === 'Event' && <EventTabs />}
                   </Grid>
                   <Grid container spacing={3} style={{ padding: '15px 40px' }}>
                     <FloorTabs floorValue={roomsData} />

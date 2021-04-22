@@ -43,7 +43,7 @@ export const SummaryTabs = ({ summaryData }: SummaryProps) => {
   return (
     <>
       {summaryData.map((data) => (
-        <SingleTab>
+        <SingleTab key={data.name}>
           <Name>{data.name}</Name>
           <div style={{ display: 'flex', flexDirection: 'row' }}>
             <Value>{data.value}</Value>
