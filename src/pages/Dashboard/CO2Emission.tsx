@@ -1,46 +1,37 @@
-import React from 'react'
-import Paper from '@material-ui/core/Paper'
-import Grid from '@material-ui/core/Grid'
-import { HiOutlineLightBulb } from 'react-icons/hi'
+import { Card } from './styles'
+import CO2LO from 'assets/images/icon/CO2LO.svg'
+import Car from 'assets/images/icon/Car.svg'
+import Tree from 'assets/images/icon/Tree.svg'
 
 const CO2Emission = () => {
   return (
-    <div style={{ marginLeft: '100px', position: 'relative', bottom: '3em' }}>
-      <Grid container spacing={2}>
 
+    <div style={{ position: 'relative', bottom: '2.5em', display: 'flex', width: '100%', justifyContent: 'center' }}>
+      {/* <Grid container spacing={2}> */}
 
+      <Card style={{ width: '184px', margin: '10px', height: '75px', padding: 10, fontSize: '12px', display: 'flex' }}>
 
-        {/* <Grid item xs={4}>
+        <img src={CO2LO} alt="co2lo" />
+        <div style={{ display: 'grid', textAlign: 'left', marginLeft: '10px' }}>
+          CO2 Emissions
+          <strong style={{ fontSize: '16px' }}>1,260 kg</strong>
+        </div>
 
-          <Paper style={{ backgroundColor: '#fafafa', borderRadius: '10px', margin: '5px' }}>
-            <span style={{ fontSize: '9px', textAlign: 'center', display: 'block', marginBottom: '10px' }}>Humidity</span>
-            <strong style={{ fontSize: '16px', textAlign: 'center' }}>50%</strong>
-
-            <div style={{ width: "100%", display: 'inline-flex', alignItems: 'baseline', marginBottom: '15px' }}>
-              <Paper style={{ width: '35px', padding: '5px', borderRadius: '30%', backgroundColor: '#0077ff' }}>
-                <HiOutlineLightBulb color='#ffff' fontSize={20} />
-              </Paper>
-
-            </div>
-          </Paper>
-        </Grid> */}
-        {/* <Grid item xs={4}>
-
-          <Paper style={{ width: '70px', paddingTop: '10px', paddingBottom: '10px', borderRadius: '30%', backgroundColor: '#ffff', margin: '5px', }}>
-            <span style={{ fontSize: '9px', textAlign: 'center', display: 'block', marginBottom: '10px' }}>Humidity</span>
-            <strong style={{ fontSize: '16px', textAlign: 'center' }}>50%</strong>
-          </Paper>
-        </Grid>
-        <Grid item xs={4}>
-
-          <Paper style={{ width: '70px', paddingTop: '10px', paddingBottom: '10px', borderRadius: '30%', backgroundColor: '#ffff', margin: '5px', }}>
-            <span style={{ fontSize: '9px', textAlign: 'center', display: 'block', marginBottom: '10px' }}>Humidity</span>
-            <strong style={{ fontSize: '16px', textAlign: 'center' }}>50%</strong>
-          </Paper>
-        </Grid> */}
-
-      </Grid>
-
+      </Card>
+      <Card style={{ width: '184px', margin: '10px', height: '75px', padding: 10, fontSize: '12px', display: 'flex' }}>
+        <img src={Tree} alt="tree" />
+        <div style={{ display: 'grid', textAlign: 'left', marginLeft: '10px' }}>
+          Trees to Absorb CO2
+          <strong style={{ fontSize: '16px' }}>980 Trees</strong>
+        </div>
+      </Card>
+      <Card style={{ width: '184px', margin: '10px', height: '75px', padding: 10, fontSize: '12px', display: 'flex' }}>
+        <img src={Car} alt="tree" />
+        <div style={{ display: 'grid', textAlign: 'left', marginLeft: '10px' }}>
+          Annual Car Use
+          <strong style={{ fontSize: '16px' }}>120,000 km</strong>
+        </div>
+      </Card>
     </div >
   )
 }

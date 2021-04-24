@@ -15,6 +15,7 @@ const Submenu: FC<SidebarLinkProps> = ({ item }) => {
       <SidebarLink to={item.path} onClick={showSubnav}>
         <div>
           {item.icon}
+          <br />
           <SidebarLabel>{item.title}</SidebarLabel>
         </div>
         <div>{item?.subnav && subnav ? item?.iconOpened : item?.iconClosed}</div>
@@ -24,7 +25,7 @@ const Submenu: FC<SidebarLinkProps> = ({ item }) => {
           return (
             <DropdownLink to={subnavItem.path} key={index}>
               {subnavItem.icon}
-              <SidebarLabel>{subnavItem.title}</SidebarLabel>
+              {/* <SidebarLabel>{subnavItem.title}</SidebarLabel> */}
             </DropdownLink>
           );
         })}
