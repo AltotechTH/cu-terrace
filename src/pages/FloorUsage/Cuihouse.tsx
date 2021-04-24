@@ -15,7 +15,7 @@ export const CuiHouse = ({
       onClick={onClick}
       onMouseMove={onMouseMove}
       onMouseLeave={onMouseLeave}
-      style={{ width: '100%', height: 'auto', cursor: 'pointer', marginBottom: '60px' }}
+      style={{ width: '100%', height: 'auto', cursor: 'pointer', marginBottom: '60px'  }}
     >
       <g opacity="0.5" className="iHouse_1">
         <path
