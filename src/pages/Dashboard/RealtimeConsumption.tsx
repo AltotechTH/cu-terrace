@@ -1,16 +1,23 @@
-import { useStyles, convertDate, convertValue } from './useStyles'
-import Paper from '@material-ui/core/Paper';
+import { convertDate, convertValue } from './useStyles'
 import { Line, ComposedChart, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 import { Card } from './styles'
 
 
+interface RealtimeType {
+  data: any;
+  dashboardData: any;
+}
 
-const RealtimeConsumption = (data: any) => {
-  const classes = useStyles()
+
+
+const RealtimeConsumption = ({ data, dashboardData }: RealtimeType) => {
+
+  console.log(dashboardData)
+
   return (
     <>
       <Card style={{ height: '208px' }}>
-        {/* <div style={{ width: "100%", height: 150 }}> */}
+
         <div style={{ padding: '20px 20px 10px 20px', display: 'flex', fontSize: '18px' }}>
 
           <strong style={{
@@ -23,10 +30,11 @@ const RealtimeConsumption = (data: any) => {
             display: 'flex', justifyContent: 'flex-end',
             width: '100%'
           }}>
-            75kW
+            {dashboardData !== undefined ? dashboardData.kw_now.kw : 0} kW
           </strong>
         </div>
         <div style={{ padding: '0px 20px 0px 20px', display: 'flex', fontSize: '14px' }}>Real-time Power Consumption</div>
+
         <ResponsiveContainer width='100%' height={150}>
           <ComposedChart
             data={data.data}
@@ -74,13 +82,9 @@ const RealtimeConsumption = (data: any) => {
               dot={false}
               legendType='none'
             />
-            {/* <foreignObject x='0' y='0' width='300' height='150' fontSize={10}>
-              <h3 >Real-time Power Consumption</h3>
-            </foreignObject> */}
           </ComposedChart>
         </ResponsiveContainer>
 
-        {/* </div> */}
       </Card>
     </>
   );
