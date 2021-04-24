@@ -6,19 +6,30 @@ import { CO2Emission } from './CO2Emission'
 import { FloorInformation } from './FloorInformation'
 
 
-const Building = () => {
+interface BuildingType {
+  dashboardData: any
+}
+
+const Building = ({ dashboardData }: BuildingType['dashboardData']) => {
+
+
+  const cuterrace = dashboardData !== undefined ? dashboardData.energy_consumption_by_floor_cu_terrace : undefined
+  const cuihouse = dashboardData !== undefined ? dashboardData.energy_consumption_by_floor_cu_ihouse : undefined
+
 
   return (
     <div style={{ textAlign: 'center', height: '500px' }}>
       <img src={Build} alt="building" />
 
       <div style={{ position: 'absolute', top: '252px', right: '83px', display: 'grid' }}>
-        <strong style={{ fontSize: '32px', zIndex: 999 }}>560</strong>
+        <strong style={{ fontSize: '32px', zIndex: 999 }}>{dashboardData !== undefined ? Number(dashboardData.total_energy_consumption.value).toFixed(2) : 0}</strong>
         <small style={{ fontSize: '12px', zIndex: 999 }}>kWh/m</small>
         <img style={{ position: 'relative', right: '0px', top: '-6em' }} src={Circle} alt='circle' />
       </div>
-      <FloorInformation header='CU Terrace' size='55,046 m2' floors='22' right={14.2} top={27} />
-      <FloorInformation header='CU iHouse' size='55,046 m2' floors='26' right={-8.4} top={34}
+
+      <FloorInformation header='CU Terrace' size={dashboardData !== undefined ? Number(Object.values(cuterrace)[0]) : 0} floors={dashboardData !== undefined ? (Object.keys(cuterrace)[0]) : '-'} right={16} top={27} />
+
+      <FloorInformation header='CU iHouse' size={dashboardData !== undefined ? Number(Object.values(cuihouse)[0]) : 0} floors={dashboardData !== undefined ? (Object.keys(cuihouse)[0]) : '-'} right={-7} top={34}
 
       />
       <img src={Pionter} alt='pointer' style={{
@@ -47,7 +58,7 @@ const Building = () => {
 
 
 
-      <CO2Emission />
+      <CO2Emission dashboardData={dashboardData} />
 
 
     </div>

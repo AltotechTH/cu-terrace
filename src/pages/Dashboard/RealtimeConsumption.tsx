@@ -12,7 +12,7 @@ interface RealtimeType {
 
 const RealtimeConsumption = ({ data, dashboardData }: RealtimeType) => {
 
-  console.log(dashboardData)
+  // console.log(dashboardData)
 
   return (
     <>
@@ -37,7 +37,7 @@ const RealtimeConsumption = ({ data, dashboardData }: RealtimeType) => {
 
         <ResponsiveContainer width='100%' height={150}>
           <ComposedChart
-            data={data.data}
+            data={data}
             margin={{ top: 30, right: 30, left: 0, bottom: 5 }}
           >
             <defs>

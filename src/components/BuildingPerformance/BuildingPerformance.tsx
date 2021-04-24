@@ -1,4 +1,3 @@
-import { FC } from 'react'
 import styled from 'styled-components'
 import Scale from 'assets/images/Frame.svg';
 import Arrow from 'assets/images/Indicator.svg';
@@ -9,6 +8,7 @@ interface typeComponent {
   unionPosition: { unionPosition: number; }
   labelPosition: { labelPosition: number; }
   labelPercent: { labelPercent: number; }
+  dataDashboard: any
 }
 
 const ArrowComponent = styled.img<typeComponent['positionArrow']>`
@@ -48,7 +48,7 @@ const UnionPercent = styled.div<typeComponent['labelPercent']>`
 `
 
 
-const BuildingPerformance: FC = () => {
+const BuildingPerformance = ({ data }: typeComponent['dataDashboard']) => {
   return (
 
     <div

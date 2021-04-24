@@ -5,7 +5,7 @@ interface FloorInfomationType {
   props: {
     header: string;
     floors: string;
-    size: string;
+    size: number;
     right: number;
     top: number;
   }
@@ -53,12 +53,12 @@ export const FloorInformation = ({ header, floors, size, right, top }: FloorInfo
       <Header>{header}</Header>
 
       <InfoHeader right={24} style={{ textAlign: 'left' }}>
-        Size <br />
-        <small style={{ fontSize: '16px', color: 'black' }}>{size}</small>
+        Energy <br />
+        <small style={{ fontSize: '16px', color: 'black' }}>{size} kWh</small>
 
       </InfoHeader>
       <InfoHeader right={22} style={{ textAlign: 'left' }}>
-        Floors <br />
+        Floor <br />
         <small style={{ fontSize: '16px', color: 'black' }}>{floors}</small>
       </InfoHeader>
 
