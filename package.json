@@ -28,6 +28,7 @@
     "antd": "^4.15.2",
     "axios": "^0.21.1",
     "d3-array": "^2.12.1",
+    "firebase": "^8.4.2",
     "framer-motion": "^4.1.8",
     "moment": "^2.29.1",
     "moment-timezone": "^0.5.33",

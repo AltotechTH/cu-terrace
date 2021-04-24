@@ -1,20 +1,17 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useMemo, useState, useContext } from 'react'
 import { RealtimeConsumption } from './RealtimeConsumption'
 import { DailyEnergyConsumption } from './DailyEnergyConsumption'
 import { EnergyConsumptionByFloor } from './EnergyConsumptionByFloor'
 import { EnergyConsumptionByZone } from './EnergyConsumptionByZone'
 import { BuildingEnergyPerformance } from './BuildingEnergyPerformance'
 import { Building } from './Building'
-
 import { WeatherOutDoor } from './WeatherOutDoor'
 import { WeatherInDoor } from './WeatherInDoor'
 import { Tips } from './Tips'
 import { GetStock } from 'api/services/Stock'
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
-import Container from '@material-ui/core/Container'
-import { useStyles } from './useStyles'
 import { Card } from './styles'
+import { FirebaseContext } from 'api/firebase'
+import { building } from 'api/services/Building'
 
 
 const data1 = [
@@ -129,29 +126,67 @@ const data01 = [{ name: 'Residential', value: 5 }, { name: 'Facilities', value: 
 
 const Dashboard: FC = () => {
 
+  const firebase = useContext<any>(FirebaseContext)
+
+  const [dashboardData, setDashboardData] = useState()
+
   const [data, setData]: any = useState({
     data: []
   })
+
+  const [buildingData, setBuildingData]: any = useState({
+    data: []
+  })
+
+  //##--------------- Function fetch Station information form firebase 🔥 --------------------
+  function fetchData(didMount: boolean) {
+    const pages_path = `building/pmcu/pages`;
+    if (didMount) {
+      firebase.db.ref(pages_path).off('value');
+
+    } else {
+      firebase.db.ref(pages_path).on('value', function (snap: { val: () => any }) {
+        if (snap) {
+          let capt: any = snap.val();
+          if (capt !== undefined) {
+            setDashboardData(capt.dashboard)
+          }
+        }
+      });
+    }
+  }
+
+  function getData() {
+    building.getBuildingAPI().then((res: any) => setBuildingData({ data: res?.data }))
+    // building
+  }
+
+  // console.log(dashboardData)
+
+  useMemo(() => {
+
+    fetchData(false)
+    getData()
+
+    return () => {
+      fetchData(true);
+    }
+  }, [])
 
   useEffect(() => {
     GetStock().then(res => setData({ data: res?.data['Data'] }))
 
   }, [])
 
-  // console.log(data.data)
-  const classes = useStyles()
+  console.log(buildingData.data.buildings)
 
   return (
-    // <Container maxWidth='xl' style={{ marginTop: '20px' }}>
     <div className='row'>
-      {/* <div className='column'> */}
-      {/* <Grid container spacing={1}> */}
       <div className='column1'>
         <Card >
-          {/* <Grid container spacing={2}> */}
           <div className='row'>
             <div className='column3'>
-              <RealtimeConsumption data={data.data} />
+              <RealtimeConsumption data={data.data} dashboardData={dashboardData} />
               <DailyEnergyConsumption data={data1} />
               <EnergyConsumptionByFloor data={data1} />
               <EnergyConsumptionByZone data={data01} />
@@ -160,31 +195,15 @@ const Dashboard: FC = () => {
               <BuildingEnergyPerformance />
               <Building />
             </div>
-            {/* <Grid item xs={4}>
-
-            </Grid>
-            <Grid item xs={8}>
-
-            </Grid> */}
           </div>
-
-          {/* </Grid> */}
-
         </Card>
       </div>
-
       <div className='column2' style={{ padding: '0px 8px 8px 20px' }}>
         <WeatherOutDoor data={data.data} />
         <WeatherInDoor />
         <Tips />
-
       </div>
-      {/* </Grid> */}
-      {/* </div> */}
-
     </div>
-
-    // </Container>
   )
 }
 
