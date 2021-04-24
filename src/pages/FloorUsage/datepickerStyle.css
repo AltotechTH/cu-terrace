@@ -1,0 +1,29 @@
+.input-class-first {
+  color: #505050;
+  font-size: small;
+  width: 90px;
+  border: 1px solid rgb(189, 189, 189);
+  border-right: 0px;
+  padding: 3px;
+  border-radius: 0px;
+  text-align: center;
+  height: 27px;
+  z-index: 9999;
+}
+
+.input-class-last {
+  color: #505050;
+  font-size: small;
+  width: 90px;
+  border: 1px solid rgb(189, 189, 189);
+  border-left: 0px;
+  padding: 3px;
+  border-radius: 0px 5px 5px 0px;
+  text-align: center;
+  height: 27px;
+  z-index: 9999;
+}
+
+.react-datepicker-popper {
+  z-index: 9999;
+}

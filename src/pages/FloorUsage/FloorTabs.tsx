@@ -19,9 +19,10 @@ type floorTabsProps = {
     value: number;
     room: string;
   }[];
+  selectRoom: (e: string) => void;
 };
 
-export const FloorTabs = ({ floorValue }: floorTabsProps) => {
+export const FloorTabs = ({ floorValue, selectRoom }: floorTabsProps) => {
   const converter = (value: number) => {
     if (value < 10) {
       return 'rgb(215, 245, 228)';
@@ -52,7 +53,7 @@ export const FloorTabs = ({ floorValue }: floorTabsProps) => {
           }}
           key={value.room}
         >
-          <RoomColor code={converter(value.value)} />
+          <RoomColor code={converter(value.value)} onClick={() => selectRoom(value.room)} />
           <RoomNumber>{value.room}</RoomNumber>
         </Grid>
       ))}

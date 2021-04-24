@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Grid, Paper } from '@material-ui/core';
+import { Grid, Paper, RootRef } from '@material-ui/core';
 import { makeStyles, createStyles, Theme, withStyles } from '@material-ui/core/styles';
 import { CardHeader } from 'components/CardHeader';
 import { Buildings } from './Buildings';
@@ -9,6 +9,8 @@ import { EventTabs } from './EventTabs';
 import { FloorTabs } from './FloorTabs';
 import { Tabs, Tab } from 'components/StyledTabs/StyledTabs';
 import { EnergyConsumptionButton } from './EnergyConsumptionButton';
+import { GraphModal } from './GraphModal';
+import { RoomModal } from './RoomModal';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -106,18 +108,33 @@ export const FloorUsage = () => {
   const [isFirstBuilding, setIsFirstBuilding] = useState(false);
   const [selectedFloor, setSelectedFloor] = useState('06');
   const [selectedTab, setSelectedTab] = useState('Energy');
+  const [selectedModalTab, setSelectedModalTab] = useState('Information');
   const [opacityStateTerrace, setOpacityStateTerrace] = useState(0);
   const [opacityStateiHouse, setOpacityStateiHouse] = useState(0);
   const [selectedFloorYTerrace, setSelectedFloorYTerrace] = useState<string>('0');
   const [selectedFloorYiHouse, setSelectedFloorYiHouse] = useState<string>('0');
   const [summaryData, setSummaryData] = useState(energyData);
-  const [selectedGraph, setSelectedGraph] = useState(false);
+  const [selectedGraphOpen, setSelectedGraphOpen] = useState(false);
+  const [startDate, setStartDate] = useState();
+  const [endDate, setEndDate] = useState();
+  const [selectedRoom, setSelectedRoom] = useState<string | undefined>();
+  const [selectedRoomOpen, setSelectedRoomOpen] = useState(false);
 
   const classes = useStyles();
 
   const handleChangeTab = (value: string) => {
     setSelectedTab(value);
     if (value === 'Energy') {
+      setSummaryData(energyData);
+    }
+    if (value === 'Event') {
+      setSummaryData(eventData);
+    }
+  };
+
+  const handleChangeModalTab = (value: string) => {
+    setSelectedModalTab(value);
+    if (value === 'Information') {
       setSummaryData(energyData);
     }
     if (value === 'Event') {
@@ -152,11 +169,17 @@ export const FloorUsage = () => {
   };
 
   const closeModal = () => {
-    setSelectedGraph(false);
+    setSelectedGraphOpen(false);
+    setSelectedRoomOpen(false);
   };
 
-  const openModal = () => {
-    setSelectedGraph(true);
+  const openModalGraph = () => {
+    setSelectedGraphOpen(true);
+  };
+
+  const selectRoom = (e: string) => {
+    setSelectedRoom(e);
+    setSelectedRoomOpen(true);
   };
 
   return (
@@ -226,17 +249,13 @@ export const FloorUsage = () => {
                     {selectedTab === 'Energy' && (
                       <>
                         <RangeTabs />
-                        <EnergyConsumptionButton
-                          openModal={openModal}
-                          selectedGraph={selectedGraph}
-                          closeModal={closeModal}
-                        />
+                        <EnergyConsumptionButton openModalGraph={openModalGraph} />
                       </>
                     )}
                     {selectedTab === 'Event' && <EventTabs />}
                   </Grid>
                   <Grid container spacing={3} style={{ padding: '15px 40px' }}>
-                    <FloorTabs floorValue={roomsData} />
+                    <FloorTabs floorValue={roomsData} selectRoom={selectRoom} />
                   </Grid>
                 </Grid>
               </Paper>
@@ -244,6 +263,26 @@ export const FloorUsage = () => {
           </Grid>
         </Grid>
       </Grid>
+      <GraphModal
+        selectedGraphOpen={selectedGraphOpen}
+        closeModal={closeModal}
+        selectedFloor={selectedFloor}
+        startDate={startDate}
+        setStartDate={setStartDate}
+        endDate={endDate}
+        setEndDate={setEndDate}
+      />
+      <RoomModal
+        selectedRoomOpen={selectedRoomOpen}
+        closeModal={closeModal}
+        selectedRoom={selectedRoom}
+        startDate={startDate}
+        setStartDate={setStartDate}
+        endDate={endDate}
+        setEndDate={setEndDate}
+        selectedModalTab={selectedModalTab}
+        handleChangeModalTab={handleChangeModalTab}
+      />
     </div>
   );
 };
