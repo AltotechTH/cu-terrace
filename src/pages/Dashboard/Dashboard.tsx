@@ -12,7 +12,9 @@ import { Tips } from './Tips'
 import { GetStock } from 'api/services/Stock'
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+import Container from '@material-ui/core/Container'
 import { useStyles } from './useStyles'
+import { Card } from './styles'
 
 
 const data1 = [
@@ -140,33 +142,49 @@ const Dashboard: FC = () => {
   const classes = useStyles()
 
   return (
-    <div className='content'>
-      <Grid container spacing={2}>
-        <Grid xs={9}>
-          <Paper className={classes.paper} >
-            <Grid container spacing={2}>
-              <Grid item xs={4}>
-                <RealtimeConsumption data={data.data} />
-                <DailyEnergyConsumption data={data1} />
-                <EnergyConsumptionByFloor data={data1} />
-                <EnergyConsumptionByZone data={data01} />
-              </Grid>
-              <Grid item xs={8}>
-                <BuildingEnergyPerformance />
-                <Building />
-              </Grid>
+    // <Container maxWidth='xl' style={{ marginTop: '20px' }}>
+    <div className='row'>
+      {/* <div className='column'> */}
+      {/* <Grid container spacing={1}> */}
+      <div className='column1'>
+        <Card >
+          {/* <Grid container spacing={2}> */}
+          <div className='row'>
+            <div className='column3'>
+              <RealtimeConsumption data={data.data} />
+              <DailyEnergyConsumption data={data1} />
+              <EnergyConsumptionByFloor data={data1} />
+              <EnergyConsumptionByZone data={data01} />
+            </div>
+            <div className='column4'>
+              <BuildingEnergyPerformance />
+              <Building />
+            </div>
+            {/* <Grid item xs={4}>
+
             </Grid>
-          </Paper>
-        </Grid>
+            <Grid item xs={8}>
 
-        <Grid item xs={3} style={{ padding: '0px 8px 8px 20px' }}>
-          <WeatherOutDoor data={data.data} />
-          <WeatherInDoor />
-          <Tips />
+            </Grid> */}
+          </div>
 
-        </Grid>
-      </Grid>
+          {/* </Grid> */}
+
+        </Card>
+      </div>
+
+      <div className='column2' style={{ padding: '0px 8px 8px 20px' }}>
+        <WeatherOutDoor data={data.data} />
+        <WeatherInDoor />
+        <Tips />
+
+      </div>
+      {/* </Grid> */}
+      {/* </div> */}
+
     </div>
+
+    // </Container>
   )
 }
 

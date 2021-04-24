@@ -8,12 +8,17 @@ import {
 } from 'react-icons/ai';
 import { FaCog, FaOpencart } from 'react-icons/fa';
 import { SidebarItem } from '../../models/SidebarItem';
+import DashboardIcon from 'assets/images/icon/Dashboard.svg'
+import Floor from 'assets/images/icon/Floorusage.svg'
+import User from 'assets/images/icon/User.svg'
+import Setting from 'assets/images/icon/Setting.svg'
+import Reports from 'assets/images/icon/Reports.svg'
 
 export const SidebarData: SidebarItem[] = [
   {
     title: 'DASHBOARD',
     path: '/dashboard',
-    icon: <AiOutlineHome />,
+    icon: <img src={DashboardIcon} alt='dashboard' />,
     // iconClosed: <AiFillCaretDown />,
     // iconOpened: <AiFillCaretUp />,
     // subnav: [
@@ -32,26 +37,22 @@ export const SidebarData: SidebarItem[] = [
   {
     title: 'FLOOR USAGE',
     path: '/floor-usage',
-    icon: <FaOpencart />
+    icon: <img src={Floor} alt='floor' />
   },
   {
-    title: 'REPORT',
+    title: 'REPORT & BILL',
     path: '/report',
-    icon: <AiOutlineHistory />
+    icon: <img src={Reports} alt='report' />
   },
   {
-    title: 'BILL & PAYMENT',
-    path: '/bill',
-    icon: <FaCog />
+    title: 'USER MANGEMENT',
+    path: '/user',
+    icon: <img src={User} alt='user' />
   },
-  // {
-  //   title: 'USER MANAGEMENT',
-  //   path: '/user-management',
-  //   icon: <FaCog />
-  // },
-  // {
-  //   title: 'SETTING',
-  //   path: '/setting',
-  //   icon: <FaCog />
-  // }
+
+  {
+    title: 'SETTINGS',
+    path: '/settings',
+    icon: <img src={Setting} alt='settings' />
+  }
 ];

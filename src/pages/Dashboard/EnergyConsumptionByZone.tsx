@@ -2,8 +2,10 @@ import React from 'react'
 import { useStyles, } from './useStyles'
 import Paper from '@material-ui/core/Paper';
 import { Tooltip, Legend, ResponsiveContainer, PieChart, Cell, Label, Pie } from 'recharts'
+import { Card } from './styles'
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+const COLORS = ['#0E7EE4', '#00A3FF', '#C0E8FF', '#CEF7E3'];
+
 
 const EnergyConsumptionByZone = (data: any) => {
   const classes = useStyles()
@@ -11,7 +13,8 @@ const EnergyConsumptionByZone = (data: any) => {
   return (
     <>
 
-      <Paper className={classes.paper}>
+      <Card style={{ marginTop: '20px', height: '208px' }}>
+        <div style={{ padding: '20px 20px 10px 20px', display: 'flex', fontSize: '16px' }}>Energy Consumption by Zone</div>
         <ResponsiveContainer width="100%" height={150}>
 
           <PieChart >
@@ -37,17 +40,17 @@ const EnergyConsumptionByZone = (data: any) => {
               }
             </Pie>
             <Tooltip />
-            <Legend layout='vertical' verticalAlign="middle" align="right" fontSize='15px' />
-            <foreignObject x="30" y="0" width="300" height="150" fontSize={10}>
+            <Legend layout='vertical' verticalAlign="middle" align="right" style={{ fontSize: '12px' }} />
+            {/* <foreignObject x="30" y="0" width="300" height="150" fontSize={10}>
               <h2>Energy Consumption By Zone</h2>
-            </foreignObject>
+            </foreignObject> */}
           </PieChart>
 
 
         </ResponsiveContainer>
 
         {/* </div> */}
-      </Paper>
+      </Card>
 
 
 

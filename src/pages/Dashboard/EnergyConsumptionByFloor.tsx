@@ -2,13 +2,16 @@ import React from 'react'
 import { useStyles } from './useStyles'
 import Paper from '@material-ui/core/Paper';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts'
+import { Card } from './styles'
 
 const EnergyConsumptionByFloor = (data: any) => {
   const classes = useStyles()
   return (
     <>
-      <Paper className={classes.paper}>
+      <Card style={{ marginTop: '20px', height: '208px' }}>
         {/* <div style={{ width: "100%", height: 150 }}> */}
+
+        <div style={{ padding: '20px 20px 10px 20px', display: 'flex', fontSize: '16px' }}>Energy Consumption by Floor</div>
         <ResponsiveContainer width="100%" height={150}>
 
           <BarChart
@@ -24,9 +27,9 @@ const EnergyConsumptionByFloor = (data: any) => {
             <Legend />
             {/* <Bar dataKey="pv" fill="#8884d8" /> */}
             <Bar dataKey="pv" fill="#447cf5" />
-            <foreignObject x="30" y="0" width="300" height="150" fontSize={10}>
+            {/* <foreignObject x="30" y="0" width="300" height="150" fontSize={10}>
               <h2>Energy Consumption By Floor</h2>
-            </foreignObject>
+            </foreignObject> */}
             {/* <foreignObject x="200" y="10" width="500" height="150" fontSize={10}>
                   <Paper style={{ width: 100, padding: '10px 0px 10px 0px' }}>
                     <strong style={{ color: '#57a2e7', fontSize: 15 }}>Rank 8</strong> <br />
@@ -37,7 +40,7 @@ const EnergyConsumptionByFloor = (data: any) => {
         </ResponsiveContainer>
 
         {/* </div> */}
-      </Paper>
+      </Card>
 
     </>
   )

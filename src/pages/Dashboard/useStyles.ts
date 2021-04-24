@@ -14,7 +14,7 @@ createStyles({
     textAlign: 'center',
     color: theme.palette.text.secondary,
     margin: '16px 0px 0px 0px',
-    borderRadius: '10px',
+    borderRadius: '8px',
   },
 }),
 );

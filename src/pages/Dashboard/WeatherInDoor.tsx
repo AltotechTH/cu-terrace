@@ -1,63 +1,82 @@
-import React from 'react'
-import { useStyles, d, dayOfTheWeek, } from './useStyles'
-import Clock from 'react-live-clock'
-import Paper from '@material-ui/core/Paper';
+import { useStyles } from './useStyles'
+import { Card, WeatherInfo, Img, WeatherDetail, Detial, LabelCard } from './styles'
+import Cold from 'assets/images/icon/weather/Cold.svg'
+import GradientImg from 'assets/images/Gradient1.svg'
+// import Raining from 'assets/images/icon/weather/Raining.svg'
+import Humidity from 'assets/images/icon/weather/Humidity.svg'
+import AirQuality from 'assets/images/icon/weather/Strom.svg'
+import CO2 from 'assets/images/icon/weather/CO2.svg'
 
 
 
 const WeatherInDoor = () => {
   const classes = useStyles()
   return (
-    <Paper className={classes.paper}>
+    <Card style={{ marginTop: '20px', top: '0px', paddingBottom: '20px' }}>
+      <Img src={GradientImg} alt='gradient' width='100%' />
 
-      <div style={{ width: "100%", }}>
-        <Paper style={{ width: '100%', padding: '10px', borderRadius: '15px', backgroundColor: '#17bc91', display: 'flex', alignItems: 'center', color: '#ffff' }}>
-          {/* <RiSunFill color='#ffee00' fontSize='50px' /> */}
-          <h4 style={{ display: 'flex', fontSize: '40px', marginLeft: '20px', marginRight: 'auto', padding: '0px', justifyContent: 'flex-start' }}>25 <span style={{ fontSize: '20px' }}>&#8451;</span></h4>
-          <div>
-            <strong style={{ fontSize: '15px', display: 'flex', marginLeft: '20px', justifyContent: 'flex-end' }}>
-              Indoor
-            </strong>
-            <span style={{ fontSize: '10px', display: 'flex', marginLeft: '20px', justifyContent: 'flex-end' }}>
-              {dayOfTheWeek(d.getDate(), d.getUTCMonth() + 1, d.getFullYear())} &nbsp; <Clock format={'HH:mm'} ticking={true} timezone={'Asia/Bangkok'} />
-            </span >
-            <span style={{ fontSize: '10px', display: 'flex', marginLeft: '20px', justifyContent: 'flex-end' }}>
-              Chill
-            </span>
+      <WeatherInfo>
+
+        <h4 style={{ display: 'flex', fontSize: '32px', padding: '0px' }}>25 <span style={{ fontSize: '12px' }}>&#8451;</span></h4>
+        <div>
+          <strong style={{ fontSize: '14px', display: 'flex', marginLeft: '20px' }}>
+            Indoor, CU Terrace
+          </strong>
+          <span style={{ fontSize: '10px', display: 'flex', marginLeft: '20px', marginTop: '5px' }}>
+            Chill
+          </span>
+
+        </div>
+        <img src={Cold} alt='cold' style={{ marginLeft: 20 }} />
+      </WeatherInfo>
+
+      <div style={{ marginTop: '20px' }}>
+        <WeatherDetail>
+          <div style={{ width: '100%', display: 'flex' }}>
+            <Img src={Humidity} alt='humi' />
+            <Detial>
+              <strong style={{ fontSize: '14px' }}>68%</strong>
+              <small style={{ fontSize: '10px', color: '#BABDC6' }}>Humidity</small>
+            </Detial>
           </div>
 
+          <div style={{ width: '100%' }}>
+            <div style={{ width: '100%', display: 'flex' }}>
+              <Img src={AirQuality} alt='air' />
+              <Detial>
+                <strong style={{ fontSize: '14px', display: 'flex' }}>38 &nbsp; <LabelCard style={{ backgroundColor: '#7BCE5A' }}>Good</LabelCard></strong>
+                <small style={{ fontSize: '10px', color: '#BABDC6' }}>Air Quality Index</small>
+              </Detial>
+            </div>
+          </div>
+        </WeatherDetail>
 
-        </Paper>
+        <WeatherDetail>
+          <div style={{ width: '100%', display: 'flex' }}>
+            <Img src={CO2} alt='co2' />
+            <Detial>
+              <strong style={{ fontSize: '14px', display: 'flex' }}>500 ppm &nbsp; <LabelCard style={{ backgroundColor: '#7BCE5A' }}>Normal</LabelCard></strong>
+              <small style={{ fontSize: '10px', color: '#BABDC6' }}>CO2</small>
+            </Detial>
+          </div>
+
+          {/* <div style={{ width: '100%' }}>
+            <div style={{ width: '100%', display: 'flex' }}>
+              <Img src={Wind} alt='wind' />
+              <Detial>
+                <strong style={{ fontSize: '14px' }}>47%</strong>
+                <small style={{ fontSize: '10px', color: '#BABDC6' }}>Precipitation</small>
+              </Detial>
+            </div>
+          </div> */}
+        </WeatherDetail>
+
+
+
+
       </div>
+    </Card>
 
-      <div style={{ marginTop: '20px', display: 'flex', justifyContent: 'center' }}>
-
-        {/* <Paper style={{ width: '70px', paddingTop: '10px', paddingBottom: '10px', borderRadius: '30%', backgroundColor: '#ffff', margin: '5px', }}>
-    <span style={{ fontSize: '9px', textAlign: 'center', display: 'block', marginBottom: '10px' }}>Precipitation</span>
-    <strong style={{ fontSize: '16px', textAlign: 'center' }}>47%</strong>
-  </Paper> */}
-        <Paper style={{ width: '70px', paddingTop: '10px', paddingBottom: '10px', borderRadius: '30%', backgroundColor: '#ffff', margin: '10px', }}>
-          <span style={{ fontSize: '9px', textAlign: 'center', display: 'block', marginBottom: '10px' }}>Humidity</span>
-          <strong style={{ fontSize: '16px', textAlign: 'center' }}>50%</strong>
-        </Paper>
-        <Paper style={{ width: '70px', paddingTop: '10px', paddingBottom: '10px', borderRadius: '30%', backgroundColor: '#ffff', margin: '10px' }}>
-          <span style={{ fontSize: '9px', textAlign: 'center', display: 'block', }}>CO2</span>
-          <strong style={{ fontSize: '16px', textAlign: 'center' }}>500</strong>
-          <strong style={{ fontSize: '10px', textAlign: 'center', display: 'block' }}>Normal</strong>
-
-        </Paper>
-        <Paper style={{ width: '70px', paddingTop: '10px', paddingBottom: '10px', borderRadius: '30%', backgroundColor: '#ffff', margin: '10px' }}>
-          <span style={{ fontSize: '9px', textAlign: 'center', display: 'block', }}>US AQI</span>
-          <strong style={{ fontSize: '16px', textAlign: 'center' }}>38</strong>
-          <strong style={{ fontSize: '10px', textAlign: 'center', display: 'block' }}>Good</strong>
-
-        </Paper>
-
-
-      </div>
-
-
-    </Paper>
   )
 }
 

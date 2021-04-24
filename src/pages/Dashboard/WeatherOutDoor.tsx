@@ -1,72 +1,80 @@
-import React from 'react'
-import { useStyles, d, dayOfTheWeek, convertDate, convertValue } from './useStyles'
-import Clock from 'react-live-clock'
-import Paper from '@material-ui/core/Paper';
-import { RiSunFill } from 'react-icons/ri'
-import { Line, ComposedChart, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
-import moment from 'moment';
+import { useStyles, convertDate, convertValue } from './useStyles'
 
+import { Line, ComposedChart, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
+import { Card, WeatherInfo, Img, WeatherDetail, Detial, LabelCard } from './styles'
+import Sunny from 'assets/images/icon/weather/sunny.svg'
+import GradientImg from 'assets/images/Gradient.svg'
+import Raining from 'assets/images/icon/weather/Raining.svg'
+import Humidity from 'assets/images/icon/weather/Humidity.svg'
+import AirQuality from 'assets/images/icon/weather/Strom.svg'
+import Wind from 'assets/images/icon/weather/Wind.svg'
 
 const WeatherOutDoor = (data: any) => {
   const classes = useStyles()
   return (
     <>
-      <Paper className={classes.paper}>
+      <Card style={{ marginTop: '10px', top: '0px', paddingBottom: '20px' }}>
+        <Img src={GradientImg} alt='gradient' width='100%' />
 
-        {/* <div style={{ width: "100%", display: 'inline-flex', alignItems: 'baseline' }}>
-          <Paper style={{ width: '40px', padding: '10px', borderRadius: '40%', backgroundColor: '#0077ff' }}>
-            <FaTemperatureLow color='#ffff' />
-          </Paper>
+        <WeatherInfo>
 
-          <h4 style={{ width: '40%' }}>Temperature</h4>
-        </div> */}
+          <h4 style={{ display: 'flex', fontSize: '32px', padding: '0px' }}>32 <span style={{ fontSize: '12px' }}>&#8451;</span></h4>
+          <div>
+            <strong style={{ fontSize: '14px', display: 'flex', marginLeft: '20px' }}>
+              Pathumwan, Bangkok
+            </strong>
+            <span style={{ fontSize: '10px', display: 'flex', marginLeft: '20px', marginTop: '5px' }}>
+              Broken Clouds
+            </span>
 
-        <div style={{ width: "100%", display: 'inline-flex', alignItems: 'baseline', }}>
-          <Paper style={{ width: '100%', padding: '10px', borderRadius: '15px', backgroundColor: '#0077ff', display: 'inline-flex', alignItems: 'center', color: '#ffff' }}>
-            <RiSunFill color='#ffee00' fontSize='50px' />
-            <h4 style={{ display: 'flex', fontSize: '40px', marginLeft: '20px', marginRight: '0px', padding: '0px' }}>32 <span style={{ fontSize: '20px' }}>&#8451;</span></h4>
-            <div>
-              <strong style={{ fontSize: '10px', display: 'flex', marginLeft: '20px' }}>
-                Pathumwan, Bangkok
-              </strong>
-              <span style={{ fontSize: '10px', display: 'flex', marginLeft: '20px', justifyContent: 'flex-end' }}>
-                {dayOfTheWeek(d.getDate(), d.getUTCMonth() + 1, d.getFullYear())} &nbsp; <Clock format={'HH:mm'} ticking={true} timezone={'Asia/Bangkok'} />
-              </span >
-              <span style={{ fontSize: '10px', display: 'flex', marginLeft: '20px', justifyContent: 'flex-end' }}>
-                Sunny
-              </span>
+          </div>
+          <img src={Sunny} alt='sunny' style={{ marginLeft: 20 }} />
+        </WeatherInfo>
+
+        <div style={{ marginTop: '20px' }}>
+          <WeatherDetail>
+            <div style={{ width: '100%', display: 'flex' }}>
+              <Img src={Raining} alt='raining' />
+              <Detial>
+                <strong style={{ fontSize: '14px' }}>47%</strong>
+                <small style={{ fontSize: '10px', color: '#BABDC6' }}>Precipitation</small>
+              </Detial>
             </div>
 
+            <div style={{ width: '100%' }}>
+              <div style={{ width: '100%', display: 'flex' }}>
+                <Img src={AirQuality} alt='air' />
+                <Detial>
+                  <strong style={{ fontSize: '14px', display: 'flex' }}>87 &nbsp; <LabelCard>Moderate</LabelCard></strong>
+                  <small style={{ fontSize: '10px', color: '#BABDC6' }}>Air Quality Index</small>
+                </Detial>
+              </div>
+            </div>
+          </WeatherDetail>
 
-          </Paper>
-        </div>
+          <WeatherDetail>
+            <div style={{ width: '100%', display: 'flex' }}>
+              <Img src={Humidity} alt='humi' />
+              <Detial>
+                <strong style={{ fontSize: '14px' }}>68%</strong>
+                <small style={{ fontSize: '10px', color: '#BABDC6' }}>Humidity</small>
+              </Detial>
+            </div>
 
-        <div style={{ marginTop: '20px', display: 'flex' }}>
-
-          <Paper style={{ width: '70px', paddingTop: '10px', paddingBottom: '10px', borderRadius: '30%', backgroundColor: '#ffff', margin: '5px', }}>
-            <span style={{ fontSize: '9px', textAlign: 'center', display: 'block', marginBottom: '10px' }}>Precipitation</span>
-            <strong style={{ fontSize: '16px', textAlign: 'center' }}>47%</strong>
-          </Paper>
-          <Paper style={{ width: '70px', paddingTop: '10px', paddingBottom: '10px', borderRadius: '30%', backgroundColor: '#ffff', margin: '5px', }}>
-            <span style={{ fontSize: '9px', textAlign: 'center', display: 'block', marginBottom: '10px' }}>Humidity</span>
-            <strong style={{ fontSize: '16px', textAlign: 'center' }}>50%</strong>
-          </Paper>
-          <Paper style={{ width: '70px', paddingTop: '10px', paddingBottom: '10px', borderRadius: '30%', backgroundColor: '#ffff', margin: '5px', }}>
-            <span style={{ fontSize: '9px', textAlign: 'center', display: 'block', marginBottom: '10px' }}>Wind</span>
-            <strong style={{ fontSize: '16px', textAlign: 'center' }}>15</strong>
-          </Paper>
-          <Paper style={{ width: '70px', paddingTop: '10px', paddingBottom: '10px', borderRadius: '30%', backgroundColor: '#ffff', margin: '5px' }}>
-            <span style={{ fontSize: '9px', textAlign: 'center', display: 'block', }}>US AQI</span>
-            <strong style={{ fontSize: '16px', textAlign: 'center' }}>38</strong>
-            <strong style={{ fontSize: '10px', textAlign: 'center', display: 'block' }}>Good</strong>
-
-          </Paper>
-
-
+            <div style={{ width: '100%' }}>
+              <div style={{ width: '100%', display: 'flex' }}>
+                <Img src={Wind} alt='wind' />
+                <Detial>
+                  <strong style={{ fontSize: '14px' }}>15 km/h</strong>
+                  <small style={{ fontSize: '10px', color: '#BABDC6' }}>Wind</small>
+                </Detial>
+              </div>
+            </div>
+          </WeatherDetail>
         </div>
 
         <div style={{ marginTop: '20px' }}>
-          <ResponsiveContainer width="100%" height={125}>
+          <ResponsiveContainer width="100%" height={150}>
             <ComposedChart data={data.data} margin={{ top: 30, right: 30, left: 0, bottom: 5 }}>
               <defs>
                 <filter id='shadow' height='200%'>
@@ -123,7 +131,7 @@ const WeatherOutDoor = (data: any) => {
           </ResponsiveContainer>
 
         </div>
-      </Paper>
+      </Card>
 
     </>
   )
