@@ -1,10 +1,14 @@
-import { FC } from 'react'
 import { monthNames, d } from './useStyles'
 import Clock from 'react-live-clock';
-// import GaugeChart from 'react-gauge-chart'
 import { BuildingPerformance } from 'components/BuildingPerformance/BuildingPerformance'
 
-const BuildingEnergyPerformance: FC = () => {
+interface PerformanceType {
+
+  dashboardData: any;
+}
+
+
+const BuildingEnergyPerformance = ({ dashboardData }: PerformanceType) => {
   return (
     <>
       <div style={{ textAlign: 'center', color: 'black', marginTop: '1rem' }}>
@@ -16,17 +20,6 @@ const BuildingEnergyPerformance: FC = () => {
 
       <div style={{ marginTop: '1rem', width: '100%', display: 'flex', justifyContent: 'center' }}>
         <BuildingPerformance />
-        {/* <GaugeChart
-          nrOfLevels={10}
-          arcPadding={0.1}
-          cornerRadius={3}
-          percent={0.6}
-          textColor="#000000"
-          formatTextValue={(value) => value + ' kWh/m2'}
-          fontSize='20px'
-          style={{ width: '50%' }}
-
-        /> */}
       </div>
     </>
 

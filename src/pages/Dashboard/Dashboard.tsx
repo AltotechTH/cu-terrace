@@ -192,15 +192,15 @@ const Dashboard: FC = () => {
               <EnergyConsumptionByZone data={data01} />
             </div>
             <div className='column4'>
-              <BuildingEnergyPerformance />
-              <Building />
+              <BuildingEnergyPerformance dashboardData={dashboardData} />
+              <Building dashboardData={dashboardData} />
             </div>
           </div>
         </Card>
       </div>
       <div className='column2' style={{ padding: '0px 8px 8px 20px' }}>
-        <WeatherOutDoor data={data.data} />
-        <WeatherInDoor />
+        <WeatherOutDoor data={data.data} dashboardData={dashboardData} />
+        <WeatherInDoor dashboardData={dashboardData} />
         <Tips />
       </div>
     </div>

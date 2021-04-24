@@ -9,7 +9,13 @@ import Humidity from 'assets/images/icon/weather/Humidity.svg'
 import AirQuality from 'assets/images/icon/weather/Strom.svg'
 import Wind from 'assets/images/icon/weather/Wind.svg'
 
-const WeatherOutDoor = (data: any) => {
+interface OutdoorType {
+  data: any;
+  dashboardData: any;
+}
+
+
+const WeatherOutDoor = ({ data, dashboardData }: OutdoorType) => {
   const classes = useStyles()
   return (
     <>
@@ -18,13 +24,13 @@ const WeatherOutDoor = (data: any) => {
 
         <WeatherInfo>
 
-          <h4 style={{ display: 'flex', fontSize: '32px', padding: '0px' }}>32 <span style={{ fontSize: '12px' }}>&#8451;</span></h4>
+          <h4 style={{ display: 'flex', fontSize: '32px', padding: '0px' }}>{dashboardData !== undefined ? dashboardData.outdoor_weather.temperature : 0}  <span style={{ fontSize: '12px' }}>&#8451;</span></h4>
           <div>
             <strong style={{ fontSize: '14px', display: 'flex', marginLeft: '20px' }}>
-              Pathumwan, Bangkok
+              {dashboardData !== undefined ? dashboardData.outdoor_weather.zone : '-'}
             </strong>
             <span style={{ fontSize: '10px', display: 'flex', marginLeft: '20px', marginTop: '5px' }}>
-              Broken Clouds
+              {dashboardData !== undefined ? dashboardData.outdoor_weather.status : '-'}
             </span>
 
           </div>
@@ -36,7 +42,7 @@ const WeatherOutDoor = (data: any) => {
             <div style={{ width: '100%', display: 'flex' }}>
               <Img src={Raining} alt='raining' />
               <Detial>
-                <strong style={{ fontSize: '14px' }}>47%</strong>
+                <strong style={{ fontSize: '14px' }}>{dashboardData !== undefined ? dashboardData.outdoor_weather.precipitation : 0}%</strong>
                 <small style={{ fontSize: '10px', color: '#BABDC6' }}>Precipitation</small>
               </Detial>
             </div>
@@ -45,7 +51,7 @@ const WeatherOutDoor = (data: any) => {
               <div style={{ width: '100%', display: 'flex' }}>
                 <Img src={AirQuality} alt='air' />
                 <Detial>
-                  <strong style={{ fontSize: '14px', display: 'flex' }}>87 &nbsp; <LabelCard>Moderate</LabelCard></strong>
+                  <strong style={{ fontSize: '14px', display: 'flex' }}>{dashboardData !== undefined ? dashboardData.outdoor_weather.air_quality_index : 0} &nbsp; <LabelCard>Moderate</LabelCard></strong>
                   <small style={{ fontSize: '10px', color: '#BABDC6' }}>Air Quality Index</small>
                 </Detial>
               </div>
@@ -56,7 +62,7 @@ const WeatherOutDoor = (data: any) => {
             <div style={{ width: '100%', display: 'flex' }}>
               <Img src={Humidity} alt='humi' />
               <Detial>
-                <strong style={{ fontSize: '14px' }}>68%</strong>
+                <strong style={{ fontSize: '14px' }}>{dashboardData !== undefined ? dashboardData.outdoor_weather.humidity : 0}%</strong>
                 <small style={{ fontSize: '10px', color: '#BABDC6' }}>Humidity</small>
               </Detial>
             </div>
@@ -65,7 +71,7 @@ const WeatherOutDoor = (data: any) => {
               <div style={{ width: '100%', display: 'flex' }}>
                 <Img src={Wind} alt='wind' />
                 <Detial>
-                  <strong style={{ fontSize: '14px' }}>15 km/h</strong>
+                  <strong style={{ fontSize: '14px' }}>{dashboardData !== undefined ? dashboardData.outdoor_weather.wind : 0} km/h</strong>
                   <small style={{ fontSize: '10px', color: '#BABDC6' }}>Wind</small>
                 </Detial>
               </div>
@@ -75,7 +81,7 @@ const WeatherOutDoor = (data: any) => {
 
         <div style={{ marginTop: '20px' }}>
           <ResponsiveContainer width="100%" height={150}>
-            <ComposedChart data={data.data} margin={{ top: 30, right: 30, left: 0, bottom: 5 }}>
+            <ComposedChart data={data} margin={{ top: 30, right: 30, left: 0, bottom: 5 }}>
               <defs>
                 <filter id='shadow' height='200%'>
                   <feGaussianBlur
