@@ -4,7 +4,7 @@ import {
   // AiOutlineMenu,
   AiOutlineClose
 } from 'react-icons/ai';
-import { SidebarData } from './SidebarData';
+import { Routes } from 'routes'
 import Submenu from './Submenu';
 import { Nav, NavIcon, SidebarNav, SidebarWrap, LabelName, NavItems } from './SidebarElements'
 import Avatar from '@material-ui/core/Avatar';
@@ -21,7 +21,7 @@ const Sidebar: FC = () => {
       <Nav>
         <NavIcon to="#" onClick={showSidebar}>
           {/* <AiOutlineMenu /> */}
-          <img src='/assets/img/altotech.png' alt="description of image" width={60} />
+          <img src='/assets/img/altotech.png' alt='#' width={60} />
         </NavIcon>
         <LabelName>
           <small style={{ fontSize: '15px', color: 'grey' }}>
@@ -52,7 +52,7 @@ const Sidebar: FC = () => {
           <NavIcon to="#" onClick={showSidebar}>
             <AiOutlineClose />
           </NavIcon>
-          {SidebarData.map((item, index) => {
+          {Routes.map((item, index) => {
             return <Submenu item={item} key={index} />;
           })}
         </SidebarWrap>

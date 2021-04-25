@@ -1,6 +1,5 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import Modal from 'react-modal';
-import styled from 'styled-components';
 import { Grid } from '@material-ui/core';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -12,157 +11,14 @@ import InvoiceMockupImage from 'assets/images/Invoice.svg';
 import UpIcon from 'assets/images/icon/up.svg';
 import DownIcon from 'assets/images/icon/down.svg';
 import CircleIcon from 'assets/images/Circle.svg';
-import PowerChart from 'assets/images/powerChart.png';
+// import PowerChart from 'assets/images/powerChart.png';
 import Select from 'react-select';
+import { historyApi } from "api/services/History";
+import { deviceApi } from 'api/services/Devices'
+import { EnergyGraph } from './EnergyGraph'
+import moment from 'moment'
+import { CalendarIconBox, CloseButton, Comparative, EnergySummaryBox, FullWidthIcon, HeaderText, HeaderTextFloor, Icon, InvoiceImage, PercentChange, PersonDetail, PersonSummaryBox, ShortNameBox, ShortNameText, SummaryBox, SummaryBoxHeader, SummaryBoxUnit, SummaryBoxValue, customStyles } from './Styled'
 
-const SummaryBox = styled.div`
-  width: 100%;
-  height: 144px;
-  padding: 17px;
-  background-color: #f7f9fc;
-  border-radius: 16px;
-  display: flex;
-  align-items: center;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.13);
-`;
-
-const SummaryBoxHeader = styled.p`
-  font-size: 15px;
-  color: #212529;
-`;
-
-const SummaryBoxValue = styled.p`
-  font-size: 32px;
-  color: #212529;
-  font-weight: 500;
-`;
-
-const SummaryBoxUnit = styled.p`
-  font-size: 32px;
-  color: #212529;
-  margin-left: 8px;
-`;
-
-const PersonSummaryBox = styled.div`
-  width: 100%;
-  height: 110px;
-  padding: 10px;
-  background-color: #f7f9fc;
-  border-radius: 16px;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.13);
-`;
-
-const PersonDetail = styled.p`
-  font-size: 13px;
-  font-weight: 300;
-  color: black;
-  margin-top: 12px;
-  margin: 0px;
-  padding: 0px;
-  width: 50%;
-`;
-
-const EnergySummaryBox = styled.div`
-  width: 100%;
-  padding: 17px;
-  background-color: #f7f9fc;
-  border-radius: 16px;
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
-`;
-
-const HeaderText = styled.h3`
-  color: black;
-`;
-
-const HeaderTextFloor = styled.h3`
-  color: black;
-  font-weight: 400;
-  margin-left: 5px;
-`;
-
-const CloseButton = styled.img`
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  width: 15px;
-  height: 15px;
-  margin: 5px;
-  cursor: pointer;
-`;
-
-const CalendarIconBox = styled.div`
-  width: 27px;
-  height: 27px;
-  padding: 4px;
-  background-color: #eff2f7;
-  border-radius: 5px 0px 0px 5px;
-`;
-
-const Icon = styled.img`
-  width: 20px;
-  height: 20px;
-`;
-
-const PercentChange = styled.p`
-  font-size: 16px;
-  color: #212529;
-  font-weight: 500;
-  margin-left: 5px;
-`;
-
-const Comparative = styled.p`
-  font-size: 16px;
-  color: #838383;
-  font-weight: 400;
-  margin-left: 5px;
-`;
-
-const customStyles = {
-  content: {
-    top: '50%',
-    left: '50%',
-    right: 'auto',
-    bottom: 'auto',
-    width: '60%',
-    marginRight: '-50%',
-    transform: 'translate(-50%, -50%)',
-    borderRadius: '10px',
-    border: '0.5px solid #f3f3f3',
-    padding: '25px',
-    maxHeight: '90%',
-  },
-  overlay: {
-    backgroundColor: 'rgba(119, 119, 119, 0.75)'
-  }
-};
-
-const ShortNameBox = styled.div`
-  height: 100%;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-`;
-
-const FullWidthIcon = styled.img`
-  height: 100%;
-  position: absolute;
-  padding: 10px;
-`;
-
-const ShortNameText = styled.p`
-  font-size: 25px;
-  font-weight: 500;
-  z-index: 9999;
-  color: black;
-`;
-
-const InvoiceImage = styled.img`
-  width: 100%;
-`;
 
 const options = [
   { value: 'activePower', label: 'Active Power' },
@@ -170,7 +26,7 @@ const options = [
   { value: 'apparentPower', label: 'Apparent Power' },
   { value: 'current', label: 'Current' },
   { value: 'voltage', label: 'Voltage' },
-  { value: 'prequency', label: 'Frequency' },
+  // { value: 'frequency', label: 'Frequency' },
   { value: 'powerFactor', label: 'Power Factor' },
 ];
 
@@ -186,10 +42,161 @@ export const RoomModal = ({
   handleChangeModalTab,
 }: any) => {
   const [value, setValue] = useState<{}[]>([{ value: 'activePower', label: 'Active Power' }]);
+  const [fetchData, setFetchData] = useState<[]>();
+  const [fetchDevice, setFetchDevice] = useState<[]>()
+  // const [energyPlot, setEnergyPlot] = useState()
+  const [powerPlot, setPowerPlot] = useState()
+  const [powerApparentPlot, setPowerApparentPlot] = useState()
+  const [powerReactivePlot, setPowerReactivePlot] = useState()
+  const [currentPlot, setCurrentPlot] = useState()
+  const [voltagePlot, setVoltagePlot] = useState()
+  const [pfPlot, setPfPlot] = useState()
+
 
   const handleChange = (newValue: any, actionMeta: any) => {
     setValue(newValue);
+    console.log(newValue)
   };
+
+  function Energy(
+    deviceId: string,
+    sub_dev: number,
+    device_activity: boolean,
+    startDate: any,
+    stopDate: any,
+    sampling_time: number
+  ) {
+    historyApi
+      .getHistoryAPI(
+        deviceId,
+        sub_dev,
+        device_activity,
+        startDate,
+        stopDate,
+        sampling_time
+      )
+      .then((res: any) => setFetchData(res?.data["results"]));
+  }
+
+  function Devices(
+    room: string
+  ) {
+    deviceApi
+      .getDeviceAPI(
+        room
+      )
+      .then((res: any) => setFetchDevice(res?.data['devices'][0]['device_id'])).catch(() => {
+        setFetchData(fetchDevice)
+      })
+  }
+
+  function convertToPlot(histData: any) {
+    if (histData) {
+
+      let tmpCurrent: any = []
+      let tmpPowerReactive: any = []
+      let tmpPowerApparent: any = []
+      let tmpVoltage: any = []
+      let tmpPower: any = []
+      let tmpPF: any = []
+
+      Object.values(histData).forEach((val: any, index: number) => {
+
+        // console.log(val['unix_timestamp'])
+        tmpPower.push({ 'x': moment(moment(val['timestamp']).format()).format('YYYY-MM-DD HH:mm:ss'), 'y': val['power'] })
+        tmpVoltage.push({ 'x': moment(moment(val['timestamp']).format()).format('YYYY-MM-DD HH:mm:ss'), 'y': val['voltage'] })
+        tmpCurrent.push({ 'x': moment(moment(val['timestamp']).format()).format('YYYY-MM-DD HH:mm:ss'), 'y': val['current'] })
+        tmpPowerReactive.push({ 'x': moment(moment(val['timestamp']).format()).format('YYYY-MM-DD HH:mm:ss'), 'y': val['power_reactive'] })
+        tmpPowerApparent.push({ 'x': moment(moment(val['timestamp']).format()).format('YYYY-MM-DD HH:mm:ss'), 'y': val['power_apparent'] })
+        tmpPF.push({ 'x': moment(moment(val['timestamp']).format()).format('YYYY-MM-DD HH:mm:ss'), 'y': val['power_factor'] })
+
+        // tmpData.push({ 'x': moment(Number(moment(val['timestamp']).format('x'))).format('YYYY-MM-DD HH:mm:ss'), 'y': val['energy'] })
+      })
+
+      setPowerPlot(tmpPower)
+      setPowerReactivePlot(tmpPowerReactive)
+      setPowerApparentPlot(tmpPowerApparent)
+      setVoltagePlot(tmpVoltage)
+      setCurrentPlot(tmpCurrent)
+      setPfPlot(tmpPF)
+
+    }
+  }
+
+  useMemo(() => {
+    if (selectedRoom !== undefined) {
+      console.log(selectedRoom)
+      Devices(String(selectedRoom).substr(1, 3))
+    }
+    // eslint-disable-next-line
+  }, [selectedRoom])
+
+  console.log(fetchDevice)
+
+  useMemo(() => {
+    if (selectedModalTab === 'Energy' && startDate !== undefined) {
+      Energy(String(fetchDevice), 0, false, startDate,
+        endDate, 15)
+    }
+  }, [startDate, endDate, selectedModalTab, fetchDevice])
+
+  useMemo(() => {
+    convertToPlot(fetchData)
+
+  }, [fetchData])
+
+
+  const powerData = [
+    {
+      'id': 'Power',
+      // "color": "hsl(151, 70%, 50%)",
+      'data': fetchData !== undefined ? powerPlot : []
+    }
+  ]
+
+  const powerReactiveData = [
+    {
+      'id': 'Power Reactive',
+      // "color": "hsl(151, 70%, 50%)",
+      'data': fetchData !== undefined ? powerReactivePlot : []
+    }
+  ]
+
+  const powerApparentData = [
+    {
+      'id': 'Power Apparent',
+      // "color": "hsl(151, 70%, 50%)",
+      'data': fetchData !== undefined ? powerApparentPlot : []
+    }
+  ]
+
+  const currentData = [
+    {
+      'id': 'Current',
+      // "color": "hsl(151, 70%, 50%)",
+      'data': fetchData !== undefined ? currentPlot : []
+    }
+  ]
+
+  const voltageData = [
+    {
+      'id': 'Voltage',
+      // "color": "hsl(151, 70%, 50%)",
+      'data': fetchData !== undefined ? voltagePlot : []
+    }
+  ]
+
+  const pfData = [
+    {
+      'id': 'Power factor',
+      // "color": "hsl(151, 70%, 50%)",
+      'data': fetchData !== undefined ? pfPlot : []
+    }
+  ]
+
+
+  // console.log(powerPlot)
+
   return (
     <>
       <Modal
@@ -403,8 +410,9 @@ export const RoomModal = ({
             </Grid>
           </Grid>
         )}
+
         {selectedModalTab === 'Energy' && (
-          <Grid container spacing={3} style={{ marginTop: '20px' }}>
+          < Grid container spacing={3} style={{ marginTop: '20px' }}>
             <Grid item xs={8}>
               <HeaderText>Electric Meter Performance</HeaderText>
             </Grid>
@@ -455,20 +463,71 @@ export const RoomModal = ({
                 }}
               />
             </Grid>
+
+            {/* ## BEGIN Chart plot */}
             <Grid item xs={12}>
               {value &&
-                value.map((data: any) => {
+                value.map((data: any, index: number) => {
+                  // { console.log(data['value']) }
                   return (
-                    <EnergySummaryBox key={data}>
-                      <InvoiceImage src={PowerChart} />
-                    </EnergySummaryBox>
+                    <>
+                      {data['value'] === 'activePower' && <EnergySummaryBox key={index}>
+                        {/* <InvoiceImage src={PowerChart} /> */}
+                        <div key={index} style={{ width: '100%', height: '200px' }}>
+                          <h4 style={{ color: 'black', textAlign: 'center' }}>{powerData[0]['id']}</h4>
+                          <EnergyGraph unit='kW' data={powerData} />
+                        </div>
+                      </EnergySummaryBox>}
+
+                      {data['value'] === 'reactivePower' && <EnergySummaryBox key={index + 1}>
+                        {/* <InvoiceImage src={PowerChart} /> */}
+                        <div key={index + 1} style={{ width: '100%', height: '200px' }}>
+                          <h4 style={{ color: 'black', textAlign: 'center' }}>{powerReactiveData[0]['id']}</h4>
+                          <EnergyGraph unit='kVAR' data={powerReactiveData} />
+                        </div>
+                      </EnergySummaryBox>}
+
+                      {data['value'] === 'apparentPower' && <EnergySummaryBox key={index + 2}>
+                        {/* <InvoiceImage src={PowerChart} /> */}
+                        <div key={index + 2} style={{ width: '100%', height: '200px' }}>
+                          <h4 style={{ color: 'black', textAlign: 'center' }}>{powerApparentData[0]['id']}</h4>
+                          <EnergyGraph unit='kVA' data={powerApparentData} />
+                        </div>
+                      </EnergySummaryBox>}
+
+                      {data['value'] === 'current' && <EnergySummaryBox key={index + 3}>
+                        {/* <InvoiceImage src={PowerChart} /> */}
+                        <div key={index + 3} style={{ width: '100%', height: '200px' }}>
+                          <h4 style={{ color: 'black', textAlign: 'center' }}>{currentData[0]['id']}</h4>
+                          <EnergyGraph unit='A' data={currentData} />
+                        </div>
+                      </EnergySummaryBox>}
+
+                      {data['value'] === 'voltage' && <EnergySummaryBox key={index + 4}>
+                        {/* <InvoiceImage src={PowerChart} /> */}
+                        <div key={index + 4} style={{ width: '100%', height: '200px' }}>
+                          <h4 style={{ color: 'black', textAlign: 'center' }}>{voltageData[0]['id']}</h4>
+                          <EnergyGraph unit='V' data={voltageData} />
+                        </div>
+                      </EnergySummaryBox>}
+
+                      {data['value'] === 'powerFactor' && <EnergySummaryBox key={index + 5}>
+                        {/* <InvoiceImage src={PowerChart} /> */}
+                        <div key={index + 5} style={{ width: '100%', height: '200px' }}>
+                          <h4 style={{ color: 'black', textAlign: 'center' }}>{pfData[0]['id']}</h4>
+                          <EnergyGraph unit='W/VA' data={pfData} />
+                        </div>
+                      </EnergySummaryBox>}
+                    </>
                   );
                 })}
             </Grid>
+            {/* ## END Chart plot */}
           </Grid>
         )}
         <CloseButton src={CloseButtonIcon} onClick={closeModal} />
       </Modal>
+
     </>
   );
 };

@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { Grid, Paper, RootRef } from '@material-ui/core';
-import { makeStyles, createStyles, Theme, withStyles } from '@material-ui/core/styles';
+import { Grid, Paper } from '@material-ui/core';
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import { CardHeader } from 'components/CardHeader';
 import { Buildings } from './Buildings';
 import { SummaryTabs } from './SummaryTabs';
@@ -115,7 +115,7 @@ export const FloorUsage = () => {
   const [selectedFloorYiHouse, setSelectedFloorYiHouse] = useState<string>('0');
   const [summaryData, setSummaryData] = useState(energyData);
   const [selectedGraphOpen, setSelectedGraphOpen] = useState(false);
-  const [startDate, setStartDate] = useState();
+  const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState();
   const [selectedRoom, setSelectedRoom] = useState<string | undefined>();
   const [selectedRoomOpen, setSelectedRoomOpen] = useState(false);

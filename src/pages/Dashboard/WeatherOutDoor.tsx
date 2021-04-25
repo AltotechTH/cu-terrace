@@ -1,4 +1,4 @@
-import { useStyles, convertDate, convertValue } from './useStyles'
+import { convertDate, convertValue } from './useStyles'
 
 import { Line, ComposedChart, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 import { Card, WeatherInfo, Img, WeatherDetail, Detial, LabelCard } from './styles'
@@ -16,7 +16,6 @@ interface OutdoorType {
 
 
 const WeatherOutDoor = ({ data, dashboardData }: OutdoorType) => {
-  const classes = useStyles()
   return (
     <>
       <Card style={{ marginTop: '10px', top: '0px', paddingBottom: '20px' }}>

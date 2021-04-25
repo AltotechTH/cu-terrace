@@ -1,6 +1,3 @@
-import React from 'react'
-import { useStyles, } from './useStyles'
-import Paper from '@material-ui/core/Paper';
 import { Tooltip, Legend, ResponsiveContainer, PieChart, Cell, Label, Pie } from 'recharts'
 import { Card } from './styles'
 
@@ -8,7 +5,6 @@ const COLORS = ['#0E7EE4', '#00A3FF', '#C0E8FF', '#CEF7E3'];
 
 
 const EnergyConsumptionByZone = (data: any) => {
-  const classes = useStyles()
   const data1 = data.data
   return (
     <>

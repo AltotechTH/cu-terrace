@@ -22,8 +22,12 @@ const Building = ({ dashboardData }: BuildingType['dashboardData']) => {
       <img src={Build} alt="building" />
 
       <div style={{ position: 'absolute', top: '252px', right: '83px', display: 'grid' }}>
-        <strong style={{ fontSize: '32px', zIndex: 999 }}>{dashboardData !== undefined ? Number(dashboardData.total_energy_consumption.value).toFixed(2) : 0}</strong>
-        <small style={{ fontSize: '12px', zIndex: 999 }}>kWh/m</small>
+
+        <div style={{ zIndex: 9, display: 'grid' }}>
+          <strong style={{ fontSize: '32px' }}>{dashboardData !== undefined ? Number(dashboardData.total_energy_consumption.value).toFixed(2) : 0}</strong>
+          <small style={{ fontSize: '12px' }}>kWh/m</small>
+        </div>
+
         <img style={{ position: 'relative', right: '0px', top: '-6em' }} src={Circle} alt='circle' />
       </div>
 
