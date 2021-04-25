@@ -4,6 +4,7 @@ import Sidebar from 'components/Sidebar'
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import { Dashboard } from 'pages/Dashboard'
 import { FloorUsage } from 'pages/FloorUsage';
+import { Overview } from 'pages/Overview';
 
 const Admin = () => {
   const [isLogin, setIsLogin] = useState(false)
@@ -27,6 +28,7 @@ const Admin = () => {
           <Switch>
             <Route path="/dashboard" component={Dashboard} exact></Route>
             <Route path="/floor-usage" component={FloorUsage} exact></Route>
+            <Route path="/overview" component={Overview} exact></Route>
             <Redirect to='/dashboard' />
           </Switch>
         </Router>
