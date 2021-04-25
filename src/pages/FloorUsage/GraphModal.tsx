@@ -56,6 +56,9 @@ const customStyles = {
     borderRadius: '10px',
     border: '0.5px solid #f3f3f3',
   },
+  overlay: {
+    backgroundColor: 'rgba(119, 119, 119, 0.75)'
+  }
 };
 
 const data = [

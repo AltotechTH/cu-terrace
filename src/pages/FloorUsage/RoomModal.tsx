@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import Modal from 'react-modal';
 import styled from 'styled-components';
-import { ResponsiveBar } from '@nivo/bar';
 import { Grid } from '@material-ui/core';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -134,6 +133,9 @@ const customStyles = {
     padding: '25px',
     maxHeight: '90%',
   },
+  overlay: {
+    backgroundColor: 'rgba(119, 119, 119, 0.75)'
+  }
 };
 
 const ShortNameBox = styled.div`
@@ -195,6 +197,7 @@ export const RoomModal = ({
         onRequestClose={closeModal}
         style={customStyles}
         contentLabel="Example Modal"
+
       >
         <Grid container spacing={3}>
           <Grid item xs={4} style={{ display: 'flex', justifyContent: 'flex-start' }}>
