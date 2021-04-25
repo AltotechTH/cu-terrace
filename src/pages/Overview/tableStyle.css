@@ -1,0 +1,28 @@
+.MuiTableContainer-root {
+  position: fixed;
+  top: 80px;
+  right: 0px;
+  width: 650px !important;
+}
+
+.MuiTableCell-body {
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+  padding: 5px !important;
+  width: 100px !important;
+}
+
+.MuiTableCell-alignRigh {
+  width: 100px !important;
+  width: 100px !important;
+}
+
+.MuiTableCell-root {
+  width: 60px;
+  padding: 5px;
+}
+
+.MuiTableCell-head {
+  padding: 7px !important;
+  width: 100px !important;
+}
