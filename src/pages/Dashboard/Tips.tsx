@@ -1,9 +1,7 @@
 import React from 'react'
 import { useStyles } from './useStyles'
 import { useTheme } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import { Card, WeatherInfo, Img, WeatherDetail, Detial, LabelCard } from './styles'
-import { HiOutlineLightBulb } from 'react-icons/hi'
+import { Card } from './styles'
 import { autoPlay } from 'react-swipeable-views-utils';
 import SwipeableViews from 'react-swipeable-views';
 import MobileStepper from '@material-ui/core/MobileStepper';

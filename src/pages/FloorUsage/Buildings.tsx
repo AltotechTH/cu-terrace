@@ -5,6 +5,7 @@ import './style.css';
 import { CuiHouse } from './CuiHouse';
 import { CuTerrace } from './CuTerrace';
 
+
 const Building = styled.div`
   margin: 5px 20px;
   position: relative;
@@ -75,5 +76,6 @@ export const Buildings = ({
         </BuildingName>
       </AnimatedBuilding>
     </>
+
   );
 };

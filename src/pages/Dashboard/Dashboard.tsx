@@ -171,11 +171,12 @@ const Dashboard: FC = () => {
     return () => {
       fetchData(true);
     }
+    // eslint-disable-next-line 
   }, [])
 
   useEffect(() => {
     GetStock().then(res => setData({ data: res?.data['Data'] }))
-
+    // eslint-disable-next-line 
   }, [])
 
   console.log(buildingData.data.buildings)

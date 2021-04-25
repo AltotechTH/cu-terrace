@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Grid, Paper } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 
 type CardHeaderProps = {
   headerName: string;

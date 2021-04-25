@@ -1,20 +1,12 @@
-import {
-  // AiFillCaretDown,
-  // AiFillCaretUp,
-  AiOutlineHistory,
-  AiOutlineHome,
-  // AiOutlineMoneyCollect,
-  // AiOutlineUser
-} from 'react-icons/ai';
-import { FaCog, FaOpencart } from 'react-icons/fa';
-import { SidebarItem } from '../../models/SidebarItem';
+import { SidebarItem } from 'models/SidebarItem';
+
 import DashboardIcon from 'assets/images/icon/Dashboard.svg'
 import Floor from 'assets/images/icon/Floorusage.svg'
 import User from 'assets/images/icon/User.svg'
 import Setting from 'assets/images/icon/Setting.svg'
 import Reports from 'assets/images/icon/Reports.svg'
 
-export const SidebarData: SidebarItem[] = [
+export const Routes: SidebarItem[] = [
   {
     title: 'DASHBOARD',
     path: '/dashboard',
