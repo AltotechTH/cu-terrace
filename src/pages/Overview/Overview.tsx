@@ -84,31 +84,6 @@ export const Overview = () => {
     },
   ]);
 
-  function createData(
-    building_name: string,
-    building_rank: number,
-    energy_intensity: number,
-    energy_kWh: string,
-    energy_use_percent: number,
-    hotel: number
-  ) {
-    return {
-      building_name,
-      building_rank,
-      energy_intensity,
-      energy_kWh,
-      energy_use_percent,
-      hotel,
-    };
-  }
-
-  //   const rows = [
-  //     createData('building_name', 159, 6.0, 24, 4.0),
-  //     createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  //     createData('Eclair', 262, 16.0, 24, 6.0),
-  //     createData('Cupcake', 305, 3.7, 67, 4.3),
-  //     createData('Gingerbread', 356, 16.0, 49, 3.9),
-  //   ];
 
   useEffect(() => {
     building.getBuildingAPI().then((res: any) => {

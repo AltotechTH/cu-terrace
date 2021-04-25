@@ -1,4 +1,3 @@
-import zIndex from '@material-ui/core/styles/zIndex'
 import Build from 'assets/images/CU-Terrace-Building.svg'
 import Circle from 'assets/images/icon/Circle.svg'
 import Pionter from 'assets/images/icon/Pointer.svg'
