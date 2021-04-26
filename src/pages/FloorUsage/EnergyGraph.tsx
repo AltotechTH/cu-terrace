@@ -10,7 +10,8 @@ export const EnergyGraph = (prop: any) => (
     xScale={{
       type: "time",
       format: "%Y-%m-%d %H:%M:%S",
-      precision: "minute"
+      precision: "second",
+      useUTC: false
     }}
     yScale={{
       type: "linear",
@@ -38,6 +39,8 @@ export const EnergyGraph = (prop: any) => (
     enableSlices="x"
     sliceTooltip={({ slice }) => {
       const date = slice.points[0].data.xFormatted
+
+      // console.log(slice)
       return (
         <div>
           <strong style={{ color: 'black' }}>
