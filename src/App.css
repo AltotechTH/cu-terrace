@@ -8,6 +8,7 @@ html,
 body {
   color: #ffff;
   background-color: #f1f4f7;
+  height: 100%;
 }
 
 .column1 {
@@ -38,7 +39,7 @@ body {
 
 /* Clear floats after the columns */
 .row:after {
-  content: "";
+  content: '';
   display: table;
   clear: both;
 }
@@ -94,12 +95,7 @@ body {
   left: 0px;
   top: 0px;
 
-  background: linear-gradient(
-    262.37deg,
-    #c0e8ff 17.95%,
-    rgba(224, 240, 255, 0.5) 81.99%
-  );
+  background: linear-gradient(262.37deg, #c0e8ff 17.95%, rgba(224, 240, 255, 0.5) 81.99%);
   opacity: 0.5;
   border-radius: 16px 16px 0px 0px;
 }
-

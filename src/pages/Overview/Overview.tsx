@@ -8,6 +8,7 @@ import FloorInformation from './FloorInformation';
 import Circle from 'assets/images/locationDot.svg';
 import { building } from 'api/services/Building';
 import { OverviewTable } from './OverviewTable';
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 
 const Body = styled.div`
   height: 500px;
@@ -72,7 +73,30 @@ const HeaderText = styled.h3`
   margin-left: 20px;
 `;
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      flexGrow: 1,
+      padding: '20px',
+      marginLeft: '74px',
+    },
+    paper: {
+      padding: theme.spacing(2),
+      textAlign: 'center',
+      color: theme.palette.text.secondary,
+      borderRadius: '10px',
+    },
+    buttonroot: {
+      color: 'black',
+    },
+    span: {
+      borderBottom: '1px soilid black',
+    },
+  })
+);
+
 export const Overview = () => {
+  const classes = useStyles();
   const [buildingData, setBuildingData] = useState([
     {
       building_name: '...',
@@ -84,7 +108,6 @@ export const Overview = () => {
     },
   ]);
 
-
   useEffect(() => {
     building.getBuildingAPI().then((res: any) => {
       setBuildingData(res.data.buildings);
@@ -93,140 +116,142 @@ export const Overview = () => {
 
   return (
     <>
-      <div style={{ height: 'calc(100vh - 80px)' }}>
-        <Grid container spacing={3}>
-          <Grid item sm={12}>
-            <Body>
-              <BackgroundImage image={SmartCityImage} />
-              <img
-                style={{
-                  position: 'absolute',
-                  left: '38.3%',
-                  top: '26%',
-                  width: '25px',
-                  cursor: 'pointer',
-                }}
-                src={Circle}
-                alt="circle"
-                onClick={() => (window.location.href = '/dashboard')}
-              />
-              <img
-                style={{ position: 'absolute', left: '22%', top: '20%', width: '25px' }}
-                src={Circle}
-                alt="circle"
-              />
-              <img
-                style={{ position: 'absolute', left: '24%', top: '35%', width: '25px' }}
-                src={Circle}
-                alt="circle"
-              />
-              <img
-                style={{ position: 'absolute', left: '45%', top: '50%', width: '25px' }}
-                src={Circle}
-                alt="circle"
-              />
-              <img
-                style={{ position: 'absolute', left: '53%', top: '29%', width: '25px' }}
-                src={Circle}
-                alt="circle"
-              />
-              <img
-                style={{ position: 'absolute', left: '70%', top: '65%', width: '25px' }}
-                src={Circle}
-                alt="circle"
-              />
+      <div className={classes.root}>
+        <div style={{ height: 'calc(100vh - 80px)' }}>
+          <Grid container spacing={3}>
+            <Grid item sm={12}>
+              <Body>
+                <BackgroundImage image={SmartCityImage} />
+                <img
+                  style={{
+                    position: 'absolute',
+                    left: '38.3%',
+                    top: '26%',
+                    width: '25px',
+                    cursor: 'pointer',
+                  }}
+                  src={Circle}
+                  alt="circle"
+                  onClick={() => (window.location.href = '/dashboard')}
+                />
+                <img
+                  style={{ position: 'absolute', left: '22%', top: '20%', width: '25px' }}
+                  src={Circle}
+                  alt="circle"
+                />
+                <img
+                  style={{ position: 'absolute', left: '24%', top: '35%', width: '25px' }}
+                  src={Circle}
+                  alt="circle"
+                />
+                <img
+                  style={{ position: 'absolute', left: '45%', top: '50%', width: '25px' }}
+                  src={Circle}
+                  alt="circle"
+                />
+                <img
+                  style={{ position: 'absolute', left: '53%', top: '29%', width: '25px' }}
+                  src={Circle}
+                  alt="circle"
+                />
+                <img
+                  style={{ position: 'absolute', left: '70%', top: '65%', width: '25px' }}
+                  src={Circle}
+                  alt="circle"
+                />
 
-              <FloorInformation
-                header="CU Terrace"
-                size={32}
-                floors={'FL10'}
-                right={40}
-                top={30}
-                onClick={() => (window.location.href = '/dashboard')}
-              />
-              <OverviewTable rows={buildingData} />
-            </Body>
-          </Grid>
-          <Grid item xs={12}>
-            <HeaderText>Intelligent Energy Management</HeaderText>
-          </Grid>
-          <Grid item sm={12} style={{ padding: '10px 30px' }}>
-            <Grid container spacing={3}>
-              <Grid item xs={3}>
-                <SummaryBox>
-                  <Grid container spacing={3}>
-                    <Grid item xs={12}>
-                      <SummaryBoxHeader>Total Energy Consumption</SummaryBoxHeader>
+                <FloorInformation
+                  header="CU Terrace"
+                  size={32}
+                  floors={'FL10'}
+                  right={40}
+                  top={30}
+                  onClick={() => (window.location.href = '/dashboard')}
+                />
+                <OverviewTable rows={buildingData} />
+              </Body>
+            </Grid>
+            <Grid item xs={12}>
+              <HeaderText>Intelligent Energy Management</HeaderText>
+            </Grid>
+            <Grid item sm={12} style={{ padding: '10px 30px' }}>
+              <Grid container spacing={3}>
+                <Grid item xs={3}>
+                  <SummaryBox>
+                    <Grid container spacing={3}>
+                      <Grid item xs={12}>
+                        <SummaryBoxHeader>Total Energy Consumption</SummaryBoxHeader>
+                      </Grid>
+                      <Grid item xs={12} style={{ paddingTop: '0px', display: 'flex' }}>
+                        <SummaryBoxValue>1,053,403</SummaryBoxValue>
+                        <SummaryBoxUnit></SummaryBoxUnit>
+                      </Grid>
+                      <Grid item xs={12} style={{ display: 'flex' }}>
+                        <Icon src={DownIcon} />
+                        <PercentChange>-0.84%</PercentChange>
+                        <Comparative>than yesterday</Comparative>
+                      </Grid>
                     </Grid>
-                    <Grid item xs={12} style={{ paddingTop: '0px', display: 'flex' }}>
-                      <SummaryBoxValue>1,053,403</SummaryBoxValue>
-                      <SummaryBoxUnit></SummaryBoxUnit>
+                  </SummaryBox>
+                </Grid>
+                <Grid item xs={3}>
+                  <SummaryBox>
+                    <Grid container spacing={3}>
+                      <Grid item xs={12}>
+                        <SummaryBoxHeader>GHGs Equivalent to Metric Tons CO2</SummaryBoxHeader>
+                      </Grid>
+                      <Grid item xs={12} style={{ paddingTop: '0px', display: 'flex' }}>
+                        <SummaryBoxValue>5,000</SummaryBoxValue>
+                        <SummaryBoxUnit></SummaryBoxUnit>
+                      </Grid>
+                      <Grid item xs={12} style={{ display: 'flex' }}>
+                        <Icon src={UpIcon} />
+                        <PercentChange>-0.84%</PercentChange>
+                        <Comparative>than yesterday</Comparative>
+                      </Grid>
                     </Grid>
-                    <Grid item xs={12} style={{ display: 'flex' }}>
-                      <Icon src={DownIcon} />
-                      <PercentChange>-0.84%</PercentChange>
-                      <Comparative>than yesterday</Comparative>
+                  </SummaryBox>
+                </Grid>
+                <Grid item xs={3}>
+                  <SummaryBox>
+                    <Grid container spacing={3}>
+                      <Grid item xs={12}>
+                        <SummaryBoxHeader>GHGs Equivalent to Trees</SummaryBoxHeader>
+                      </Grid>
+                      <Grid item xs={12} style={{ paddingTop: '0px', display: 'flex' }}>
+                        <SummaryBoxValue>6,000</SummaryBoxValue>
+                        <SummaryBoxUnit></SummaryBoxUnit>
+                      </Grid>
+                      <Grid item xs={12} style={{ display: 'flex' }}>
+                        <Icon src={DownIcon} />
+                        <PercentChange>-0.84%</PercentChange>
+                        <Comparative>than yesterday</Comparative>
+                      </Grid>
                     </Grid>
-                  </Grid>
-                </SummaryBox>
-              </Grid>
-              <Grid item xs={3}>
-                <SummaryBox>
-                  <Grid container spacing={3}>
-                    <Grid item xs={12}>
-                      <SummaryBoxHeader>GHGs Equivalent to Metric Tons CO2</SummaryBoxHeader>
+                  </SummaryBox>
+                </Grid>
+                <Grid item xs={3}>
+                  <SummaryBox>
+                    <Grid container spacing={3}>
+                      <Grid item xs={12}>
+                        <SummaryBoxHeader>GHGs Equivalent to Barrel of Oil</SummaryBoxHeader>
+                      </Grid>
+                      <Grid item xs={12} style={{ paddingTop: '0px', display: 'flex' }}>
+                        <SummaryBoxValue>2,000</SummaryBoxValue>
+                        <SummaryBoxUnit></SummaryBoxUnit>
+                      </Grid>
+                      <Grid item xs={12} style={{ display: 'flex' }}>
+                        <Icon src={DownIcon} />
+                        <PercentChange>-0.84%</PercentChange>
+                        <Comparative>than yesterday</Comparative>
+                      </Grid>
                     </Grid>
-                    <Grid item xs={12} style={{ paddingTop: '0px', display: 'flex' }}>
-                      <SummaryBoxValue>5,000</SummaryBoxValue>
-                      <SummaryBoxUnit></SummaryBoxUnit>
-                    </Grid>
-                    <Grid item xs={12} style={{ display: 'flex' }}>
-                      <Icon src={UpIcon} />
-                      <PercentChange>-0.84%</PercentChange>
-                      <Comparative>than yesterday</Comparative>
-                    </Grid>
-                  </Grid>
-                </SummaryBox>
-              </Grid>
-              <Grid item xs={3}>
-                <SummaryBox>
-                  <Grid container spacing={3}>
-                    <Grid item xs={12}>
-                      <SummaryBoxHeader>GHGs Equivalent to Trees</SummaryBoxHeader>
-                    </Grid>
-                    <Grid item xs={12} style={{ paddingTop: '0px', display: 'flex' }}>
-                      <SummaryBoxValue>6,000</SummaryBoxValue>
-                      <SummaryBoxUnit></SummaryBoxUnit>
-                    </Grid>
-                    <Grid item xs={12} style={{ display: 'flex' }}>
-                      <Icon src={DownIcon} />
-                      <PercentChange>-0.84%</PercentChange>
-                      <Comparative>than yesterday</Comparative>
-                    </Grid>
-                  </Grid>
-                </SummaryBox>
-              </Grid>
-              <Grid item xs={3}>
-                <SummaryBox>
-                  <Grid container spacing={3}>
-                    <Grid item xs={12}>
-                      <SummaryBoxHeader>GHGs Equivalent to Barrel of Oil</SummaryBoxHeader>
-                    </Grid>
-                    <Grid item xs={12} style={{ paddingTop: '0px', display: 'flex' }}>
-                      <SummaryBoxValue>2,000</SummaryBoxValue>
-                      <SummaryBoxUnit></SummaryBoxUnit>
-                    </Grid>
-                    <Grid item xs={12} style={{ display: 'flex' }}>
-                      <Icon src={DownIcon} />
-                      <PercentChange>-0.84%</PercentChange>
-                      <Comparative>than yesterday</Comparative>
-                    </Grid>
-                  </Grid>
-                </SummaryBox>
+                  </SummaryBox>
+                </Grid>
               </Grid>
             </Grid>
           </Grid>
-        </Grid>
+        </div>
       </div>
     </>
   );

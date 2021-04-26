@@ -1,18 +1,17 @@
-import { FC, useEffect, useMemo, useState, useContext } from 'react'
-import { RealtimeConsumption } from './RealtimeConsumption'
-import { DailyEnergyConsumption } from './DailyEnergyConsumption'
-import { EnergyConsumptionByFloor } from './EnergyConsumptionByFloor'
-import { EnergyConsumptionByZone } from './EnergyConsumptionByZone'
-import { BuildingEnergyPerformance } from './BuildingEnergyPerformance'
-import { Building } from './Building'
-import { WeatherOutDoor } from './WeatherOutDoor'
-import { WeatherInDoor } from './WeatherInDoor'
-import { Tips } from './Tips'
-import { GetStock } from 'api/services/Stock'
-import { Card } from './styles'
-import { FirebaseContext } from 'api/firebase'
-import { building } from 'api/services/Building'
-
+import { FC, useEffect, useMemo, useState, useContext } from 'react';
+import { RealtimeConsumption } from './RealtimeConsumption';
+import { DailyEnergyConsumption } from './DailyEnergyConsumption';
+import { EnergyConsumptionByFloor } from './EnergyConsumptionByFloor';
+import { EnergyConsumptionByZone } from './EnergyConsumptionByZone';
+import { BuildingEnergyPerformance } from './BuildingEnergyPerformance';
+import { Building } from './Building';
+import { WeatherOutDoor } from './WeatherOutDoor';
+import { WeatherInDoor } from './WeatherInDoor';
+import { Tips } from './Tips';
+import { GetStock } from 'api/services/Stock';
+import { Card } from './styles';
+import { FirebaseContext } from 'api/firebase';
+import { building } from 'api/services/Building';
 
 const data1 = [
   {
@@ -119,37 +118,37 @@ const data1 = [
   },
 ];
 
-const data01 = [{ name: 'Residential', value: 5 }, { name: 'Facilities', value: 4 },
-{ name: 'Retail Space', value: 1 }, { name: 'Office', value: 1 }]
-
-
+const data01 = [
+  { name: 'Residential', value: 5 },
+  { name: 'Facilities', value: 4 },
+  { name: 'Retail Space', value: 1 },
+  { name: 'Office', value: 1 },
+];
 
 const Dashboard: FC = () => {
+  const firebase = useContext<any>(FirebaseContext);
 
-  const firebase = useContext<any>(FirebaseContext)
-
-  const [dashboardData, setDashboardData] = useState()
+  const [dashboardData, setDashboardData] = useState();
 
   const [data, setData]: any = useState({
-    data: []
-  })
+    data: [],
+  });
 
   const [buildingData, setBuildingData]: any = useState({
-    data: []
-  })
+    data: [],
+  });
 
   //##--------------- Function fetch Station information form firebase 🔥 --------------------
   function fetchData(didMount: boolean) {
     const pages_path = `building/pmcu/pages`;
     if (didMount) {
       firebase.db.ref(pages_path).off('value');
-
     } else {
       firebase.db.ref(pages_path).on('value', function (snap: { val: () => any }) {
         if (snap) {
           let capt: any = snap.val();
           if (capt !== undefined) {
-            setDashboardData(capt.dashboard)
+            setDashboardData(capt.dashboard);
           }
         }
       });
@@ -157,55 +156,54 @@ const Dashboard: FC = () => {
   }
 
   function getData() {
-    building.getBuildingAPI().then((res: any) => setBuildingData({ data: res?.data }))
+    building.getBuildingAPI().then((res: any) => setBuildingData({ data: res?.data }));
     // building
   }
 
   // console.log(dashboardData)
 
   useMemo(() => {
-
-    fetchData(false)
-    getData()
+    fetchData(false);
+    getData();
 
     return () => {
       fetchData(true);
-    }
-    // eslint-disable-next-line 
-  }, [])
+    };
+    // eslint-disable-next-line
+  }, []);
 
   useEffect(() => {
-    GetStock().then(res => setData({ data: res?.data['Data'] }))
-    // eslint-disable-next-line 
-  }, [])
+    GetStock().then((res) => setData({ data: res?.data['Data'] }));
+    // eslint-disable-next-line
+  }, []);
 
-  console.log(buildingData.data.buildings)
+  console.log(buildingData.data.buildings);
 
   return (
-    <div className='row'>
-      <div className='column1'>
-        <Card >
-          <div className='row'>
-            <div className='column3'>
+    <div className="row" style={{ marginLeft: '84px' }}>
+      <div className="column1">
+        <Card>
+          <div className="row">
+            <div className="column3">
               <RealtimeConsumption data={data.data} dashboardData={dashboardData} />
               <DailyEnergyConsumption data={data1} />
               <EnergyConsumptionByFloor data={data1} />
               <EnergyConsumptionByZone data={data01} />
             </div>
-            <div className='column4'>
+            <div className="column4">
               <BuildingEnergyPerformance dashboardData={dashboardData} />
               <Building dashboardData={dashboardData} />
             </div>
           </div>
         </Card>
       </div>
-      <div className='column2' style={{ padding: '0px 8px 8px 20px' }}>
+      <div className="column2" style={{ padding: '0px 8px 8px 20px' }}>
         <WeatherOutDoor data={data.data} dashboardData={dashboardData} />
         <WeatherInDoor dashboardData={dashboardData} />
         <Tips />
       </div>
     </div>
-  )
-}
+  );
+};
 
-export { Dashboard }
+export { Dashboard };

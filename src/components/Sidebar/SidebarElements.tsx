@@ -19,7 +19,7 @@ export const Footer = styled.div`
 
 export const SidebarNav = styled.div<{ sidebar: boolean }>`
     width: 74px;
-    height: 100%;
+    height: calc(100% - 80px);
     background-color: #ffffff;
     position: absolute;
     top: 80px;
