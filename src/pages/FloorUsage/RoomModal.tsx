@@ -101,16 +101,12 @@ export const RoomModal = ({
       let tmpPF: any = []
 
       Object.values(histData).forEach((val: any, index: number) => {
-
-        // console.log(val['unix_timestamp'])
         tmpPower.push({ 'x': moment(moment(val['timestamp']).format()).format('YYYY-MM-DD HH:mm:ss'), 'y': val['power'] })
         tmpVoltage.push({ 'x': moment(moment(val['timestamp']).format()).format('YYYY-MM-DD HH:mm:ss'), 'y': val['voltage'] })
         tmpCurrent.push({ 'x': moment(moment(val['timestamp']).format()).format('YYYY-MM-DD HH:mm:ss'), 'y': val['current'] })
         tmpPowerReactive.push({ 'x': moment(moment(val['timestamp']).format()).format('YYYY-MM-DD HH:mm:ss'), 'y': val['power_reactive'] })
         tmpPowerApparent.push({ 'x': moment(moment(val['timestamp']).format()).format('YYYY-MM-DD HH:mm:ss'), 'y': val['power_apparent'] })
         tmpPF.push({ 'x': moment(moment(val['timestamp']).format()).format('YYYY-MM-DD HH:mm:ss'), 'y': val['power_factor'] })
-
-        // tmpData.push({ 'x': moment(Number(moment(val['timestamp']).format('x'))).format('YYYY-MM-DD HH:mm:ss'), 'y': val['energy'] })
       })
 
       setPowerPlot(tmpPower)
@@ -125,13 +121,10 @@ export const RoomModal = ({
 
   useMemo(() => {
     if (selectedRoom !== undefined) {
-      console.log(selectedRoom)
       Devices(String(selectedRoom).substr(1, 3))
     }
     // eslint-disable-next-line
   }, [selectedRoom])
-
-  console.log(fetchDevice)
 
   useMemo(() => {
     if (selectedModalTab === 'Energy' && startDate !== undefined) {

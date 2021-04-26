@@ -78,35 +78,35 @@ const roomsData = [
   { room: '0603', value: 34 },
   { room: '0604', value: 14 },
   { room: '0605', value: 4 },
-  { room: '0606', value: 44 },
-  { room: '0607', value: 24 },
-  { room: '0608', value: 14 },
-  { room: '0609', value: 44 },
-  { room: '0610', value: 34 },
-  { room: '0611', value: 14 },
-  { room: '0612', value: 24 },
-  { room: '0613', value: 34 },
-  { room: '0614', value: 14 },
-  { room: '0615', value: 4 },
-  { room: '0616', value: 44 },
-  { room: '0617', value: 24 },
-  { room: '0618', value: 14 },
-  { room: '0619', value: 44 },
-  { room: '0620', value: 34 },
-  { room: '0621', value: 14 },
-  { room: '0622', value: 24 },
-  { room: '0623', value: 4 },
-  { room: '0624', value: 14 },
-  { room: '0625', value: 14 },
-  { room: '0626', value: 44 },
-  { room: '0627', value: 24 },
-  { room: '0628', value: 14 },
-  { room: '0629', value: 4 },
-  { room: '0630', value: 34 },
+  { room: '0606', value: 100 },
+  { room: '0607', value: 100 },
+  { room: '0608', value: 100 },
+  { room: '0609', value: 100 },
+  { room: '0610', value: 100 },
+  { room: '0611', value: 100 },
+  { room: '0612', value: 100 },
+  { room: '0613', value: 100 },
+  { room: '0614', value: 100 },
+  { room: '0615', value: 100},
+  { room: '0616', value: 100 },
+  { room: '0617', value: 100 },
+  { room: '0618', value: 100 },
+  { room: '0619', value: 100 },
+  { room: '0620', value: 100 },
+  { room: '0621', value: 100 },
+  { room: '0622', value: 100 },
+  { room: '0623', value: 100},
+  { room: '0624', value: 100 },
+  { room: '0625', value: 100 },
+  { room: '0626', value: 100 },
+  { room: '0627', value: 100 },
+  { room: '0628', value: 100 },
+  { room: '0629', value: 100},
+  { room: '0630', value: 100 },
 ];
 
 export const FloorUsage = () => {
-  const [isFirstBuilding, setIsFirstBuilding] = useState(false);
+  const [buildingName, setBuildingName] = useState('Terrace');
   const [selectedFloor, setSelectedFloor] = useState('06');
   const [selectedTab, setSelectedTab] = useState('Energy');
   const [selectedModalTab, setSelectedModalTab] = useState('Information');
@@ -120,6 +120,8 @@ export const FloorUsage = () => {
   const [endDate, setEndDate] = useState();
   const [selectedRoom, setSelectedRoom] = useState<string | undefined>();
   const [selectedRoomOpen, setSelectedRoomOpen] = useState(false);
+  const [tagOpacity, setTagOpacity] = useState(0);
+  const [hoveredFloor, setHoveredFloor] = useState('');
 
   const classes = useStyles();
 
@@ -145,21 +147,28 @@ export const FloorUsage = () => {
 
   const onSelectedFloor = (e: any) => {
     if (e.target.getAttribute('class') !== null && e.target.getAttribute('class').split('_')[0]) {
-      setIsFirstBuilding(e.target.getAttribute('class').split('_')[0] === 'Terrace');
+      let classAttr = e.target.getAttribute('class').split('_');
+      setBuildingName(classAttr[0]);
+      if (classAttr[0] === buildingName) {
+        setSelectedGraphOpen(true);
+      }
+      setSelectedFloor(classAttr[0] + classAttr[1]);
     }
   };
 
   const onMouseMove = (e: any) => {
     if (e.target.getAttribute('class') !== null && e.target.getAttribute('class').split('_')[0]) {
       let classAttr = e.target.getAttribute('class').split('_');
-      setSelectedFloor(classAttr[0] + classAttr[1]);
+      setHoveredFloor(classAttr[0] + classAttr[1]);
       if (classAttr[0] === 'iHouse') {
         setOpacityStateiHouse(0.5);
         setSelectedFloorYiHouse((24.6 * classAttr[1] - 24.6).toString());
+        setTagOpacity(1);
       }
       if (classAttr[0] === 'Terrace') {
         setOpacityStateTerrace(0.5);
         setSelectedFloorYTerrace((24.6 * classAttr[1] - 24.6).toString());
+        setTagOpacity(1);
       }
     }
   };
@@ -167,6 +176,7 @@ export const FloorUsage = () => {
   const onMouseLeave = () => {
     setOpacityStateiHouse(0);
     setOpacityStateTerrace(0);
+    setTagOpacity(0);
   };
 
   const closeModal = () => {
@@ -196,13 +206,13 @@ export const FloorUsage = () => {
           style={{
             display: 'flex',
             flexDirection: 'row',
-            height: '800px',
+            height: 'auto',
             padding: '20px 30px 20px 50px',
             marginTop: '-10px',
           }}
         >
           <Buildings
-            isFirstBuilding={isFirstBuilding}
+            buildingName={buildingName}
             onSelectedFloor={onSelectedFloor}
             onMouseMove={onMouseMove}
             opacityStateiHouse={opacityStateiHouse}
@@ -210,6 +220,9 @@ export const FloorUsage = () => {
             onMouseLeave={onMouseLeave}
             selectedFloorYiHouse={selectedFloorYiHouse}
             selectedFloorYTerrace={selectedFloorYTerrace}
+            selectedFloor={selectedFloor}
+            tagOpacity={tagOpacity}
+            hoveredFloor={hoveredFloor}
           />
         </Grid>
         <Grid item xs={12} sm={7}>
