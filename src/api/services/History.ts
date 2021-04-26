@@ -51,6 +51,7 @@ const getHistoryAPI = async (
   };
 
   try {
+    // console.log(StartTime, EndTime);
     let responseJson = await axios.get(
       `${API_CONSTANTS.HISTORY_URL}?RequestId=12345&starttime=${StartTime}&endtime=${EndTime}&device_id=${deviceId}&type=electric&subdevice_idx=${sub_dev}&device_activity=${device_activity}&sample_min=${sampling_time}`,
       headers
