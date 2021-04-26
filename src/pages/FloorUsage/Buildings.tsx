@@ -1,10 +1,8 @@
 import styled from 'styled-components';
 import { useSpring, animated } from 'react-spring';
-// import CuTerrace from 'assets/images/cuterrace.svg';
 import './style.css';
-import { CuiHouse } from './CuiHouse';
-import { CuTerrace } from './CuTerrace';
-
+import { CuiHouseWithTag } from './CuiHouseWithTag';
+import { CuTerraceWithTag } from './CuTerraceWithTag';
 
 const Building = styled.div`
   margin: 5px 20px;
@@ -26,7 +24,7 @@ const BuildingName = styled.p`
 `;
 
 export const Buildings = ({
-  isFirstBuilding,
+  buildingName,
   onSelectedFloor,
   onMouseMove,
   opacityStateTerrace,
@@ -34,40 +32,57 @@ export const Buildings = ({
   onMouseLeave,
   selectedFloorYTerrace,
   selectedFloorYiHouse,
+  tagOpacity,
+  hoveredFloor,
 }: any) => {
   const AnimatedBuilding = animated(Building);
 
   const buildingAProps = useSpring({
-    from: { width: '30%' },
-    width: isFirstBuilding ? '70%' : '30%',
+    from: { width: '20%' },
+    width: buildingName === 'Terrace' ? '80%' : '20%',
   });
 
   const buildingBProps = useSpring({
-    from: { width: '70%' },
-    width: isFirstBuilding ? '30%' : '70%',
+    from: { width: '80%' },
+    width: buildingName === 'iHouse' ? '80%' : '20%',
   });
   return (
     <>
       <AnimatedBuilding style={buildingAProps}>
-        <CuTerrace
+        <CuTerraceWithTag
           onClick={onSelectedFloor}
           onMouseMove={onMouseMove}
           opacityStateTerrace={opacityStateTerrace}
           onMouseLeave={onMouseLeave}
           selectedFloorY={selectedFloorYTerrace}
+          selectedFloor={
+            buildingName === 'Terrace' && hoveredFloor.substring(0, 7) === 'Terrace' && hoveredFloor
+          }
+          tagOpacity={
+            buildingName === 'Terrace' && hoveredFloor.substring(0, 7) === 'Terrace'
+              ? tagOpacity
+              : 0
+          }
         />
         <BuildingName>
           Building <br />
           CU Terrace
         </BuildingName>
       </AnimatedBuilding>
+
       <AnimatedBuilding style={buildingBProps}>
-        <CuiHouse
+        <CuiHouseWithTag
           onClick={onSelectedFloor}
           onMouseMove={onMouseMove}
           opacityStateiHouse={opacityStateiHouse}
           onMouseLeave={onMouseLeave}
           selectedFloorY={selectedFloorYiHouse}
+          selectedFloor={
+            buildingName === 'iHouse' && hoveredFloor.substring(0, 6) === 'iHouse' && hoveredFloor
+          }
+          tagOpacity={
+            buildingName === 'iHouse' && hoveredFloor.substring(0, 6) === 'iHouse' ? tagOpacity : 0
+          }
         />
         <BuildingName>
           Building
@@ -76,6 +91,5 @@ export const Buildings = ({
         </BuildingName>
       </AnimatedBuilding>
     </>
-
   );
 };

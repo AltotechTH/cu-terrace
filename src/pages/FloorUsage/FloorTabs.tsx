@@ -5,7 +5,7 @@ const RoomColor = styled.div<any>`
   width: 100%;
   height: 35px;
   background-color: ${(props) => props.code};
-  cursor: pointer;
+  cursor: ${(props) => (props.clickable ? 'pointer' : 'not-allowed')};
 `;
 
 const RoomNumber = styled.p`
@@ -14,13 +14,15 @@ const RoomNumber = styled.p`
   cursor: pointer;
 `;
 
-type floorTabsProps = {
-  floorValue: {
-    value: number;
-    room: string;
-  }[];
-  selectRoom: (e: string) => void;
+type floorTabsProp = {
+  value: number;
+  room: string;
 };
+
+interface floorTabsProps {
+  floorValue: floorTabsProp[];
+  selectRoom: (e: string) => void;
+}
 
 export const FloorTabs = ({ floorValue, selectRoom }: floorTabsProps) => {
   const converter = (value: number) => {
@@ -35,13 +37,20 @@ export const FloorTabs = ({ floorValue, selectRoom }: floorTabsProps) => {
     } else if (value < 50) {
       return 'rgb(32, 77, 141)';
     } else {
-      return 'gray';
+      return '#d2d2d2';
+    }
+  };
+
+  const handleSelectRoom = (value: floorTabsProp) => {
+    console.log(value);
+    if (converter(value.value) !== '#d2d2d2') {
+      selectRoom(value.room);
     }
   };
 
   return (
     <>
-      {floorValue.map((value) => (
+      {floorValue.map((value: floorTabsProp) => (
         <Grid
           item
           xs={1}
@@ -53,7 +62,11 @@ export const FloorTabs = ({ floorValue, selectRoom }: floorTabsProps) => {
           }}
           key={value.room}
         >
-          <RoomColor code={converter(value.value)} onClick={() => selectRoom(value.room)} />
+          <RoomColor
+            code={converter(value.value)}
+            onClick={() => handleSelectRoom(value)}
+            clickable={converter(value.value) !== '#d2d2d2'}
+          />
           <RoomNumber>{value.room}</RoomNumber>
         </Grid>
       ))}
