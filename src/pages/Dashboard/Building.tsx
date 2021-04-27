@@ -15,7 +15,7 @@ interface BuildingType {
 const Building = ({ dashboardData, cuiHous, cuTerrace }: BuildingType) => {
   return (
     <div style={{ textAlign: 'center', height: '500px' }}>
-      <img src={Build} alt="building" />
+      <img src={Build} alt="building" width='100%' />
 
       <div style={{ position: 'absolute', top: '252px', right: '83px', display: 'grid' }}>
 
@@ -46,14 +46,7 @@ const Building = ({ dashboardData, cuiHous, cuTerrace }: BuildingType) => {
 
       {/* <img className={classes.paper} src={Build} alt="building" width='40%' height='10%' /> */}
 
-      <small style={{
-        position: 'absolute',
-        right: '28em',
-        bottom: '6.3em',
-        fontSize: '16px'
-      }}>
-        CO2 Emission Equivalent
-      </small>
+
 
 
 
