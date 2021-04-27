@@ -6,16 +6,13 @@ import { FloorInformation } from './FloorInformation'
 
 
 interface BuildingType {
-  dashboardData: any
+  dashboardData: any,
+  cuiHous: any,
+  cuTerrace: any
+
 }
 
-const Building = ({ dashboardData }: BuildingType['dashboardData']) => {
-
-
-  const cuterrace = dashboardData !== undefined ? dashboardData.energy_consumption_by_floor_cu_terrace : undefined
-  const cuihouse = dashboardData !== undefined ? dashboardData.energy_consumption_by_floor_cu_ihouse : undefined
-
-
+const Building = ({ dashboardData, cuiHous, cuTerrace }: BuildingType) => {
   return (
     <div style={{ textAlign: 'center', height: '500px' }}>
       <img src={Build} alt="building" />
@@ -30,11 +27,10 @@ const Building = ({ dashboardData }: BuildingType['dashboardData']) => {
         <img style={{ position: 'relative', right: '0px', top: '-6em' }} src={Circle} alt='circle' />
       </div>
 
-      <FloorInformation header='CU Terrace' size={dashboardData !== undefined ? Number(Object.values(cuterrace)[0]) : 0} floors={dashboardData !== undefined ? (Object.keys(cuterrace)[0]) : '-'} right={16} top={27} />
+      <FloorInformation header={cuTerrace !== undefined ? cuTerrace['building_name'] : '-'} size={cuTerrace !== undefined ? cuTerrace['size_m2'] : 0} floors={cuTerrace !== undefined ? cuTerrace['floors'] : '-'} right={23} top={27} />
 
-      <FloorInformation header='CU iHouse' size={dashboardData !== undefined ? Number(Object.values(cuihouse)[0]) : 0} floors={dashboardData !== undefined ? (Object.keys(cuihouse)[0]) : '-'} right={-7} top={34}
+      <FloorInformation header={cuiHous !== undefined ? cuiHous['building_name'] : '-'} size={cuTerrace !== undefined ? cuiHous['size_m2'] : 0} floors={cuiHous !== undefined ? cuiHous['floors'] : '-'} right={-13.5} top={34} />
 
-      />
       <img src={Pionter} alt='pointer' style={{
         position: 'absolute',
         bottom: '19.5em',

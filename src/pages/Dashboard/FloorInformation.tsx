@@ -36,7 +36,7 @@ const InfoHeader = styled.small<FloorInfomationType['infohead']>`
 
 const Noti = styled.div<FloorInfomationType['noti']>`
     position: absolute;
-    right: ${(prop) => prop.right}em;
+    right: ${(prop) => prop.right}%;
     top: ${(prop) => prop.top}em;
     display: flex;
     width: fit-content;
@@ -48,6 +48,7 @@ const Noti = styled.div<FloorInfomationType['noti']>`
 
 export const FloorInformation = ({ header, floors, size, right, top }: FloorInfomationType['props']) => {
   return (
+
     <Noti right={right} top={top}>
       <img src={Noticard} alt="Noti" />
       <Header>{header}</Header>
@@ -63,6 +64,7 @@ export const FloorInformation = ({ header, floors, size, right, top }: FloorInfo
       </InfoHeader>
 
     </Noti>
+
   )
 }
 

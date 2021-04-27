@@ -14,7 +14,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import SDMLogo from 'assets/images/sdm.png';
 
 const Sidebar: FC = () => {
-  const [sidebar, setSidebar] = useState(false);
+  const [sidebar, setSidebar] = useState(true);
   const showSidebar = () => setSidebar(!sidebar);
 
   return (
