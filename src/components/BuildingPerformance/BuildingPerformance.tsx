@@ -49,6 +49,7 @@ const UnionPercent = styled.div<typeComponent['labelPercent']>`
 
 
 const BuildingPerformance = ({ data }: typeComponent['dataDashboard']) => {
+  console.log(data)
   return (
 
     <div
@@ -64,7 +65,7 @@ const BuildingPerformance = ({ data }: typeComponent['dataDashboard']) => {
       <UnionLabel labelPosition={34}>Excellent</UnionLabel>
       <UnionPercent labelPercent={21.5}>90%</UnionPercent>
 
-      <img src={Scale} alt='scale' />
+      <img src={Scale} alt='scale' width='100%' />
 
       <TextScale style={{ marginLeft: '-27.5em' }}>Poor</TextScale>
       <TextScale style={{ marginLeft: '-9em' }}>Fair</TextScale>
