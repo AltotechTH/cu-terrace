@@ -8,6 +8,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import './datepickerStyle.css';
 import CloseButtonIcon from 'assets/images/close.svg';
 import CalendarIconImage from 'assets/images/calendarIcon.svg';
+import moment from 'moment';
 
 const defs = [
   {
@@ -58,8 +59,8 @@ const customStyles = {
   },
   overlay: {
     backgroundColor: 'rgba(119, 119, 119, 0.75)',
-    zIndex: 999
-  }
+    zIndex: 999,
+  },
 };
 
 const data = [
@@ -366,6 +367,14 @@ export const GraphModal = ({
             animate={true}
             motionStiffness={90}
             motionDamping={15}
+            tooltip={({ id, value, color }) => (
+              <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+                <p style={{ color: '#788796', fontSize: '13px' }}>
+                  {moment(new Date()).format('MMMM Do YYYY')}&nbsp;|
+                </p>
+                <strong style={{ color, fontSize: '20px' }}>&nbsp;{value} kWh </strong>
+              </div>
+            )}
           />
         </div>
       </Modal>

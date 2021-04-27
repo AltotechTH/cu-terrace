@@ -212,7 +212,6 @@ const Dashboard: FC = () => {
   }, [buildingData])
 
 
-
   return (
     <div className="row" style={{ marginLeft: '84px' }}>
       <div className="column1">
