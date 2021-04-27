@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Grid } from '@material-ui/core';
 import { CardHeader } from 'components/CardHeader';
 import styled from 'styled-components';
@@ -6,6 +6,7 @@ import { makeStyles, createStyles, Theme, createMuiTheme, MuiThemeProvider } fro
 // import ReportTableImage from 'assets/images/reportTable.svg';
 // import RightTabImage from 'assets/images/rightTabReport.svg';
 import MUIDataTable from "mui-datatables";
+import { invoiceAPI } from 'api/services/Invoices'
 
 const SummaryBox = styled.div`
   width: 100%;
@@ -125,6 +126,7 @@ const getMuiTheme = () => createMuiTheme({
       root: {
         backgroundColor: "#fffff",
         fontSize: '12px',
+        textAlign: 'center'
       }
     },
 
@@ -154,7 +156,28 @@ const getMuiTheme = () => createMuiTheme({
 export const Report = () => {
   const [overduePayment, setOverduePayment] = useState({ baht: '120,948', bill: 46 });
   const [paidPayment, setPaidPayment] = useState({ paid: '322,948', bill: 56 });
+  const [invoiceData, setInvoiceData] = useState<[] | undefined>()
   const classes = useStyles();
+  const [invoiceDataTable, setInvoiceDataTable] = useState<any>()
+
+  useMemo(() => {
+    invoiceAPI.getInvoiceAPI().then((res: any) => setInvoiceData(res?.data['invoices']))
+  }, [])
+
+  useMemo(() => {
+
+    if (invoiceData !== undefined) {
+
+      let tmp: {}[] = []
+      invoiceData.forEach((element: any | undefined) => {
+        tmp.push({ room_no: element['room']['room_name'], customer_name: element['tenant']['first_name'], contract_no: element['tenant']['contract_no'], meter_id: element['tenant']['meter_id'], meter_no: element['tenant']['meter_no'], recent_reading: element['recent_reading'], previous_reading: element['previous_reading'], total_value: element['total_value'], rate: element['rate'], total_charge: element['balance_due'], status: <Paid>{element['status']}</Paid> })
+      });
+      return setInvoiceDataTable(tmp)
+    }
+
+  }, [invoiceData])
+
+  // console.log(invoiceDataTable)
 
   const columns = [
     {
@@ -247,12 +270,12 @@ export const Report = () => {
     },
   ];
 
-  const data = [
-    { room_no: "Joe James", customer_name: "Test Corp", contract_no: "Yonkers", meter_id: "NY", meter_no: '135422343', recent_reading: '234542', previous_reading: '12347', total_value: '100', rate: '7.00', total_charge: '700.00', status: <Pendding>PENDING</Pendding> },
-    { room_no: "John Walsh", customer_name: "Test Corp", contract_no: "Hartford", meter_id: "CT", meter_no: '135422343', recent_reading: '234542', previous_reading: '12347', total_value: '100', rate: '7.00', total_charge: '700.00', status: <Paid>PAID</Paid> },
-    { room_no: "Bob Herm", customer_name: "Test Corp", contract_no: "Tampa", meter_id: "FL", meter_no: '135422343', recent_reading: '234542', previous_reading: '12347', total_value: '100', rate: '7.00', total_charge: '700.00', status: <Overdue>OVERDUE</Overdue> },
-    { room_no: "James Houston", customer_name: "Test Corp", contract_no: "Dallas", meter_id: "TX", meter_no: '135422343', recent_reading: '234542', previous_reading: '12347', total_value: '100', rate: '7.00', total_charge: '700.00', status: <Paid>PAID</Paid> },
-  ];
+  // const data = [
+  //   { room_no: "Joe James", customer_name: "Test Corp", contract_no: "Yonkers", meter_id: "NY", meter_no: '135422343', recent_reading: '234542', previous_reading: '12347', total_value: '100', rate: '7.00', total_charge: '700.00', status: <Pendding>PENDING</Pendding> },
+  //   { room_no: "John Walsh", customer_name: "Test Corp", contract_no: "Hartford", meter_id: "CT", meter_no: '135422343', recent_reading: '234542', previous_reading: '12347', total_value: '100', rate: '7.00', total_charge: '700.00', status: <Paid>PAID</Paid> },
+  //   { room_no: "Bob Herm", customer_name: "Test Corp", contract_no: "Tampa", meter_id: "FL", meter_no: '135422343', recent_reading: '234542', previous_reading: '12347', total_value: '100', rate: '7.00', total_charge: '700.00', status: <Overdue>OVERDUE</Overdue> },
+  //   { room_no: "James Houston", customer_name: "Test Corp", contract_no: "Dallas", meter_id: "TX", meter_no: '135422343', recent_reading: '234542', previous_reading: '12347', total_value: '100', rate: '7.00', total_charge: '700.00', status: <Paid>PAID</Paid> },
+  // ];
 
   const options: any = {
     filterType: 'checkbox',
@@ -339,7 +362,7 @@ export const Report = () => {
               <MuiThemeProvider theme={getMuiTheme()}>
                 <MUIDataTable
                   title={"Search for Tenant Energy Consumption"}
-                  data={data}
+                  data={invoiceDataTable !== undefined ? invoiceDataTable : []}
                   columns={columns}
                   options={options}
                 />

@@ -14,6 +14,7 @@ const API_CONSTANTS = {
   DEVICE_URL: endpoint + "/api/v2.0/devices",
   ENERGY_CONSUMPTION_URL: endpoint + "/api/v2.0/energy_comsumption",
   ENERGY_TIPS_URL: endpoint + "/api/v2.0/energy_tips",
+  INVOICES_URL: endpoint + "/api/v2.0/invoices",
 };
 
 export { API_CONSTANTS, STOCK_URL };
