@@ -12,6 +12,7 @@ import { GetStock } from 'api/services/Stock';
 import { Card } from './styles';
 import { FirebaseContext } from 'api/firebase';
 import { building } from 'api/services/Building';
+// import { energyConsumptionApi } from 'api/services/EnergyConsumption'
 
 const data1 = [
   {
@@ -128,7 +129,16 @@ const data01 = [
 const Dashboard: FC = () => {
   const firebase = useContext<any>(FirebaseContext);
 
+  // const date = new Date
+
+  // const startDate = new Date
+  // const stopDate = new Date
+
+  // const startDate = null
+  // const stopDate = null
+
   const [dashboardData, setDashboardData] = useState();
+  // const [energyConsumptionData, setEnergyConsumptionData] = useState()
 
   const [data, setData]: any = useState({
     data: [],
@@ -137,6 +147,9 @@ const Dashboard: FC = () => {
   const [buildingData, setBuildingData]: any = useState({
     data: [],
   });
+
+  const [cuiHouse, setCUiHouse]: any = useState()
+  const [cuTerrace, setCUTerrace]: any = useState()
 
   //##--------------- Function fetch Station information form firebase 🔥 --------------------
   function fetchData(didMount: boolean) {
@@ -156,11 +169,13 @@ const Dashboard: FC = () => {
   }
 
   function getData() {
-    building.getBuildingAPI().then((res: any) => setBuildingData({ data: res?.data }));
+    building.getBuildingAPI().then((res: any) => setBuildingData({ data: res?.data['buildings'] }));
+    // energyConsumptionApi.getEnergyConsumptionAPI(startDate, stopDate, 15).then((res: any) => setEnergyConsumptionData(res?.data))
     // building
   }
 
   // console.log(dashboardData)
+  // console.log(energyConsumptionData)
 
   useMemo(() => {
     fetchData(false);
@@ -177,7 +192,26 @@ const Dashboard: FC = () => {
     // eslint-disable-next-line
   }, []);
 
-  console.log(buildingData.data.buildings);
+  useMemo(() => {
+
+    if (building !== undefined && building !== null) {
+      const build = buildingData.data
+      build.forEach((element: any) => {
+        // console.log(element['building_name'])
+        if (element['building_name'] === 'CU iHouse') {
+          // console.log(element)
+          setCUiHouse(element)
+        }
+        if (element['building_name'] === 'CU Terrace') {
+          // console.log(element)
+          setCUTerrace(element)
+        }
+      });
+    }
+
+  }, [buildingData])
+
+
 
   return (
     <div className="row" style={{ marginLeft: '84px' }}>
@@ -192,7 +226,7 @@ const Dashboard: FC = () => {
             </div>
             <div className="column4">
               <BuildingEnergyPerformance dashboardData={dashboardData} />
-              <Building dashboardData={dashboardData} />
+              <Building dashboardData={dashboardData} cuiHous={cuiHouse} cuTerrace={cuTerrace} />
             </div>
           </div>
         </Card>

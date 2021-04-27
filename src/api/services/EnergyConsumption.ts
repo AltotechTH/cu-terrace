@@ -1,15 +1,14 @@
 import axios from "axios";
 import { API_CONSTANTS } from "../constants";
 
-const getHistoryAPI = async (
-  deviceId: string,
-  sub_dev: number,
-  device_activity: boolean,
+const getEnergyConsumptionAPI = async (
   startDate: any,
   stopDate: any,
   sampling_time: number
 ) => {
   const token = localStorage.getItem("token");
+  const dashboard = "dashboard";
+  const place = "PMCU";
 
   const dateTime = new Date();
 
@@ -24,12 +23,25 @@ const getHistoryAPI = async (
   if (startDate && stopDate) {
     console.log("start Date, stop Date");
     StartTime = `${startDate.getFullYear()}-${
-      Number(startDate.getMonth()) + 1
+      Number(startDate.getMonth() + 1) < 10
+        ? "0" + String(startDate.getMonth() + 1)
+        : String(startDate.getMonth() + 1)
     }-${startDate.getDate()} 00:00`;
 
+    // EndTime = `${stopDate.getFullYear()}-${
+    //   Number(stopDate.getMonth())
+    //   }-${stopDate.getDate()} 00:00`;
     EndTime = `${stopDate.getFullYear()}-${
-      Number(stopDate.getMonth()) + 1
-    }-${stopDate.getDate()} 00:00`;
+      Number(startDate.getMonth() + 1) < 10
+        ? "0" + String(startDate.getMonth() + 1)
+        : String(startDate.getMonth() + 1)
+    }-${stopDate.getDate()} ${
+      dateTime.getHours() < 10 ? "0" + dateTime.getHours() : dateTime.getHours()
+    }:${
+      dateTime.getMinutes() < 10
+        ? "0" + dateTime.getMinutes()
+        : dateTime.getMinutes()
+    }`;
   } else {
     console.log("out of start Date, stop Date");
     StartTime = `${year}-${month}-${day} 00:00`;
@@ -51,17 +63,17 @@ const getHistoryAPI = async (
   };
 
   try {
-    // console.log(StartTime, EndTime);
+    console.log(token);
     console.log(
-      `${API_CONSTANTS.HISTORY_URL}?RequestId=12345&starttime=${StartTime}&endtime=${EndTime}&device_id=${deviceId}&type=electric&subdevice_idx=${sub_dev}&device_activity=${device_activity}&sample_min=${sampling_time}`
+      `${API_CONSTANTS.ENERGY_CONSUMPTION_URL}?RequestId=123&type=${dashboard}&place=${place}&building&floor&starttime=${StartTime}&endtime=${EndTime}&sample_min=${sampling_time}`
     );
     let responseJson = await axios.get(
-      `${API_CONSTANTS.HISTORY_URL}?RequestId=12345&starttime=${StartTime}&endtime=${EndTime}&device_id=${deviceId}&type=electric&subdevice_idx=${sub_dev}&device_activity=${device_activity}&sample_min=${sampling_time}`,
+      `${API_CONSTANTS.ENERGY_CONSUMPTION_URL}?RequestId=123&type=${dashboard}&place=${place}&building&floor&starttime=${StartTime}&endtime=${EndTime}&sample_min=${sampling_time}`,
       headers
     );
     return responseJson;
   } catch (error) {
-    console.error("[Services] GET History Error:");
+    console.error("[Services] GET Dashboard Error:");
     console.error(error);
 
     var data = { requestError: error.message, response: error.response };
@@ -69,6 +81,6 @@ const getHistoryAPI = async (
   }
 };
 
-export const historyApi = {
-  getHistoryAPI,
+export const energyConsumptionApi = {
+  getEnergyConsumptionAPI,
 };

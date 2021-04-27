@@ -2,9 +2,10 @@ import { useState } from 'react';
 import { Grid } from '@material-ui/core';
 import { CardHeader } from 'components/CardHeader';
 import styled from 'styled-components';
-import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
-import ReportTableImage from 'assets/images/reportTable.svg';
-import RightTabImage from 'assets/images/rightTabReport.svg';
+import { makeStyles, createStyles, Theme, createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
+// import ReportTableImage from 'assets/images/reportTable.svg';
+// import RightTabImage from 'assets/images/rightTabReport.svg';
+import MUIDataTable from "mui-datatables";
 
 const SummaryBox = styled.div`
   width: 100%;
@@ -24,11 +25,11 @@ const SummaryHeaderOverdue = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 5px;
+  border-radius: 8px;
 `;
 
 const SummaryHeaderPaid = styled.div`
-  width: 60%;
+  width: 50%;
   height: 25px;
   background-color: #cef6e3;
   color: #089953;
@@ -37,44 +38,63 @@ const SummaryHeaderPaid = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 5px;
+  border-radius: 8px;
 `;
 
 const Value = styled.h4`
   color: black;
-  font-size: 22px;
+  /* font-size: 22px; */
+font-style: normal;
+font-weight: bold;
+font-size: 24px;
+line-height: 35px;
+
 `;
 
 const Unit = styled.p`
-  color: black;
+  color: #929292;
   margin-left: 5px;
   overflow: hidden;
 `;
 
-const CardBody = styled.div`
-  width: 100%;
-  height: auto;
-  padding: 10px;
-  background-color: white;
-  border-radius: 16px;
-`;
+const Pendding = styled.div`
+background: #FFF3DE;
+border-radius: 8px;
+font-style: normal;
+font-weight: 600;
+font-size: 12px;
+line-height: 18px;
+padding: 0px;
+width: 60%;
+text-align: center;
+color: #F5A623;
+`
 
-const HeaderName = styled.h3`
-  color: black;
-  margin: 20px 0px 0px 10px;
-`;
+const Paid = styled.div`
+background: #CEF7E3;
+border-radius: 8px;
+font-style: normal;
+font-weight: 600;
+font-size: 12px;
+line-height: 18px;
+padding: 0px;
+width: 60%;
+text-align: center;
+color: #089953;
+`
+const Overdue = styled.div`
+background: #FFCACC;
+border-radius: 8px;
+font-style: normal;
+font-weight: 600;
+font-size: 12px;
+line-height: 18px;
+padding: 0px;
+width: 60%;
+text-align: center;
+color: #F25C62;
+`
 
-const BillImage = styled.img`
-  width: 100%;
-  height: auto;
-  padding: 20px 10px;
-`;
-
-const RightTab = styled.img`
-  width: 80%;
-  height: auto;
-  margin: 10px;
-`;
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -98,10 +118,146 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
+const getMuiTheme = () => createMuiTheme({
+  overrides: {
+    MUIDataTableBodyCell: {
+
+      root: {
+        backgroundColor: "#fffff",
+        fontSize: '12px',
+      }
+    },
+
+    MUIDataTableHeadCell: {
+      root: {
+        backgroundColor: '#EFF2F7',
+      },
+      data: {
+        fontSize: '12px',
+      }
+    },
+    MuiPaper: {
+      elevation4: {
+        borderRadius: '15px',
+        boxShadow: 'none'
+      }
+    },
+    MUIDataTablePagination: {
+      tableCellContainer: {
+        border: 'none'
+      }
+    }
+
+  }
+})
+
 export const Report = () => {
   const [overduePayment, setOverduePayment] = useState({ baht: '120,948', bill: 46 });
   const [paidPayment, setPaidPayment] = useState({ paid: '322,948', bill: 56 });
   const classes = useStyles();
+
+  const columns = [
+    {
+      name: "room_no",
+      label: "Room No.",
+      options: {
+        filter: true,
+        sort: true,
+      }
+    },
+    {
+      name: "customer_name",
+      label: "Customer Name",
+      options: {
+        filter: true,
+        sort: true,
+      }
+    },
+    {
+      name: "contract_no",
+      label: "Contract No.",
+      options: {
+        filter: true,
+        sort: true,
+      }
+    },
+    {
+      name: "meter_id",
+      label: "Meter ID",
+      options: {
+        filter: true,
+        sort: true,
+      }
+    },
+    {
+      name: "meter_no",
+      label: "Meter No.",
+      options: {
+        filter: true,
+        sort: true,
+      }
+    },
+    {
+      name: "recent_reading",
+      label: "Recent Reading",
+      options: {
+        filter: false,
+        sort: true,
+      }
+    },
+    {
+      name: "previous_reading",
+      label: "Previous Reading",
+      options: {
+        filter: false,
+        sort: true,
+      }
+    },
+    {
+      name: "total_value",
+      label: "Total Value (unit)",
+      options: {
+        filter: false,
+        sort: true,
+      }
+    },
+    {
+      name: "rate",
+      label: "Rate (THB/kWh)",
+      options: {
+        filter: false,
+        sort: true,
+      }
+    },
+    {
+      name: "total_charge",
+      label: "Total Charge (THB)",
+      options: {
+        filter: false,
+        sort: true,
+      }
+    },
+    {
+      name: "status",
+      label: "Status",
+      options: {
+        filter: false,
+        sort: true,
+      }
+    },
+  ];
+
+  const data = [
+    { room_no: "Joe James", customer_name: "Test Corp", contract_no: "Yonkers", meter_id: "NY", meter_no: '135422343', recent_reading: '234542', previous_reading: '12347', total_value: '100', rate: '7.00', total_charge: '700.00', status: <Pendding>PENDING</Pendding> },
+    { room_no: "John Walsh", customer_name: "Test Corp", contract_no: "Hartford", meter_id: "CT", meter_no: '135422343', recent_reading: '234542', previous_reading: '12347', total_value: '100', rate: '7.00', total_charge: '700.00', status: <Paid>PAID</Paid> },
+    { room_no: "Bob Herm", customer_name: "Test Corp", contract_no: "Tampa", meter_id: "FL", meter_no: '135422343', recent_reading: '234542', previous_reading: '12347', total_value: '100', rate: '7.00', total_charge: '700.00', status: <Overdue>OVERDUE</Overdue> },
+    { room_no: "James Houston", customer_name: "Test Corp", contract_no: "Dallas", meter_id: "TX", meter_no: '135422343', recent_reading: '234542', previous_reading: '12347', total_value: '100', rate: '7.00', total_charge: '700.00', status: <Paid>PAID</Paid> },
+  ];
+
+  const options: any = {
+    filterType: 'checkbox',
+  };
+
 
   return (
     <>
@@ -122,11 +278,17 @@ export const Report = () => {
                     <Grid item xs={12}>
                       <SummaryHeaderOverdue>Overdue Payment</SummaryHeaderOverdue>
                     </Grid>
-                    <Grid item xs={6} style={{ display: 'flex', alignItems: 'flex-end' }}>
+                    <Grid item xs={6} style={{
+                      display: 'flex', alignItems: 'center',
+                      'justifyContent': 'center'
+                    }}>
                       <Value>{overduePayment.baht}</Value>
                       <Unit>THB</Unit>
                     </Grid>
-                    <Grid item xs={6} style={{ display: 'flex', alignItems: 'flex-end' }}>
+                    <Grid item xs={6} style={{
+                      display: 'flex', alignItems: 'center',
+                      'justifyContent': 'center'
+                    }}>
                       <Value>{overduePayment.bill}</Value>
                       <Unit>Bill Overdue</Unit>
                     </Grid>
@@ -139,13 +301,19 @@ export const Report = () => {
                     <Grid item xs={12}>
                       <SummaryHeaderPaid>Paid Payment</SummaryHeaderPaid>
                     </Grid>
-                    <Grid item xs={6} style={{ display: 'flex', alignItems: 'flex-end' }}>
+                    <Grid item xs={6} style={{
+                      display: 'flex', alignItems: 'center',
+                      'justifyContent': 'center'
+                    }}>
                       <Value>{paidPayment.paid}</Value>
                       <Unit>THB</Unit>
                     </Grid>
-                    <Grid item xs={6} style={{ display: 'flex', alignItems: 'flex-end' }}>
+                    <Grid item xs={6} style={{
+                      display: 'flex', alignItems: 'center',
+                      'justifyContent': 'center'
+                    }}>
                       <Value>{paidPayment.bill}</Value>
-                      <Unit>Bill Overdue</Unit>
+                      <Unit>Bill Paid</Unit>
                     </Grid>
                   </Grid>
                 </SummaryBox>
@@ -153,9 +321,9 @@ export const Report = () => {
             </Grid>
           </Grid>
           <Grid item xs={12}>
-            <CardBody>
-              <Grid container spacing={2}>
-                <Grid item xs={6}>
+            {/* <CardBody> */}
+            {/* <Grid container spacing={2}> */}
+            {/* <Grid item xs={6}>
                   <HeaderName>Search for Tenant Energy Consumption</HeaderName>
                 </Grid>
                 <Grid
@@ -164,12 +332,22 @@ export const Report = () => {
                   style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}
                 >
                   <RightTab src={RightTabImage}></RightTab>
-                </Grid>
-                <Grid item xs={12}>
-                  <BillImage src={ReportTableImage}></BillImage>
-                </Grid>
-              </Grid>
-            </CardBody>
+                </Grid> */}
+            <Grid item xs={12}>
+              {/* <BillImage src={ReportTableImage}></BillImage> */}
+
+              <MuiThemeProvider theme={getMuiTheme()}>
+                <MUIDataTable
+                  title={"Search for Tenant Energy Consumption"}
+                  data={data}
+                  columns={columns}
+                  options={options}
+                />
+              </MuiThemeProvider>
+
+            </Grid>
+            {/* </Grid> */}
+            {/* </CardBody> */}
           </Grid>
         </Grid>
       </div>
