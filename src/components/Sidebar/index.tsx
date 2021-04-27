@@ -1,9 +1,5 @@
 import { FC, useState } from 'react';
 import { IconContext } from 'react-icons';
-import {
-  // AiOutlineMenu,
-  AiOutlineClose,
-} from 'react-icons/ai';
 import { Routes } from 'routes';
 import Submenu from './Submenu';
 import { Nav, NavIcon, SidebarNav, SidebarWrap, LabelName, NavItems } from './SidebarElements';
@@ -45,9 +41,9 @@ const Sidebar: FC = () => {
       </Nav>
       <SidebarNav sidebar={sidebar}>
         <SidebarWrap>
-          <NavIcon to="#" onClick={showSidebar}>
+          {/* <NavIcon to="#" onClick={showSidebar}>
             <AiOutlineClose />
-          </NavIcon>
+          </NavIcon> */}
           {Routes.map((item, index) => {
             return <Submenu item={item} key={index} />;
           })}

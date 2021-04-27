@@ -177,8 +177,6 @@ const Dashboard: FC = () => {
     // eslint-disable-next-line
   }, []);
 
-  console.log(buildingData.data.buildings);
-
   return (
     <div className="row" style={{ marginLeft: '84px' }}>
       <div className="column1">

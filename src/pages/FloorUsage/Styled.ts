@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const SummaryBox = styled.div`
   width: 100%;
@@ -35,6 +35,8 @@ export const PersonSummaryBox = styled.div`
   background-color: #f7f9fc;
   border-radius: 16px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.13);
+  display: flex;
+  align-items: center;
 `;
 
 export const PersonDetail = styled.p`
@@ -106,20 +108,20 @@ export const Comparative = styled.p`
 
 export const customStyles = {
   content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    width: "60%",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
-    borderRadius: "10px",
-    border: "0.5px solid #f3f3f3",
-    padding: "25px",
-    maxHeight: "90%",
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    width: '60%',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+    borderRadius: '10px',
+    border: '0.5px solid #f3f3f3',
+    padding: '25px',
+    maxHeight: '90%',
   },
   overlay: {
-    backgroundColor: "rgba(119, 119, 119, 0.75)",
+    backgroundColor: 'rgba(119, 119, 119, 0.75)',
     zIndex: 999,
   },
 };

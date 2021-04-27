@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { Grid, Paper } from '@material-ui/core';
 import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import { CardHeader } from 'components/CardHeader';
@@ -11,6 +11,7 @@ import { Tabs, Tab } from 'components/StyledTabs/StyledTabs';
 import { EnergyConsumptionButton } from './EnergyConsumptionButton';
 import { GraphModal } from './GraphModal';
 import { RoomModal } from './RoomModal';
+import { FirebaseContext } from 'api/firebase';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -34,40 +35,45 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const energyData = [
-  { name: 'Energy Consumption', value: 125, unit: 'kWh' },
+type dataProp = {
+  name: string;
+  value: number;
+  unit: string;
+};
+
+let energyData: dataProp[] = [
+  { name: 'Energy Consumption', value: 0, unit: 'kWh' },
   {
     name: 'Predicted Cost',
-    value: 625,
+    value: 0,
     unit: 'Baht',
   },
   {
     name: 'Peak Demand',
-    value: 40,
+    value: 0,
     unit: 'kW',
   },
   {
     name: 'CO2 Emissions',
-    value: 38,
+    value: 0,
     unit: 'kg',
   },
 ];
-
-const eventData = [
-  { name: 'Total Room', value: 125, unit: 'unit' },
+let eventData: dataProp[] = [
+  { name: 'Total Room', value: 5, unit: 'unit' },
   {
     name: 'IoT Disconnected',
-    value: 1,
+    value: 0,
     unit: 'unit',
   },
   {
     name: 'Anomaly Event',
-    value: 3,
+    value: 0,
     unit: 'unit',
   },
   {
     name: 'Tenant Request',
-    value: 1,
+    value: 0,
     unit: 'unit',
   },
 ];
@@ -87,7 +93,7 @@ const roomsData = [
   { room: '0612', value: 100 },
   { room: '0613', value: 100 },
   { room: '0614', value: 100 },
-  { room: '0615', value: 100},
+  { room: '0615', value: 100 },
   { room: '0616', value: 100 },
   { room: '0617', value: 100 },
   { room: '0618', value: 100 },
@@ -95,13 +101,13 @@ const roomsData = [
   { room: '0620', value: 100 },
   { room: '0621', value: 100 },
   { room: '0622', value: 100 },
-  { room: '0623', value: 100},
+  { room: '0623', value: 100 },
   { room: '0624', value: 100 },
   { room: '0625', value: 100 },
   { room: '0626', value: 100 },
   { room: '0627', value: 100 },
   { room: '0628', value: 100 },
-  { room: '0629', value: 100},
+  { room: '0629', value: 100 },
   { room: '0630', value: 100 },
 ];
 
@@ -122,16 +128,95 @@ export const FloorUsage = () => {
   const [selectedRoomOpen, setSelectedRoomOpen] = useState(false);
   const [tagOpacity, setTagOpacity] = useState(0);
   const [hoveredFloor, setHoveredFloor] = useState('');
+  const [energySummaryData, setEnergySummaryData] = useState<dataProp[] | undefined>();
+  const [eventSummaryData, setEventSummaryData] = useState<dataProp[] | undefined>();
 
   const classes = useStyles();
 
+  const firebase = useContext<any>(FirebaseContext);
+
+  function fetchData(didMount: boolean) {
+    const pages_path = `building/pmcu/pages/floor_usage`;
+    if (didMount) {
+      firebase.db.ref(pages_path).off('value');
+    } else {
+      firebase.db.ref(pages_path).on('value', function (snap: { val: () => any }) {
+        if (snap) {
+          let capt: any = snap.val();
+          let energyRef: any = [];
+          let eventRef: any = [];
+          Object.keys(capt).forEach((item) => {
+            if (
+              ['baht_this_month', 'co2_this_month', 'kwh_this_month', 'peak_demand'].includes(item)
+            ) {
+              energyRef.push(convertToArray(item, capt[item].toFixed(2)));
+            } else if (
+              ['total_room', 'iot_disconnected', 'anomaly_event', 'tenant_request'].includes(item)
+            ) {
+              eventRef.push(convertToArray(item, capt[item].toFixed(2)));
+            }
+          });
+          setEnergySummaryData(energyRef);
+          setEventSummaryData(eventRef);
+          setSummaryData(energyRef);
+          // energyData['']
+          // if (capt !== undefined) {
+          //   setDashboardData(capt.dashboard);
+          // }
+        }
+      });
+    }
+  }
+
+  const convertToArray = (name: string, value: number) => {
+    let result: any = {
+      baht_this_month: {
+        name: 'Predicted Cost',
+        value: value,
+        unit: 'Baht',
+      },
+      co2_this_month: {
+        name: 'CO2 Emissions',
+        value: value,
+        unit: 'kg',
+      },
+      kwh_this_month: {
+        name: 'Energy Consumption',
+        value: value,
+        unit: 'kWh',
+      },
+      peak_demand: {
+        name: 'Peak Demand',
+        value: value,
+        unit: 'kW',
+      },
+      total_room: { name: 'Total Room', value: value, unit: 'unit' },
+      iot_disconnected: {
+        name: 'IoT Disconnected',
+        value: value,
+        unit: 'unit',
+      },
+      anomaly_event: {
+        name: 'Anomaly Event',
+        value: value,
+        unit: 'unit',
+      },
+      tenant_request: {
+        name: 'Tenant Request',
+        value: value,
+        unit: 'unit',
+      },
+    };
+    return result[name];
+  };
+
   const handleChangeTab = (value: string) => {
     setSelectedTab(value);
-    if (value === 'Energy') {
-      setSummaryData(energyData);
+    if (value === 'Energy' && energySummaryData) {
+      setSummaryData(energySummaryData);
     }
-    if (value === 'Event') {
-      setSummaryData(eventData);
+    if (value === 'Event' && eventSummaryData) {
+      setSummaryData(eventSummaryData);
     }
   };
 
@@ -192,6 +277,13 @@ export const FloorUsage = () => {
     setSelectedRoom(e);
     setSelectedRoomOpen(true);
   };
+
+  useEffect(() => {
+    fetchData(false);
+    return () => {
+      fetchData(true);
+    };
+  }, []);
 
   return (
     <div className={classes.root}>

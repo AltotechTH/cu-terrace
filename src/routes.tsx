@@ -5,8 +5,14 @@ import Floor from 'assets/images/icon/Floorusage.svg';
 import User from 'assets/images/icon/User.svg';
 import Setting from 'assets/images/icon/Setting.svg';
 import Reports from 'assets/images/icon/Reports.svg';
+import Overview from 'assets/images/icon/overview.svg';
 
 export const Routes: SidebarItem[] = [
+  {
+    title: 'OVERVIEW',
+    path: '/overview',
+    icon: <img src={Overview} alt="overview" />,
+  },
   {
     title: 'DASHBOARD',
     path: '/dashboard',
