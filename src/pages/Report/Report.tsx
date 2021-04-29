@@ -270,13 +270,6 @@ export const Report = () => {
     },
   ];
 
-  // const data = [
-  //   { room_no: "Joe James", customer_name: "Test Corp", contract_no: "Yonkers", meter_id: "NY", meter_no: '135422343', recent_reading: '234542', previous_reading: '12347', total_value: '100', rate: '7.00', total_charge: '700.00', status: <Pendding>PENDING</Pendding> },
-  //   { room_no: "John Walsh", customer_name: "Test Corp", contract_no: "Hartford", meter_id: "CT", meter_no: '135422343', recent_reading: '234542', previous_reading: '12347', total_value: '100', rate: '7.00', total_charge: '700.00', status: <Paid>PAID</Paid> },
-  //   { room_no: "Bob Herm", customer_name: "Test Corp", contract_no: "Tampa", meter_id: "FL", meter_no: '135422343', recent_reading: '234542', previous_reading: '12347', total_value: '100', rate: '7.00', total_charge: '700.00', status: <Overdue>OVERDUE</Overdue> },
-  //   { room_no: "James Houston", customer_name: "Test Corp", contract_no: "Dallas", meter_id: "TX", meter_no: '135422343', recent_reading: '234542', previous_reading: '12347', total_value: '100', rate: '7.00', total_charge: '700.00', status: <Paid>PAID</Paid> },
-  // ];
-
   const options: any = {
     filterType: 'checkbox',
   };
@@ -344,21 +337,7 @@ export const Report = () => {
             </Grid>
           </Grid>
           <Grid item xs={12}>
-            {/* <CardBody> */}
-            {/* <Grid container spacing={2}> */}
-            {/* <Grid item xs={6}>
-                  <HeaderName>Search for Tenant Energy Consumption</HeaderName>
-                </Grid>
-                <Grid
-                  item
-                  xs={6}
-                  style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end' }}
-                >
-                  <RightTab src={RightTabImage}></RightTab>
-                </Grid> */}
             <Grid item xs={12}>
-              {/* <BillImage src={ReportTableImage}></BillImage> */}
-
               <MuiThemeProvider theme={getMuiTheme()}>
                 <MUIDataTable
                   title={"Search for Tenant Energy Consumption"}
@@ -369,8 +348,6 @@ export const Report = () => {
               </MuiThemeProvider>
 
             </Grid>
-            {/* </Grid> */}
-            {/* </CardBody> */}
           </Grid>
         </Grid>
       </div>

@@ -49,7 +49,7 @@ const UnionPercent = styled.div<typeComponent['labelPercent']>`
 
 
 const BuildingPerformance = ({ data }: typeComponent['dataDashboard']) => {
-  console.log(data)
+  /* console.log(data) */
   return (
 
     <div

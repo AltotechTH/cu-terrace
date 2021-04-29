@@ -1,18 +1,27 @@
-import { convertDate, convertValue } from './useStyles'
-import { Line, ComposedChart, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
+// import { convertDate, convertValue } from './useStyles'
 import { Card } from './styles'
+import { LineChartComponent } from 'components/Graph/GraphComponent'
+import { LoadingPage } from 'components/LoadingPage/LoadingPage'
 
 
 interface RealtimeType {
-  data: any;
   dashboardData: any;
+  powerPlot: any;
 }
 
 
 
-const RealtimeConsumption = ({ data, dashboardData }: RealtimeType) => {
+const RealtimeConsumption = ({ dashboardData, powerPlot }: RealtimeType) => {
 
-  // console.log(dashboardData)
+  // console.log(powerPlot)
+
+  const powerData = [
+    {
+      id: 'Power',
+      data: powerPlot !== undefined ? powerPlot : [],
+    },
+  ];
+
 
   return (
     <>
@@ -35,56 +44,10 @@ const RealtimeConsumption = ({ data, dashboardData }: RealtimeType) => {
         </div>
         <div style={{ padding: '0px 20px 0px 20px', display: 'flex', fontSize: '14px' }}>Real-time Power Consumption</div>
 
-        <ResponsiveContainer width='100%' height={150}>
-          <ComposedChart
-            data={data}
-            margin={{ top: 30, right: 30, left: 0, bottom: 5 }}
-          >
-            <defs>
-              <filter id='shadow' height='200%'>
-                <feGaussianBlur
-                  in='SourceAlpha'
-                  stdDeviation='7'
-                  result='blur'
-                />
-                <feOffset in='blur' dx='0' dy='7' result='offsetBlur' />
-                <feFlood
-                  floodColor='#006991'
-                  floodOpacity='0.5'
-                  result='offsetColor'
-                />
-                <feComposite
-                  in='offsetColor'
-                  in2='offsetBlur'
-                  operator='in'
-                  result='offsetBlur'
-                />
-                <feMerge>
-                  <feMergeNode />
-                  <feMergeNode in='SourceGraphic' />
-                </feMerge>
-              </filter>
-            </defs>
-            <XAxis dataKey='time' tickFormatter={convertDate} fontSize={10} />
-            <YAxis tickFormatter={convertValue} fontSize={10} />
-            <Tooltip />
-            <CartesianGrid vertical={false} stroke='#DDD' />
-
-            <Line
-              type='monotone'
-              unit='M'
-              strokeLinecap='round'
-              strokeWidth={2}
-              filter='url(#shadow)'
-              style={{ strokeDasharray: `0 0 0` }}
-              dataKey='close'
-              stroke='#57a2e7'
-              dot={false}
-              legendType='none'
-            />
-          </ComposedChart>
-        </ResponsiveContainer>
-
+        {powerPlot !== undefined ? <div style={{ width: '100%', height: '145px' }}>
+          <h4 style={{ color: 'black', textAlign: 'center' }}></h4>
+          <LineChartComponent data={powerData !== undefined ? powerData : []} unit="kW" />
+        </div> : <LoadingPage height='145px' />}
       </Card>
     </>
   );

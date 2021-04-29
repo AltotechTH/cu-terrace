@@ -13,19 +13,20 @@ interface IndoorType {
 
 const WeatherInDoor = ({ dashboardData }: IndoorType) => {
 
+
   return (
     <Card style={{ marginTop: '20px', top: '0px', paddingBottom: '20px' }}>
       <Img src={GradientImg} alt='gradient' width='100%' />
 
       <WeatherInfo>
 
-        <h4 style={{ display: 'flex', fontSize: '32px', padding: '0px' }}>{dashboardData !== undefined ? dashboardData.indoor_weather.temperature : 0}  <span style={{ fontSize: '12px' }}>&#8451;</span></h4>
+        <h4 style={{ display: 'flex', fontSize: '32px', padding: '0px' }}>{dashboardData !== undefined ? Number(dashboardData.indoor_weather.temperature.value).toFixed(1) : 0}  <span style={{ fontSize: '12px' }}>&#8451;</span></h4>
         <div>
           <strong style={{ fontSize: '14px', display: 'flex', marginLeft: '20px' }}>
-            {dashboardData !== undefined ? dashboardData.indoor_weather.zone : '-'}
+            {dashboardData !== undefined ? dashboardData.indoor_weather.location : '-'}
           </strong>
           <span style={{ fontSize: '10px', display: 'flex', marginLeft: '20px', marginTop: '5px' }}>
-            {dashboardData !== undefined ? dashboardData.indoor_weather.status : '-'}
+            {dashboardData !== undefined ? dashboardData.indoor_weather.fill : '-'}
           </span>
 
         </div>
@@ -37,7 +38,7 @@ const WeatherInDoor = ({ dashboardData }: IndoorType) => {
           <div style={{ width: '100%', display: 'flex' }}>
             <Img src={Humidity} alt='humi' />
             <Detial>
-              <strong style={{ fontSize: '14px' }}>{dashboardData !== undefined ? dashboardData.indoor_weather.humidity : 0}%</strong>
+              <strong style={{ fontSize: '14px' }}>{dashboardData !== undefined ? dashboardData.indoor_weather.humidity.value : 0}%</strong>
               <small style={{ fontSize: '10px', color: '#BABDC6' }}>Humidity</small>
             </Detial>
           </div>

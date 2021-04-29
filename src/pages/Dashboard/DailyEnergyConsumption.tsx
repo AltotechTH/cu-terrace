@@ -1,8 +1,9 @@
-import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts'
 import { Card } from './styles'
+import { BarChartComponent } from 'components/Graph/GraphComponent'
+import { LoadingPage } from 'components/LoadingPage/LoadingPage'
 
 
-const DailyEnergyConsumption = (data: any) => {
+const DailyEnergyConsumption = ({ data }: any) => {
   return (
     <div>
       <Card style={{ marginTop: '20px', height: '208px' }}>
@@ -21,20 +22,11 @@ const DailyEnergyConsumption = (data: any) => {
           </strong>
         </div>
         <div style={{ padding: '0px 20px 0px 20px', display: 'flex', fontSize: '14px' }}>Daily Energy Consumption</div>
-        <ResponsiveContainer width="100%" height={130}>
-          <BarChart
-            width={500}
-            height={300}
-            data={data.data}
-            margin={{ top: 30, right: 30, left: 0, bottom: 5 }}
-          >
-            <XAxis dataKey="name" fontSize={10} />
-            <YAxis fontSize={10} />
-            <Tooltip />
-            <Legend />
-            <Bar dataKey="uv" fill="#57a2e7" />
-          </BarChart>
-        </ResponsiveContainer>
+        {data !== undefined ? <div style={{ width: '100%', height: '145px' }}>
+          <h4 style={{ color: 'black', textAlign: 'center' }}></h4>
+          <BarChartComponent data={data !== undefined ? data : []} yUnit="kW" xUnit='Days' />
+        </div> : <LoadingPage height='145px' />}
+
       </Card>
 
     </div>
