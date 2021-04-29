@@ -28,9 +28,6 @@ const getEnergyConsumptionAPI = async (
         : String(startDate.getMonth() + 1)
     }-${startDate.getDate()} 00:00`;
 
-    // EndTime = `${stopDate.getFullYear()}-${
-    //   Number(stopDate.getMonth())
-    //   }-${stopDate.getDate()} 00:00`;
     EndTime = `${stopDate.getFullYear()}-${
       Number(startDate.getMonth() + 1) < 10
         ? "0" + String(startDate.getMonth() + 1)
@@ -63,14 +60,11 @@ const getEnergyConsumptionAPI = async (
   };
 
   try {
-    console.log(token);
-    console.log(
-      `${API_CONSTANTS.ENERGY_CONSUMPTION_URL}?RequestId=123&type=${dashboard}&place=${place}&building&floor&starttime=${StartTime}&endtime=${EndTime}&sample_min=${sampling_time}`
-    );
     let responseJson = await axios.get(
       `${API_CONSTANTS.ENERGY_CONSUMPTION_URL}?RequestId=123&type=${dashboard}&place=${place}&building&floor&starttime=${StartTime}&endtime=${EndTime}&sample_min=${sampling_time}`,
       headers
     );
+
     return responseJson;
   } catch (error) {
     console.error("[Services] GET Dashboard Error:");

@@ -1,6 +1,3 @@
-import { convertDate, convertValue } from './useStyles'
-
-import { Line, ComposedChart, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 import { Card, WeatherInfo, Img, WeatherDetail, Detial, LabelCard } from './styles'
 import Sunny from 'assets/images/icon/weather/sunny.svg'
 import GradientImg from 'assets/images/Gradient.svg'
@@ -8,14 +5,25 @@ import Raining from 'assets/images/icon/weather/Raining.svg'
 import Humidity from 'assets/images/icon/weather/Humidity.svg'
 import AirQuality from 'assets/images/icon/weather/Strom.svg'
 import Wind from 'assets/images/icon/weather/Wind.svg'
+import { LineChartComponent } from 'components/Graph/GraphComponent'
+import { LoadingPage } from 'components/LoadingPage/LoadingPage'
 
 interface OutdoorType {
-  data: any;
+  plotData: any;
   dashboardData: any;
 }
 
 
-const WeatherOutDoor = ({ data, dashboardData }: OutdoorType) => {
+const WeatherOutDoor = ({ plotData, dashboardData }: OutdoorType) => {
+
+  const tempData = [
+    {
+      id: 'Temperature History',
+      data: plotData !== undefined ? plotData : [],
+    },
+  ];
+
+
   return (
     <>
       <Card style={{ marginTop: '10px', top: '0px', paddingBottom: '20px' }}>
@@ -23,13 +31,13 @@ const WeatherOutDoor = ({ data, dashboardData }: OutdoorType) => {
 
         <WeatherInfo>
 
-          <h4 style={{ display: 'flex', fontSize: '32px', padding: '0px' }}>{dashboardData !== undefined ? dashboardData.outdoor_weather.temperature : 0}  <span style={{ fontSize: '12px' }}>&#8451;</span></h4>
+          <h4 style={{ display: 'flex', fontSize: '32px', padding: '0px' }}>{dashboardData !== undefined ? Number(dashboardData.outdoor_weather.temperature.value).toFixed(1) : 0}  <span style={{ fontSize: '12px' }}>&#8451;</span></h4>
           <div>
             <strong style={{ fontSize: '14px', display: 'flex', marginLeft: '20px' }}>
-              {dashboardData !== undefined ? dashboardData.outdoor_weather.zone : '-'}
+              {dashboardData !== undefined ? dashboardData.outdoor_weather.location : '-'}
             </strong>
             <span style={{ fontSize: '10px', display: 'flex', marginLeft: '20px', marginTop: '5px' }}>
-              {dashboardData !== undefined ? dashboardData.outdoor_weather.status : '-'}
+              {dashboardData !== undefined ? dashboardData.outdoor_weather.fill : '-'}
             </span>
 
           </div>
@@ -61,7 +69,7 @@ const WeatherOutDoor = ({ data, dashboardData }: OutdoorType) => {
             <div style={{ width: '100%', display: 'flex' }}>
               <Img src={Humidity} alt='humi' />
               <Detial>
-                <strong style={{ fontSize: '14px' }}>{dashboardData !== undefined ? dashboardData.outdoor_weather.humidity : 0}%</strong>
+                <strong style={{ fontSize: '14px' }}>{dashboardData !== undefined ? dashboardData.outdoor_weather.humidity.value : 0}%</strong>
                 <small style={{ fontSize: '10px', color: '#BABDC6' }}>Humidity</small>
               </Detial>
             </div>
@@ -70,7 +78,7 @@ const WeatherOutDoor = ({ data, dashboardData }: OutdoorType) => {
               <div style={{ width: '100%', display: 'flex' }}>
                 <Img src={Wind} alt='wind' />
                 <Detial>
-                  <strong style={{ fontSize: '14px' }}>{dashboardData !== undefined ? dashboardData.outdoor_weather.wind : 0} km/h</strong>
+                  <strong style={{ fontSize: '14px' }}>{dashboardData !== undefined ? dashboardData.outdoor_weather.wind_speed.value : 0} km/h</strong>
                   <small style={{ fontSize: '10px', color: '#BABDC6' }}>Wind</small>
                 </Detial>
               </div>
@@ -78,64 +86,13 @@ const WeatherOutDoor = ({ data, dashboardData }: OutdoorType) => {
           </WeatherDetail>
         </div>
 
-        <div style={{ marginTop: '20px' }}>
-          <ResponsiveContainer width="100%" height={150}>
-            <ComposedChart data={data} margin={{ top: 30, right: 30, left: 0, bottom: 5 }}>
-              <defs>
-                <filter id='shadow' height='200%'>
-                  <feGaussianBlur
-                    in='SourceAlpha'
-                    stdDeviation='7'
-                    result='blur'
-                  />
-                  <feOffset in='blur' dx='0' dy='7' result='offsetBlur' />
-                  <feFlood
-                    floodColor='#006991'
-                    floodOpacity='0.5'
-                    result='offsetColor'
-                  />
-                  <feComposite
-                    in='offsetColor'
-                    in2='offsetBlur'
-                    operator='in'
-                    result='offsetBlur'
-                  />
-                  <feMerge>
-                    <feMergeNode />
-                    <feMergeNode in='SourceGraphic' />
-                  </feMerge>
-                </filter>
-              </defs>
+        {/* <div style={{ marginTop: '20px' }}> */}
+        {plotData !== undefined ? <div style={{ width: '100%', height: '145px' }}>
+          <h4 style={{ color: 'black', textAlign: 'center' }}></h4>
+          <LineChartComponent data={tempData !== undefined ? tempData : []} unit="celcius" />
+        </div> : <LoadingPage height='145px' />}
 
-              <XAxis dataKey="time" tickFormatter={convertDate} fontSize={7} />
-              <YAxis tickFormatter={convertValue} fontSize={7} />
-              <Tooltip />
-              <CartesianGrid vertical={false} stroke="#fafafa" />
-              <Line
-                type="monotone"
-                unit="M"
-                strokeLinecap="round"
-                strokeWidth={2}
-                filter="url(#shadow)"
-                style={{ strokeDasharray: `0 0% 0%` }}
-                dataKey="close"
-                stroke="#57a2e7"
-                dot={false}
-                legendType="none"
-              />
-              <foreignObject x="30" y="0" width="300" height="150" fontSize={10} >
-                <div style={{ display: 'flex' }}>
-                  <h4 style={{ cursor: 'pointer', textDecoration: 'underline like solid #006991' }}>Temperature</h4> &nbsp; &nbsp;
-                  <h4 style={{ cursor: 'pointer' }}>Precipitation</h4>&nbsp; &nbsp;
-                  <h4 style={{ cursor: 'pointer' }}>Wind</h4>&nbsp; &nbsp;
-                  <h4 style={{ cursor: 'pointer' }}>AQI</h4>
-                </div>
-
-              </foreignObject>
-            </ComposedChart>
-          </ResponsiveContainer>
-
-        </div>
+        {/* </div> */}
       </Card>
 
     </>
