@@ -58,18 +58,18 @@ const Unit = styled.p`
   overflow: hidden;
 `;
 
-const Pendding = styled.div`
-background: #FFF3DE;
-border-radius: 8px;
-font-style: normal;
-font-weight: 600;
-font-size: 12px;
-line-height: 18px;
-padding: 0px;
-width: 60%;
-text-align: center;
-color: #F5A623;
-`
+// const Pendding = styled.div`
+// background: #FFF3DE;
+// border-radius: 8px;
+// font-style: normal;
+// font-weight: 600;
+// font-size: 12px;
+// line-height: 18px;
+// padding: 0px;
+// width: 60%;
+// text-align: center;
+// color: #F5A623;
+// `
 
 const Paid = styled.div`
 background: #CEF7E3;
@@ -83,18 +83,18 @@ width: 60%;
 text-align: center;
 color: #089953;
 `
-const Overdue = styled.div`
-background: #FFCACC;
-border-radius: 8px;
-font-style: normal;
-font-weight: 600;
-font-size: 12px;
-line-height: 18px;
-padding: 0px;
-width: 60%;
-text-align: center;
-color: #F25C62;
-`
+// const Overdue = styled.div`
+// background: #FFCACC;
+// border-radius: 8px;
+// font-style: normal;
+// font-weight: 600;
+// font-size: 12px;
+// line-height: 18px;
+// padding: 0px;
+// width: 60%;
+// text-align: center;
+// color: #F25C62;
+// `
 
 
 const useStyles = makeStyles((theme: Theme) =>

@@ -26,9 +26,7 @@ const RealtimeConsumption = ({ dashboardData, powerPlot }: RealtimeType) => {
   return (
     <>
       <Card style={{ height: '208px' }}>
-
         <div style={{ padding: '20px 20px 10px 20px', display: 'flex', fontSize: '18px' }}>
-
           <strong style={{
             display: 'flex', justifyContent: 'flex-start',
             width: '100%'
