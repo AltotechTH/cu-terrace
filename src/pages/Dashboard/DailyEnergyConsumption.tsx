@@ -26,7 +26,6 @@ const DailyEnergyConsumption = ({ data }: any) => {
           <h4 style={{ color: 'black', textAlign: 'center' }}></h4>
           <BarChartComponent data={data !== undefined ? data : []} yUnit="kW" xUnit='Days' />
         </div> : <LoadingPage height='145px' />}
-
       </Card>
 
     </div>

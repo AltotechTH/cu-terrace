@@ -12,10 +12,10 @@ export const LineChartComponent = (prop: any) => (
     xScale={{
       type: "time",
       format: "%Y-%m-%d %H:%M:%S",
-      precision: "minute",
+      precision: "second",
       useUTC: false,
-      stacked: false,
-      reverse: false
+      stacked: true,
+
     }}
     yScale={{
       type: "linear",
@@ -30,13 +30,14 @@ export const LineChartComponent = (prop: any) => (
     xFormat="time:%Y-%m-%d %H:%M:%S"
     axisBottom={{
       format: "%H:%M",
-      // tickValues: 'every 4 hour',
+      tickValues: 'every 2 hour',
       legend: "Time",
       legendOffset: 34,
       orient: "bottom",
-      tickSize: 5,
+      tickSize: 2,
       tickPadding: 5,
-      legendPosition: "middle"
+      legendPosition: "middle",
+
     }}
     enableSlices="x"
     sliceTooltip={({ slice }) => {
