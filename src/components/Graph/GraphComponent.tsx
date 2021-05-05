@@ -21,8 +21,8 @@ export const LineChartComponent = (prop: any) => (
       type: "linear",
       min: 0,
       max: "auto",
-      // stacked: false,
-      // reverse: false
+      stacked: false,
+      reverse: false
     }}
     yFormat=" >-.2f"
     axisTop={null}
@@ -37,6 +37,7 @@ export const LineChartComponent = (prop: any) => (
       tickSize: 2,
       tickPadding: 5,
       legendPosition: "middle",
+      tickRotation: -45
 
     }}
     enableSlices="x"

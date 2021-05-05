@@ -43,7 +43,7 @@ const RealtimeConsumption = ({ dashboardData, powerPlot }: RealtimeType) => {
         <div style={{ padding: '0px 20px 0px 20px', display: 'flex', fontSize: '14px' }}>Real-time Power Consumption</div>
 
         {powerPlot !== undefined ? <div style={{ width: '100%', height: '145px' }}>
-          <h4 style={{ color: 'black', textAlign: 'center' }}></h4>
+          {/* <h4 style={{ color: 'black', textAlign: 'center' }}></h4> */}
           <LineChartComponent data={powerData !== undefined ? powerData : []} unit="kW" />
         </div> : <LoadingPage height='145px' />}
       </Card>

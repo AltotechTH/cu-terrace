@@ -49,6 +49,7 @@ const EnergyConsumptionByFloor = ({ cuTerrace, cuiHouse }: FloorType) => {
   useMemo(() => {
 
     onClick(currentTab)
+    // eslint-disable-next-line 
   }, [currentTab, cuTerrace, cuiHouse])
 
   return (

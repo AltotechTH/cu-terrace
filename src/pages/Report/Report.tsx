@@ -7,6 +7,7 @@ import { makeStyles, createStyles, Theme, createMuiTheme, MuiThemeProvider } fro
 // import RightTabImage from 'assets/images/rightTabReport.svg';
 import MUIDataTable from "mui-datatables";
 import { invoiceAPI } from 'api/services/Invoices'
+import { LoadingPage } from 'components/LoadingPage/LoadingPage'
 
 const SummaryBox = styled.div`
   width: 100%;
@@ -154,8 +155,10 @@ const getMuiTheme = () => createMuiTheme({
 })
 
 export const Report = () => {
-  const [overduePayment, setOverduePayment] = useState({ baht: '120,948', bill: 46 });
-  const [paidPayment, setPaidPayment] = useState({ paid: '322,948', bill: 56 });
+  const overduePayment = { baht: '120,948', bill: 46 }
+  const paidPayment = { paid: '322,948', bill: 56 }
+  // const [overduePayment, setOverduePayment] = useState({ baht: '120,948', bill: 46 });
+  // const [paidPayment, setPaidPayment] = useState({ paid: '322,948', bill: 56 });
   const [invoiceData, setInvoiceData] = useState<[] | undefined>()
   const classes = useStyles();
   const [invoiceDataTable, setInvoiceDataTable] = useState<any>()
@@ -339,14 +342,14 @@ export const Report = () => {
           <Grid item xs={12}>
             <Grid item xs={12}>
               <MuiThemeProvider theme={getMuiTheme()}>
-                <MUIDataTable
+                {invoiceDataTable !== undefined ? <MUIDataTable
                   title={"Search for Tenant Energy Consumption"}
                   data={invoiceDataTable !== undefined ? invoiceDataTable : []}
                   columns={columns}
                   options={options}
-                />
+                /> :
+                  <LoadingPage />}
               </MuiThemeProvider>
-
             </Grid>
           </Grid>
         </Grid>

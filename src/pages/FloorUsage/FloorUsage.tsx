@@ -283,6 +283,7 @@ export const FloorUsage = () => {
     return () => {
       fetchData(true);
     };
+    // eslint-disable-next-line
   }, []);
 
   return (
