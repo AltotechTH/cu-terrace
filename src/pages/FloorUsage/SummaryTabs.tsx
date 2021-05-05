@@ -42,15 +42,19 @@ type SummaryProps = {
 export const SummaryTabs = ({ summaryData }: SummaryProps) => {
   return (
     <>
-      {summaryData.map((data) => (
-        <SingleTab key={data.name}>
-          <Name>{data.name}</Name>
-          <div style={{ display: 'flex', flexDirection: 'row' }}>
-            <Value>{data.value}</Value>
-            <Unit>{data.unit}</Unit>
-          </div>
-        </SingleTab>
-      ))}
+      {summaryData !== undefined ? summaryData.map((data, index) => (
+        <>
+          {data !== undefined && <SingleTab key={index}>
+            <Name>{data.name !== undefined && data.name}</Name>
+            <div style={{ display: 'flex', flexDirection: 'row' }}>
+              <Value>{data.value !== undefined && data.value}</Value>
+              <Unit>{data.unit !== undefined && data.unit}</Unit>
+            </div>
+          </SingleTab>
+          }
+        </>
+
+      )) : <></>}
     </>
   );
 };
