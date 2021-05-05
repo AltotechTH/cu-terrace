@@ -130,13 +130,14 @@ export const FloorUsage = () => {
   const [hoveredFloor, setHoveredFloor] = useState('');
   const [energySummaryData, setEnergySummaryData] = useState<dataProp[] | undefined>();
   const [eventSummaryData, setEventSummaryData] = useState<dataProp[] | undefined>();
+  const [roomSummaryData, setRoomSummaryData] = useState();
 
   const classes = useStyles();
 
   const firebase = useContext<any>(FirebaseContext);
 
   function fetchData(didMount: boolean) {
-    const pages_path = `building/pmcu/pages/floor_usage`;
+    const pages_path = `building/pmcu/pages/floor_usage/cu_ihouse/floors/floor_6`;
     if (didMount) {
       firebase.db.ref(pages_path).off('value');
     } else {
@@ -145,24 +146,15 @@ export const FloorUsage = () => {
           let capt: any = snap.val();
           let energyRef: any = [];
           let eventRef: any = [];
-          Object.keys(capt).forEach((item) => {
-            if (
-              ['baht_this_month', 'co2_this_month', 'kwh_this_month', 'peak_demand'].includes(item)
-            ) {
-              energyRef.push(convertToArray(item, capt[item].toFixed(2)));
-            } else if (
-              ['total_room', 'iot_disconnected', 'anomaly_event', 'tenant_request'].includes(item)
-            ) {
-              eventRef.push(convertToArray(item, capt[item].toFixed(2)));
-            }
+          Object.keys(capt.energy).forEach((item) => {
+            energyRef.push(convertToArray(item, capt.energy[item].toFixed(2)));
+          });
+          Object.keys(capt.event).forEach((item) => {
+            eventRef.push(convertToArray(item, capt.event[item].toFixed(2)));
           });
           setEnergySummaryData(energyRef);
           setEventSummaryData(eventRef);
           setSummaryData(energyRef);
-          // energyData['']
-          // if (capt !== undefined) {
-          //   setDashboardData(capt.dashboard);
-          // }
         }
       });
     }
@@ -170,44 +162,81 @@ export const FloorUsage = () => {
 
   const convertToArray = (name: string, value: number) => {
     let result: any = {
-      baht_this_month: {
+      predicted_cost_thb: {
         name: 'Predicted Cost',
         value: value,
         unit: 'Baht',
       },
-      co2_this_month: {
+      co2_emission_kg: {
         name: 'CO2 Emissions',
         value: value,
         unit: 'kg',
       },
-      kwh_this_month: {
+      energy_consumption_kwh: {
         name: 'Energy Consumption',
         value: value,
         unit: 'kWh',
       },
-      peak_demand: {
+      peak_demand_kwh: {
         name: 'Peak Demand',
         value: value,
         unit: 'kW',
       },
-      total_room: { name: 'Total Room', value: value, unit: 'unit' },
-      iot_disconnected: {
+      total_room_unit: { name: 'Total Room', value: value, unit: 'unit' },
+      iot_disconnected_unit: {
         name: 'IoT Disconnected',
         value: value,
         unit: 'unit',
       },
-      anomaly_event: {
+      anomaly_event_unit: {
         name: 'Anomaly Event',
         value: value,
         unit: 'unit',
       },
-      tenant_request: {
+      tenant_request_unit: {
         name: 'Tenant Request',
         value: value,
         unit: 'unit',
       },
+      monthly_electricity_bill: {
+        name: 'Monthly Electricity Bill',
+        value: value,
+        unit: 'THB',
+      },
+      monthly_energy_consumption: {
+        name: 'Monthly Energy Consumption',
+        value: value,
+        unit: 'kWh',
+      },
+      today_energy_consumption: {
+        name: 'Today Energy Consumption',
+        value: value,
+        unit: 'kWh',
+      },
     };
     return result[name];
+  };
+
+  const fetchRoomSummaryData = (sync: boolean, roomNumber: string) => {
+    const roomSummaryPath = `building/pmcu/pages/floor_usage/rooms/${roomNumber.substring(1, 4)}`;
+    if (sync) {
+      firebase.db.ref(roomSummaryPath).on('value', function (snap: { val: () => any }) {
+        if (snap) {
+          let capt: any = snap.val();
+          let summaryData: any = [];
+          Object.keys(capt).forEach((item) => {
+            if (typeof capt[item] === 'object') {
+              summaryData.push(convertToArray(item, capt[item].value.toFixed(2)));
+            } else {
+              summaryData.push(convertToArray(item, capt[item].toFixed(2)));
+            }
+          });
+          setRoomSummaryData(summaryData);
+        }
+      });
+    } else {
+      firebase.db.ref(roomSummaryPath).off('value');
+    }
   };
 
   const handleChangeTab = (value: string) => {
@@ -267,6 +296,7 @@ export const FloorUsage = () => {
   const closeModal = () => {
     setSelectedGraphOpen(false);
     setSelectedRoomOpen(false);
+    fetchRoomSummaryData(false, '0601');
   };
 
   const openModalGraph = () => {
@@ -275,6 +305,7 @@ export const FloorUsage = () => {
 
   const selectRoom = (e: string) => {
     setSelectedRoom(e);
+    fetchRoomSummaryData(true, e);
     setSelectedRoomOpen(true);
   };
 
@@ -283,6 +314,7 @@ export const FloorUsage = () => {
     return () => {
       fetchData(true);
     };
+    // eslint-disable-next-line
   }, []);
 
   return (
@@ -388,6 +420,7 @@ export const FloorUsage = () => {
         setEndDate={setEndDate}
         selectedModalTab={selectedModalTab}
         handleChangeModalTab={handleChangeModalTab}
+        roomSummaryData={roomSummaryData}
       />
     </div>
   );

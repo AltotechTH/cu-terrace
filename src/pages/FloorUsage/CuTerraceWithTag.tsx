@@ -357,7 +357,7 @@ export const CuTerraceWithTag = ({
         d="M2.38199 72.9898L157.248 1.10487L308.411 72.9898L157.248 144.372L2.38199 72.9898Z"
         fill="#E0F0FF"
         stroke="#E1E6F0"
-        stroke-width="2"
+        strokeWidth="2"
       />
       <path
         opacity="0.5"
@@ -372,14 +372,14 @@ export const CuTerraceWithTag = ({
         style={{ pointerEvents: 'none', transform: `translate(0,-${selectedFloorY}px)` }}
       >
         <path
-          fill-rule="evenodd"
-          clip-rule="evenodd"
+          fillRule="evenodd"
+          clipRule="evenodd"
           d="M310.746 639.586L157.253 712.32V712.32L157.252 712.32L0 639.586V615L157.252 687.734L310.746 615V639.586Z"
           fill="#F9FAFB"
         />
         <path
-          fill-rule="evenodd"
-          clip-rule="evenodd"
+          fillRule="evenodd"
+          clipRule="evenodd"
           d="M310.746 639.586L157.253 712.32V712.32L157.252 712.32L0 639.586V615L157.252 687.734L310.746 615V639.586Z"
           fill="url(#paint0_linear)"
         />
@@ -391,13 +391,13 @@ export const CuTerraceWithTag = ({
         opacity={tagOpacity}
       >
         <path
-          fill-rule="evenodd"
-          clip-rule="evenodd"
+          fillRule="evenodd"
+          clipRule="evenodd"
           d="M345 666H203V679.238L190 686L203 692.762V706H345V666Z"
           fill="white"
         />
 
-        <line x1="282.5" y1="674.5" x2="282.5" y2="697.5" stroke="#EFF2F7" stroke-linecap="round" />
+        <line x1="282.5" y1="674.5" x2="282.5" y2="697.5" stroke="#EFF2F7" strokeLinecap="round" />
         <circle cx="299" cy="686" r="10" fill="#F25C62" />
         <path
           d="M304.507 686.047C304.512 685.966 304.514 685.889 304.514 685.812C304.514 683.159 302.318 681 299.62 681C297.642 681 295.863 682.177 295.107 683.957C293.343 684.203 292 685.611 292 687.271C292 689.12 293.641 690.625 295.657 690.625H303.581C304.915 690.625 306 689.557 306 688.243C306 687.265 305.402 686.409 304.507 686.047ZM303.582 689.75H295.657C294.123 689.75 292.875 688.638 292.875 687.271C292.875 685.983 294.004 684.899 295.446 684.801C295.619 684.79 295.77 684.676 295.829 684.512C296.393 682.935 297.916 681.875 299.619 681.875C301.835 681.875 303.639 683.641 303.639 685.812C303.639 685.96 303.628 686.115 303.604 686.301C303.576 686.523 303.721 686.731 303.939 686.782C304.638 686.944 305.125 687.545 305.125 688.243C305.125 689.074 304.432 689.75 303.582 689.75Z"
@@ -439,9 +439,9 @@ export const CuTerraceWithTag = ({
           width="211"
           height="96"
           filterUnits="userSpaceOnUse"
-          color-interpolation-filters="sRGB"
+          colorInterpolationFilters="sRGB"
         >
-          <feFlood flood-opacity="0" result="BackgroundImageFix" />
+          <feFlood floodOpacity="0" result="BackgroundImageFix" />
           <feColorMatrix
             in="SourceAlpha"
             type="matrix"
@@ -476,9 +476,9 @@ export const CuTerraceWithTag = ({
           width="40"
           height="40"
           filterUnits="userSpaceOnUse"
-          color-interpolation-filters="sRGB"
+          colorInterpolationFilters="sRGB"
         >
-          <feFlood flood-opacity="0" result="BackgroundImageFix" />
+          <feFlood floodOpacity="0" result="BackgroundImageFix" />
           <feColorMatrix
             in="SourceAlpha"
             type="matrix"
@@ -502,8 +502,8 @@ export const CuTerraceWithTag = ({
           y2="533.7"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#0E7EE4" />
-          <stop offset="1" stop-color="#00A3FF" />
+          <stop stopColor="#0E7EE4" />
+          <stop offset="1" stopColor="#00A3FF" />
         </linearGradient>
       </defs>
       <text
