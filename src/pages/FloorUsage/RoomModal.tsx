@@ -8,7 +8,6 @@ import CloseButtonIcon from 'assets/images/close.svg';
 import CalendarIconImage from 'assets/images/calendarIcon.svg';
 import { Tabs, Tab } from 'components/StyledTabs/StyledTabs';
 import InvoiceMockupImage from 'assets/images/Invoice.svg';
-import UpIcon from 'assets/images/icon/up.svg';
 import DownIcon from 'assets/images/icon/down.svg';
 import CircleIcon from 'assets/images/Circle.svg';
 import Select from 'react-select';
@@ -58,11 +57,11 @@ export const RoomModal = ({
   setEndDate,
   selectedModalTab,
   handleChangeModalTab,
+  roomSummaryData,
 }: any) => {
   const [value, setValue] = useState<{}[]>([{ value: 'activePower', label: 'Active Power' }]);
   const [fetchData, setFetchData] = useState<[]>();
   const [fetchDevice, setFetchDevice] = useState<[]>();
-  // const [energyPlot, setEnergyPlot] = useState()
   const [powerPlot, setPowerPlot] = useState();
   const [powerApparentPlot, setPowerApparentPlot] = useState();
   const [powerReactivePlot, setPowerReactivePlot] = useState();
@@ -317,60 +316,33 @@ export const RoomModal = ({
           </Grid>
         </Grid>
         <Grid container spacing={3} style={{ marginTop: '20px' }}>
-          <Grid item xs={4}>
-            <SummaryBox>
-              <Grid container spacing={3}>
-                <Grid item xs={12}>
-                  <SummaryBoxHeader>Total Energy Consumption</SummaryBoxHeader>
+          {roomSummaryData &&
+            roomSummaryData.map((item: any) => {
+              return (
+                <Grid item xs={4}>
+                  <SummaryBox>
+                    <Grid container spacing={3}>
+                      <Grid item xs={12}>
+                        <SummaryBoxHeader>
+                          {item && item.name ? item.name : 'No data'}
+                        </SummaryBoxHeader>
+                      </Grid>
+                      <Grid item xs={12} style={{ paddingTop: '0px', display: 'flex' }}>
+                        <SummaryBoxValue>
+                          {item && item.value ? item.value : 'No data'}
+                        </SummaryBoxValue>
+                        <SummaryBoxUnit>{item && item.unit ? item.unit : 'No data'}</SummaryBoxUnit>
+                      </Grid>
+                      <Grid item xs={12} style={{ display: 'flex' }}>
+                        <Icon src={DownIcon} />
+                        <PercentChange>-0.84%</PercentChange>
+                        <Comparative>than yesterday</Comparative>
+                      </Grid>
+                    </Grid>
+                  </SummaryBox>
                 </Grid>
-                <Grid item xs={12} style={{ paddingTop: '0px', display: 'flex' }}>
-                  <SummaryBoxValue>8</SummaryBoxValue>
-                  <SummaryBoxUnit>kWh</SummaryBoxUnit>
-                </Grid>
-                <Grid item xs={12} style={{ display: 'flex' }}>
-                  <Icon src={DownIcon} />
-                  <PercentChange>-0.84%</PercentChange>
-                  <Comparative>than yesterday</Comparative>
-                </Grid>
-              </Grid>
-            </SummaryBox>
-          </Grid>
-          <Grid item xs={4}>
-            <SummaryBox>
-              <Grid container spacing={3}>
-                <Grid item xs={12}>
-                  <SummaryBoxHeader>Total Energy Consumption</SummaryBoxHeader>
-                </Grid>
-                <Grid item xs={12} style={{ paddingTop: '0px', display: 'flex' }}>
-                  <SummaryBoxValue>8</SummaryBoxValue>
-                  <SummaryBoxUnit>kWh</SummaryBoxUnit>
-                </Grid>
-                <Grid item xs={12} style={{ display: 'flex' }}>
-                  <Icon src={DownIcon} />
-                  <PercentChange>-0.84%</PercentChange>
-                  <Comparative>than last month</Comparative>
-                </Grid>
-              </Grid>
-            </SummaryBox>
-          </Grid>
-          <Grid item xs={4}>
-            <SummaryBox>
-              <Grid container spacing={3}>
-                <Grid item xs={12}>
-                  <SummaryBoxHeader>Total Energy Consumption</SummaryBoxHeader>
-                </Grid>
-                <Grid item xs={12} style={{ paddingTop: '0px', display: 'flex' }}>
-                  <SummaryBoxValue>8</SummaryBoxValue>
-                  <SummaryBoxUnit>kWh</SummaryBoxUnit>
-                </Grid>
-                <Grid item xs={12} style={{ display: 'flex' }}>
-                  <Icon src={UpIcon} />
-                  <PercentChange>0.84%</PercentChange>
-                  <Comparative>than last month</Comparative>
-                </Grid>
-              </Grid>
-            </SummaryBox>
-          </Grid>
+              );
+            })}
         </Grid>
 
         {selectedModalTab === 'Information' && (
