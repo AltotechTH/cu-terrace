@@ -19,7 +19,8 @@ export const Footer = styled.div`
 
 export const SidebarNav = styled.div<{ sidebar: boolean }>`
   width: 74px;
-  height: calc(100% - 80px);
+  /* height: calc(100% - 80px); */
+  height: 940px;
   background-color: #ffffff;
   position: absolute;
   top: 80px;
@@ -29,7 +30,7 @@ export const SidebarNav = styled.div<{ sidebar: boolean }>`
   z-index: 9;
 `;
 
-export const NavIcon = styled(Link)<any>`
+export const NavIcon = styled(Link) <any>`
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -61,7 +62,7 @@ export const NavItems = styled.div`
 
 export const SidebarWrap = styled.div``;
 
-export const SidebarLink = styled(Link)<any>`
+export const SidebarLink = styled(Link) <any>`
   display: unset;
   justify-content: space-between;
   align-items: center;
@@ -83,7 +84,7 @@ export const SidebarLabel = styled.span`
   text-align: center;
 `;
 
-export const DropdownLink = styled(Link)<any>`
+export const DropdownLink = styled(Link) <any>`
   display: flex;
   justify-content: flex-start;
   align-items: center;

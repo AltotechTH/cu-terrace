@@ -14,42 +14,42 @@ const Sidebar: FC = () => {
   const showSidebar = () => setSidebar(!sidebar);
 
   return (
-    <IconContext.Provider value={{ color: 'black' }}>
-      <Nav>
-        <NavIcon to="#" onClick={showSidebar}>
-          {/* <AiOutlineMenu /> */}
-          <img src={SDMLogo} alt="#" width={60} />
-        </NavIcon>
-        <LabelName>
-          <small style={{ fontSize: '15px', color: 'grey' }}>Building</small>
-          <br />
-          <p>CU Terrace</p>
-        </LabelName>
-        <NavItems>
-          <div className="spacing">
-            <SearchIcon />
-          </div>
-          <div className="spacing">
-            <Badge badgeContent={4} color="secondary">
-              <MailIcon />
-            </Badge>
-          </div>
-          <div className="spacing">
-            <Avatar alt="Remy Sharp" src="/assets/img/altotech.png" />
-          </div>
-        </NavItems>
-      </Nav>
-      <SidebarNav sidebar={sidebar}>
-        <SidebarWrap>
-          {/* <NavIcon to="#" onClick={showSidebar}>
-            <AiOutlineClose />
-          </NavIcon> */}
-          {Routes.map((item, index) => {
-            return <Submenu item={item} key={index} />;
-          })}
-        </SidebarWrap>
-      </SidebarNav>
-    </IconContext.Provider>
+    <div>
+      <IconContext.Provider value={{ color: 'black' }}>
+        <Nav>
+          <NavIcon to="#" onClick={showSidebar}>
+            {/* <AiOutlineMenu /> */}
+            <img src={SDMLogo} alt="#" width={60} />
+          </NavIcon>
+          <LabelName>
+            <small style={{ fontSize: '15px', color: 'grey' }}>Building</small>
+            <br />
+            <p>CU Terrace</p>
+          </LabelName>
+          <NavItems>
+            <div className="spacing">
+              <SearchIcon />
+            </div>
+            <div className="spacing">
+              <Badge badgeContent={4} color="secondary">
+                <MailIcon />
+              </Badge>
+            </div>
+            <div className="spacing">
+              <Avatar alt="Remy Sharp" src="/assets/img/altotech.png" />
+            </div>
+          </NavItems>
+        </Nav>
+        <SidebarNav sidebar={sidebar}>
+          <SidebarWrap>
+
+            {Routes.map((item, index) => {
+              return <Submenu item={item} key={index} />;
+            })}
+          </SidebarWrap>
+        </SidebarNav>
+      </IconContext.Provider>
+    </div>
   );
 };
 

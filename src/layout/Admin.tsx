@@ -15,7 +15,7 @@ const Admin = () => {
     if (status) {
       setIsLogin(true);
     }
-    return () => {};
+    return () => { };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -24,14 +24,19 @@ const Admin = () => {
       {!isLogin && <Login setIsLogin={setIsLogin} />}
       {isLogin && (
         <Router>
-          <Sidebar />
-          <Switch>
-            <Route path="/dashboard" component={Dashboard} exact></Route>
-            <Route path="/floor-usage" component={FloorUsage} exact></Route>
-            <Route path="/overview" component={Overview} exact></Route>
-            <Route path="/report" component={Report} exact></Route>
-            <Redirect to="/dashboard" />
-          </Switch>
+          <div style={{ height: '100%' }}>
+            <Sidebar />
+            <Switch>
+
+              <Route path="/dashboard" component={Dashboard} exact></Route>
+              <Route path="/floor-usage" component={FloorUsage} exact></Route>
+              <Route path="/overview" component={Overview} exact></Route>
+              <Route path="/report" component={Report} exact></Route>
+              <Redirect to="/dashboard" />
+            </Switch>
+          </div>
+
+
         </Router>
       )}
     </>
