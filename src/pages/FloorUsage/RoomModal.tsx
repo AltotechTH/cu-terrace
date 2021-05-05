@@ -36,6 +36,7 @@ import {
   SummaryBoxValue,
   customStyles,
 } from './Styled';
+import { LoadingPage } from 'components/LoadingPage/LoadingPage'
 
 const options = [
   { value: 'activePower', label: 'Active Power' },
@@ -70,7 +71,7 @@ export const RoomModal = ({
 
   const handleChange = (newValue: any, actionMeta: any) => {
     setValue(newValue);
-    console.log(newValue);
+    // console.log(newValue);
   };
 
   function Energy(
@@ -421,8 +422,10 @@ export const RoomModal = ({
               />
             </Grid>
 
-            <Grid item xs={4}>
+            <Grid item xs={4}  >
+              {/* {console.log(value[0]['value'])} */}
               <Select
+
                 value={value}
                 defaultValue={[options[0]]}
                 onChange={handleChange}
@@ -440,82 +443,89 @@ export const RoomModal = ({
 
             {/* ## BEGIN Chart plot */}
             <Grid item xs={12}>
-              {value &&
+
+              {value !== undefined && value !== null &&
                 value.map((data: any, index: number) => {
-                  // { console.log(data['value']) }
+                  // console.log(data['value'])
+                  // console.log((powerData[0]['data'])?.length)
                   return (
                     <>
-                      {data['value'] === 'activePower' && (
-                        <EnergySummaryBox key={index}>
-                          {/* <InvoiceImage src={PowerChart} /> */}
-                          <div key={index} style={{ width: '100%', height: '200px' }}>
-                            <h4 style={{ color: 'black', textAlign: 'center' }}>
-                              {powerData[0]['id']}
-                            </h4>
-                            <EnergyGraph unit="kW" data={powerData} />
-                          </div>
-                        </EnergySummaryBox>
-                      )}
+                      {(powerData[0]['data']?.length) !== 0 && powerData[0]['data'] !== undefined ?
+                        <>
+                          {data['value'] === 'activePower' && (
+                            <EnergySummaryBox key={data['value']}>
+                              {/* <InvoiceImage src={PowerChart} /> */}
+                              <div key={data['value']} style={{ width: '100%', height: '200px' }}>
+                                <h4 style={{ color: 'black', textAlign: 'center' }}>
+                                  {powerData[0]['id']}
+                                </h4>
+                                <EnergyGraph unit="kW" data={powerData} />
+                              </div>
+                            </EnergySummaryBox>
+                          )}
 
-                      {data['value'] === 'reactivePower' && (
-                        <EnergySummaryBox key={index + 1}>
-                          {/* <InvoiceImage src={PowerChart} /> */}
-                          <div key={index + 1} style={{ width: '100%', height: '200px' }}>
-                            <h4 style={{ color: 'black', textAlign: 'center' }}>
-                              {powerReactiveData[0]['id']}
-                            </h4>
-                            <EnergyGraph unit="kVAR" data={powerReactiveData} />
-                          </div>
-                        </EnergySummaryBox>
-                      )}
+                          {data['value'] === 'reactivePower' && (
+                            <EnergySummaryBox key={data['value']}>
+                              {/* <InvoiceImage src={PowerChart} /> */}
+                              <div key={data['value']} style={{ width: '100%', height: '200px' }}>
+                                <h4 style={{ color: 'black', textAlign: 'center' }}>
+                                  {powerReactiveData[0]['id']}
+                                </h4>
+                                <EnergyGraph unit="kVAR" data={powerReactiveData} />
+                              </div>
+                            </EnergySummaryBox>
+                          )}
 
-                      {data['value'] === 'apparentPower' && (
-                        <EnergySummaryBox key={index + 2}>
-                          {/* <InvoiceImage src={PowerChart} /> */}
-                          <div key={index + 2} style={{ width: '100%', height: '200px' }}>
-                            <h4 style={{ color: 'black', textAlign: 'center' }}>
-                              {powerApparentData[0]['id']}
-                            </h4>
-                            <EnergyGraph unit="kVA" data={powerApparentData} />
-                          </div>
-                        </EnergySummaryBox>
-                      )}
+                          {data['value'] === 'apparentPower' && (
+                            <EnergySummaryBox key={data['value']}>
+                              {/* <InvoiceImage src={PowerChart} /> */}
+                              <div key={data['value']} style={{ width: '100%', height: '200px' }}>
+                                <h4 style={{ color: 'black', textAlign: 'center' }}>
+                                  {powerApparentData[0]['id']}
+                                </h4>
+                                <EnergyGraph unit="kVA" data={powerApparentData} />
+                              </div>
+                            </EnergySummaryBox>
+                          )}
 
-                      {data['value'] === 'current' && (
-                        <EnergySummaryBox key={index + 3}>
-                          {/* <InvoiceImage src={PowerChart} /> */}
-                          <div key={index + 3} style={{ width: '100%', height: '200px' }}>
-                            <h4 style={{ color: 'black', textAlign: 'center' }}>
-                              {currentData[0]['id']}
-                            </h4>
-                            <EnergyGraph unit="A" data={currentData} />
-                          </div>
-                        </EnergySummaryBox>
-                      )}
+                          {data['value'] === 'current' && (
+                            <EnergySummaryBox key={data['value']}>
+                              {/* <InvoiceImage src={PowerChart} /> */}
+                              <div key={data['value']} style={{ width: '100%', height: '200px' }}>
+                                <h4 style={{ color: 'black', textAlign: 'center' }}>
+                                  {currentData[0]['id']}
+                                </h4>
+                                <EnergyGraph unit="A" data={currentData} />
+                              </div>
+                            </EnergySummaryBox>
+                          )}
 
-                      {data['value'] === 'voltage' && (
-                        <EnergySummaryBox key={index + 4}>
-                          {/* <InvoiceImage src={PowerChart} /> */}
-                          <div key={index + 4} style={{ width: '100%', height: '200px' }}>
-                            <h4 style={{ color: 'black', textAlign: 'center' }}>
-                              {voltageData[0]['id']}
-                            </h4>
-                            <EnergyGraph unit="V" data={voltageData} />
-                          </div>
-                        </EnergySummaryBox>
-                      )}
+                          {data['value'] === 'voltage' && (
+                            <EnergySummaryBox key={data['value']}>
+                              {/* <InvoiceImage src={PowerChart} /> */}
+                              <div key={data['value']} style={{ width: '100%', height: '200px' }}>
+                                <h4 style={{ color: 'black', textAlign: 'center' }}>
+                                  {voltageData[0]['id']}
+                                </h4>
+                                <EnergyGraph unit="V" data={voltageData} />
+                              </div>
+                            </EnergySummaryBox>
+                          )}
 
-                      {data['value'] === 'powerFactor' && (
-                        <EnergySummaryBox key={index + 5}>
-                          {/* <InvoiceImage src={PowerChart} /> */}
-                          <div key={index + 5} style={{ width: '100%', height: '200px' }}>
-                            <h4 style={{ color: 'black', textAlign: 'center' }}>
-                              {pfData[0]['id']}
-                            </h4>
-                            <EnergyGraph unit="W/VA" data={pfData} />
-                          </div>
-                        </EnergySummaryBox>
-                      )}
+                          {data['value'] === 'powerFactor' && (
+                            <EnergySummaryBox key={data['value']}>
+                              {/* <InvoiceImage src={PowerChart} /> */}
+                              <div key={data['value']} style={{ width: '100%', height: '200px' }}>
+                                <h4 style={{ color: 'black', textAlign: 'center' }}>
+                                  {pfData[0]['id']}
+                                </h4>
+                                <EnergyGraph unit="W/VA" data={pfData} />
+                              </div>
+                            </EnergySummaryBox>
+                          )}
+                        </> :
+                        <LoadingPage />
+                      }
                     </>
                   );
                 })}

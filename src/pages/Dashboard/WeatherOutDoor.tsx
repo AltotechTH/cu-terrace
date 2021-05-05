@@ -88,7 +88,7 @@ const WeatherOutDoor = ({ plotData, dashboardData }: OutdoorType) => {
 
         {/* <div style={{ marginTop: '20px' }}> */}
         {plotData !== undefined ? <div style={{ width: '100%', height: '145px' }}>
-          <h4 style={{ color: 'black', textAlign: 'center' }}></h4>
+          {/* <h4 style={{ color: 'black', textAlign: 'center' }}></h4> */}
           <LineChartComponent data={tempData !== undefined ? tempData : []} unit="celcius" />
         </div> : <LoadingPage height='145px' />}
 

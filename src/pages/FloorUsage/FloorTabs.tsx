@@ -42,7 +42,7 @@ export const FloorTabs = ({ floorValue, selectRoom }: floorTabsProps) => {
   };
 
   const handleSelectRoom = (value: floorTabsProp) => {
-    console.log(value);
+    // console.log(value);
     if (converter(value.value) !== '#d2d2d2') {
       selectRoom(value.room);
     }

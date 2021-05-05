@@ -2,15 +2,14 @@ import { useState, useMemo } from 'react';
 import { Grid } from '@material-ui/core';
 import { CardHeader } from 'components/CardHeader';
 import styled from 'styled-components';
-import {
-  makeStyles,
-  createStyles,
-  Theme,
-  createMuiTheme,
-  MuiThemeProvider,
-} from '@material-ui/core/styles';
-import MUIDataTable from 'mui-datatables';
-import { invoiceAPI } from 'api/services/Invoices';
+
+import { makeStyles, createStyles, Theme, createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
+// import ReportTableImage from 'assets/images/reportTable.svg';
+// import RightTabImage from 'assets/images/rightTabReport.svg';
+import MUIDataTable from "mui-datatables";
+import { invoiceAPI } from 'api/services/Invoices'
+import { LoadingPage } from 'components/LoadingPage/LoadingPage'
+
 
 const SummaryBox = styled.div`
   width: 100%;
@@ -155,9 +154,13 @@ const getMuiTheme = () =>
   });
 
 export const Report = () => {
-  const overduePayment = { baht: '120,948', bill: 46 };
-  const paidPayment = { paid: '322,948', bill: 56 };
-  const [invoiceData, setInvoiceData] = useState<[] | undefined>();
+
+  const overduePayment = { baht: '120,948', bill: 46 }
+  const paidPayment = { paid: '322,948', bill: 56 }
+  // const [overduePayment, setOverduePayment] = useState({ baht: '120,948', bill: 46 });
+  // const [paidPayment, setPaidPayment] = useState({ paid: '322,948', bill: 56 });
+  const [invoiceData, setInvoiceData] = useState<[] | undefined>()
+
   const classes = useStyles();
   const [invoiceDataTable, setInvoiceDataTable] = useState<any>();
 
@@ -368,12 +371,15 @@ export const Report = () => {
           <Grid item xs={12}>
             <Grid item xs={12}>
               <MuiThemeProvider theme={getMuiTheme()}>
-                <MUIDataTable
-                  title={'Search for Tenant Energy Consumption'}
+
+                {invoiceDataTable !== undefined ? <MUIDataTable
+                  title={"Search for Tenant Energy Consumption"}
+
                   data={invoiceDataTable !== undefined ? invoiceDataTable : []}
                   columns={columns}
                   options={options}
-                />
+                /> :
+                  <LoadingPage />}
               </MuiThemeProvider>
             </Grid>
           </Grid>
