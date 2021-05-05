@@ -17,8 +17,8 @@ import moment from 'moment'
 
 const Dashboard: FC = () => {
   const firebase = useContext<any>(FirebaseContext);
-  const startDate = new Date
-  const stopDate = new Date
+  const startDate = new Date()
+  const stopDate = new Date()
 
   const [dashboardData, setDashboardData] = useState();
   const [energyConsumptionData, setEnergyConsumptionData]: any = useState()
