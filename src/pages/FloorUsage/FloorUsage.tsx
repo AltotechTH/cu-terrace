@@ -137,7 +137,7 @@ export const FloorUsage = () => {
   const firebase = useContext<any>(FirebaseContext);
 
   function fetchData(didMount: boolean) {
-    const pages_path = `building/pmcu/pages/floor_usage/cu_ihouse/floors/floor_6`;
+    const pages_path = 'building/pmcu/pages/floor_usage/cu_ihouse/floors/floor_6';
     if (didMount) {
       firebase.db.ref(pages_path).off('value');
     } else {
