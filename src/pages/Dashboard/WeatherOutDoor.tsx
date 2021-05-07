@@ -37,7 +37,7 @@ const WeatherOutDoor = ({ plotData, dashboardData }: OutdoorType) => {
               {dashboardData !== undefined ? dashboardData.outdoor_weather.location : '-'}
             </strong>
             <span style={{ fontSize: '10px', display: 'flex', marginLeft: '20px', marginTop: '5px' }}>
-              {dashboardData !== undefined ? dashboardData.outdoor_weather.fill : '-'}
+              {dashboardData !== undefined ? dashboardData.outdoor_weather.weather : '-'}
             </span>
 
           </div>
@@ -69,7 +69,7 @@ const WeatherOutDoor = ({ plotData, dashboardData }: OutdoorType) => {
             <div style={{ width: '100%', display: 'flex' }}>
               <Img src={Humidity} alt='humi' />
               <Detial>
-                <strong style={{ fontSize: '14px' }}>{dashboardData !== undefined ? dashboardData.outdoor_weather.humidity.value : 0}%</strong>
+                <strong style={{ fontSize: '14px' }}>{dashboardData !== undefined ? dashboardData.outdoor_weather.relative_humidity.value : 0}%</strong>
                 <small style={{ fontSize: '10px', color: '#BABDC6' }}>Humidity</small>
               </Detial>
             </div>
