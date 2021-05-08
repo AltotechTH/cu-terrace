@@ -1,62 +1,66 @@
-import { ResponsiveLine } from "@nivo/line";
-import { ResponsivePie } from '@nivo/pie'
-import { ResponsiveBar } from '@nivo/bar'
-import moment from 'moment'
+import { ResponsiveLine } from '@nivo/line';
+import { ResponsivePie } from '@nivo/pie';
+import { ResponsiveBar } from '@nivo/bar';
+import moment from 'moment';
 
 export const LineChartComponent = (prop: any) => (
-
-  < ResponsiveLine
-
+  <ResponsiveLine
     data={prop.data}
     margin={{ top: 20, right: 20, bottom: 50, left: 60 }}
     xScale={{
-      type: "time",
-      format: "%Y-%m-%d %H:%M:%S",
-      precision: "second",
+      type: 'time',
+      format: '%Y-%m-%d %H:%M:%S',
+      precision: 'second',
       useUTC: false,
-      stacked: true,
-
+      stacked: true
     }}
     yScale={{
-      type: "linear",
+      type: 'linear',
       min: 0,
-      max: "auto",
+      max: 'auto',
       stacked: false,
       reverse: false
     }}
-    yFormat=" >-.2f"
+    yFormat=' >-.2f'
     axisTop={null}
     axisRight={null}
-    xFormat="time:%Y-%m-%d %H:%M:%S"
+    xFormat='time:%Y-%m-%d %H:%M:%S'
     axisBottom={{
-      format: "%H:%M",
-      tickValues: 'every 2 hour',
-      legend: "Time",
+      format: '%H:%M',
+      // tickValues: 'every 2 hour',
+      legend: 'Time',
       legendOffset: 34,
-      orient: "bottom",
+      orient: 'bottom',
       tickSize: 2,
       tickPadding: 5,
-      legendPosition: "middle",
-      tickRotation: -45
-
+      legendPosition: 'middle',
+      tickRotation: -25
     }}
-    enableSlices="x"
+    enableSlices='x'
     sliceTooltip={({ slice }) => {
-      const date = slice.points[0].data.xFormatted
+      const date = slice.points[0].data.xFormatted;
       return (
-        <div style={{ backgroundColor: 'white', fontSize: '10px', border: '1px solid #dfdfdf', padding: '2px', borderRadius: '8px' }}>
+        <div
+          style={{
+            backgroundColor: 'white',
+            fontSize: '10px',
+            border: '1px solid #dfdfdf',
+            padding: '2px',
+            borderRadius: '8px'
+          }}
+        >
           <strong style={{ color: 'black' }}>
-            {`${moment(date).format('MMMM Do YYYY, h:mm')}`}
+            {`${moment(date).format('MMMM Do YYYY, H:mm')}`}
           </strong>
           {slice.points.map(point => (
             <div key={point.id}>
               <strong style={{ color: 'red' }}>
-                {`${point.serieId} ${point.data.yFormatted} kW`}
+                {`${point.serieId} ${point.data.yFormatted} ${prop.unit}`}
               </strong>
             </div>
           ))}
         </div>
-      )
+      );
     }}
     axisLeft={{
       tickValues: 3,
@@ -74,14 +78,14 @@ export const LineChartComponent = (prop: any) => (
     pointColor={{ theme: 'background' }}
     pointBorderWidth={2}
     pointBorderColor={{ theme: 'background' }}
-    pointLabelYOffset={- 12}
+    pointLabelYOffset={-12}
     useMesh={true}
     enableGridX={false}
     enableGridY={false}
     legends={[]}
-    curve="catmullRom"
+    curve='catmullRom'
   />
-)
+);
 
 export const PieChartComponent = (prop: any) => (
   <ResponsivePie
@@ -96,7 +100,7 @@ export const PieChartComponent = (prop: any) => (
     borderColor={{ from: 'color', modifiers: [['darker', 0.2]] }}
     enableArcLinkLabels={false}
     arcLinkLabelsSkipAngle={10}
-    arcLinkLabelsTextColor="#333333"
+    arcLinkLabelsTextColor='#333333'
     arcLinkLabelsThickness={2}
     arcLinkLabelsColor={{ from: 'color', modifiers: [] }}
     arcLabelsSkipAngle={10}
@@ -197,13 +201,13 @@ export const PieChartComponent = (prop: any) => (
       }
     ]}
   />
-)
+);
 
 export const BarChartComponent = (prop: any) => (
   <ResponsiveBar
     data={prop.data}
     // keys={['hot dog', 'burger', 'sandwich', 'kebab', 'fries', 'donut']}
-    indexBy="label"
+    indexBy='label'
     margin={{ top: 30, right: 20, bottom: 50, left: 60 }}
     padding={0.3}
     valueScale={{ type: 'linear' }}
@@ -212,7 +216,6 @@ export const BarChartComponent = (prop: any) => (
     borderColor={{ from: 'color', modifiers: [['brighter', 1.6]] }}
     axisTop={null}
     axisRight={null}
-
     axisBottom={{
       tickSize: 5,
       tickPadding: 5,
@@ -220,8 +223,7 @@ export const BarChartComponent = (prop: any) => (
       legend: prop.xUnit,
       legendPosition: 'middle',
       legendOffset: 32,
-      format: (ticks) => ticks.toString().split('_')[1]
-
+      format: ticks => ticks.toString().split('_')[1]
     }}
     axisLeft={{
       tickValues: 3,
@@ -264,4 +266,4 @@ export const BarChartComponent = (prop: any) => (
     motionStiffness={90}
     motionDamping={15}
   />
-)
+);
