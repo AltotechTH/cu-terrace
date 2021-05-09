@@ -4,8 +4,6 @@ import { CardHeader } from 'components/CardHeader';
 import styled from 'styled-components';
 
 import { makeStyles, createStyles, Theme, createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
-// import ReportTableImage from 'assets/images/reportTable.svg';
-// import RightTabImage from 'assets/images/rightTabReport.svg';
 import MUIDataTable from "mui-datatables";
 import { invoiceAPI } from 'api/services/Invoices'
 import { LoadingPage } from 'components/LoadingPage/LoadingPage'
