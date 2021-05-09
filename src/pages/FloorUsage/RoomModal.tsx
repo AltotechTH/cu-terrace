@@ -188,7 +188,7 @@ export const RoomModal = ({
   const [voltagePlot, setVoltagePlot] = useState();
   const [pfPlot, setPfPlot] = useState();
   const [invoiceDataTable, setInvoiceDataTable] = useState<any>();
-  const [invoiceData, setInvoiceData] = useState<[] | undefined>();
+  const [invoiceData, setInvoiceData] = useState<any[] | undefined>();
 
   const handleChange = (newValue: any, actionMeta: any) => {
     setValue(newValue);
@@ -323,8 +323,9 @@ export const RoomModal = ({
 
   useMemo(() => {
     if (selectedRoom) {
-      invoiceAPI.getInvoiceOfRoom(selectedRoom.substring(1,4)).then((res: any) => {
+      invoiceAPI.getInvoiceOfRoom(selectedRoom.substring(1, 4)).then((res: any) => {
         setInvoiceData(res?.data['invoices']);
+        console.log(res?.data['invoices']);
       });
     }
   }, [selectedRoom]);
@@ -404,13 +405,21 @@ export const RoomModal = ({
                 <Grid item xs={9} style={{ paddingTop: '0px', display: 'flex' }}>
                   <Grid container spacing={3} style={{ height: '100%' }}>
                     <Grid item xs={4}>
-                      <h5 style={{ color: 'black', marginTop: '12px' }}>John Doe</h5>
+                      <h5 style={{ color: 'black', marginTop: '12px' }}>
+                        {invoiceData && invoiceData[0]
+                          ? invoiceData[0].tenant.first_name
+                          : 'Loading...'}
+                      </h5>
                     </Grid>
                     <Grid item xs={4}>
                       <h5 style={{ color: 'black', marginTop: '12px' }}>{selectedRoom}</h5>
                     </Grid>
                     <Grid item xs={4}>
-                      <h5 style={{ color: 'black', marginTop: '12px' }}>089-XXX-XXXX</h5>
+                      <h5 style={{ color: 'black', marginTop: '12px' }}>
+                        {invoiceData && invoiceData[0]
+                          ? invoiceData[0].tenant.phone_number
+                          : 'Loading...'}
+                      </h5>
                     </Grid>
                     <Grid
                       item
@@ -426,7 +435,11 @@ export const RoomModal = ({
                       style={{ paddingBottom: '0px', paddingTop: '0px', display: 'flex' }}
                     >
                       <PersonDetail>Contract No.:</PersonDetail>
-                      <PersonDetail>CT0809/2020</PersonDetail>
+                      <PersonDetail>
+                        {invoiceData && invoiceData[0]
+                          ? invoiceData[0].tenant.contract_no
+                          : 'Loading...'}
+                      </PersonDetail>
                     </Grid>
                     <Grid
                       item
@@ -442,7 +455,11 @@ export const RoomModal = ({
                       style={{ paddingBottom: '0px', paddingTop: '0px', display: 'flex' }}
                     >
                       <PersonDetail>Meter No. :</PersonDetail>
-                      <PersonDetail>326414044</PersonDetail>
+                      <PersonDetail>
+                        {invoiceData && invoiceData[0]
+                          ? invoiceData[0].tenant.meter_no
+                          : 'Loading...'}
+                      </PersonDetail>
                     </Grid>
                     <Grid
                       item
@@ -458,7 +475,11 @@ export const RoomModal = ({
                       style={{ paddingBottom: '0px', paddingTop: '0px', display: 'flex' }}
                     >
                       <PersonDetail>Meter ID :</PersonDetail>
-                      <PersonDetail>A1-F6-03</PersonDetail>
+                      <PersonDetail>
+                        {invoiceData && invoiceData[0]
+                          ? invoiceData[0].tenant.meter_id
+                          : 'Loading...'}
+                      </PersonDetail>
                     </Grid>
                   </Grid>
                 </Grid>
