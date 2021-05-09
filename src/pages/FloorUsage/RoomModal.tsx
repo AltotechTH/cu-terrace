@@ -7,7 +7,16 @@ import './datepickerStyle.css';
 import CloseButtonIcon from 'assets/images/close.svg';
 import CalendarIconImage from 'assets/images/calendarIcon.svg';
 import { Tabs, Tab } from 'components/StyledTabs/StyledTabs';
-import InvoiceMockupImage from 'assets/images/Invoice.svg';
+import styled from 'styled-components';
+// import InvoiceMockupImage from 'assets/images/Invoice.svg';
+import MUIDataTable from 'mui-datatables';
+import {
+  makeStyles,
+  createStyles,
+  Theme,
+  createMuiTheme,
+  MuiThemeProvider,
+} from '@material-ui/core/styles';
 import DownIcon from 'assets/images/icon/down.svg';
 import CircleIcon from 'assets/images/Circle.svg';
 import Select from 'react-select';
@@ -36,7 +45,21 @@ import {
   SummaryBoxValue,
   customStyles,
 } from './Styled';
-import { LoadingPage } from 'components/LoadingPage/LoadingPage'
+import { LoadingPage } from 'components/LoadingPage/LoadingPage';
+import { invoiceAPI } from 'api/services/Invoices';
+
+const Paid = styled.div`
+  background: #cef7e3;
+  border-radius: 8px;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 18px;
+  padding: 0px;
+  width: 60%;
+  text-align: center;
+  color: #089953;
+`;
 
 const options = [
   { value: 'activePower', label: 'Active Power' },
@@ -46,6 +69,102 @@ const options = [
   { value: 'voltage', label: 'Voltage' },
   { value: 'powerFactor', label: 'Power Factor' },
 ];
+
+const getMuiTheme = () =>
+  createMuiTheme({
+    overrides: {
+      MUIDataTableBodyCell: {
+        root: {
+          backgroundColor: '#fffff',
+          fontSize: '12px',
+          textAlign: 'center',
+        },
+      },
+
+      MUIDataTableHeadCell: {
+        root: {
+          backgroundColor: '#EFF2F7',
+        },
+        data: {
+          fontSize: '12px',
+        },
+      },
+      MuiPaper: {
+        elevation4: {
+          borderRadius: '15px',
+          boxShadow: 'none',
+        },
+      },
+      MUIDataTablePagination: {
+        tableCellContainer: {
+          border: 'none',
+        },
+      },
+    },
+  });
+
+const columns = [
+  {
+    name: 'room_no',
+    label: 'Room No.',
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: 'contract_no',
+    label: 'Contract No.',
+    options: {
+      filter: true,
+      sort: true,
+    },
+  },
+  {
+    name: 'recent_reading',
+    label: 'Recent Reading',
+    options: {
+      filter: false,
+      sort: true,
+    },
+  },
+  {
+    name: 'previous_reading',
+    label: 'Previous Reading',
+    options: {
+      filter: false,
+      sort: true,
+    },
+  },
+  {
+    name: 'total_value',
+    label: 'Total Value (unit)',
+    options: {
+      filter: false,
+      sort: true,
+    },
+  },
+  {
+    name: 'total_charge',
+    label: 'Total Charge (THB)',
+    options: {
+      filter: false,
+      sort: true,
+    },
+  },
+  {
+    name: 'status',
+    label: 'Status',
+    options: {
+      filter: false,
+      sort: true,
+    },
+  },
+];
+
+const tableOptions: any = {
+  filterType: 'checkbox',
+};
 
 export const RoomModal = ({
   selectedRoomOpen,
@@ -68,6 +187,8 @@ export const RoomModal = ({
   const [currentPlot, setCurrentPlot] = useState();
   const [voltagePlot, setVoltagePlot] = useState();
   const [pfPlot, setPfPlot] = useState();
+  const [invoiceDataTable, setInvoiceDataTable] = useState<any>();
+  const [invoiceData, setInvoiceData] = useState<[] | undefined>();
 
   const handleChange = (newValue: any, actionMeta: any) => {
     setValue(newValue);
@@ -199,6 +320,36 @@ export const RoomModal = ({
       data: fetchData !== undefined ? pfPlot : [],
     },
   ];
+
+  useMemo(() => {
+    if (selectedRoom) {
+      invoiceAPI.getInvoiceOfRoom(selectedRoom.substring(1,4)).then((res: any) => {
+        setInvoiceData(res?.data['invoices']);
+      });
+    }
+  }, [selectedRoom]);
+
+  useMemo(() => {
+    if (invoiceData !== undefined) {
+      let tmp: {}[] = [];
+      invoiceData.forEach((element: any | undefined) => {
+        tmp.push({
+          room_no: element['room']['room_name'],
+          customer_name: element['tenant']['first_name'],
+          contract_no: element['tenant']['contract_no'],
+          meter_id: element['tenant']['meter_id'],
+          meter_no: element['tenant']['meter_no'],
+          recent_reading: element['recent_reading'],
+          previous_reading: element['previous_reading'],
+          total_value: element['total_value'],
+          rate: element['rate'],
+          total_charge: element['balance_due'],
+          status: <Paid>{element['status']}</Paid>,
+        });
+      });
+      return setInvoiceDataTable(tmp);
+    }
+  }, [invoiceData]);
 
   return (
     <>
@@ -380,8 +531,22 @@ export const RoomModal = ({
                 popperPlacement="left-end"
               />
             </Grid>
-            <Grid item xs={12}>
+            {/* <Grid item xs={12}>
               <InvoiceImage src={InvoiceMockupImage} />
+            </Grid> */}
+            <Grid item xs={12} style={{ paddingTop: '0px' }}>
+              <MuiThemeProvider theme={getMuiTheme()}>
+                {invoiceDataTable !== undefined ? (
+                  <MUIDataTable
+                    title={'Search for Tenant Energy Consumption'}
+                    data={invoiceDataTable !== undefined ? invoiceDataTable : []}
+                    columns={columns}
+                    options={tableOptions}
+                  />
+                ) : (
+                  <LoadingPage />
+                )}
+              </MuiThemeProvider>
             </Grid>
           </Grid>
         )}
@@ -422,10 +587,9 @@ export const RoomModal = ({
               />
             </Grid>
 
-            <Grid item xs={4}  >
+            <Grid item xs={4}>
               {/* {console.log(value[0]['value'])} */}
               <Select
-
                 value={value}
                 defaultValue={[options[0]]}
                 onChange={handleChange}
@@ -443,14 +607,12 @@ export const RoomModal = ({
 
             {/* ## BEGIN Chart plot */}
             <Grid item xs={12}>
-
-              {value !== undefined && value !== null &&
+              {value !== undefined &&
+                value !== null &&
                 value.map((data: any, index: number) => {
-                  // console.log(data['value'])
-                  // console.log((powerData[0]['data'])?.length)
                   return (
                     <>
-                      {(powerData[0]['data']?.length) !== 0 && powerData[0]['data'] !== undefined ?
+                      {powerData[0]['data']?.length !== 0 && powerData[0]['data'] !== undefined ? (
                         <>
                           {data['value'] === 'activePower' && (
                             <EnergySummaryBox key={data['value']}>
@@ -523,9 +685,10 @@ export const RoomModal = ({
                               </div>
                             </EnergySummaryBox>
                           )}
-                        </> :
+                        </>
+                      ) : (
                         <LoadingPage />
-                      }
+                      )}
                     </>
                   );
                 })}
